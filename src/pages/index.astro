@@ -19,9 +19,10 @@ import {
   Facebook, 
   ArrowRight, 
   Check, 
-  CheckCircle2, 
+  CheckCircle2,
   ChevronRight,
-  Gem
+  Gem,
+  X
 } from 'lucide-astro';
 
 export const prerender = false;
@@ -243,6 +244,9 @@ const schemaHowTo = {
   </style>
 </head>
 <body class="bg-white text-slate-800 font-sans antialiased selection:bg-brand-pink selection:text-white">
+  <noscript>
+    <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
+  </noscript>
 
   <!-- BEGIN: Navigation -->
   <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-pink-100/60 transition-all duration-300">
@@ -538,7 +542,7 @@ const schemaHowTo = {
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-10 lg:gap-16 items-center">
         <!-- Left Column: Mary Sorely Portrait & Floating CTAs -->
-        <div class="md:col-span-1 lg:col-span-5 relative">
+        <div class="reveal md:col-span-1 lg:col-span-5 relative">
           <!-- Decorative accent -->
           <div class="decor-line-diagonal mb-6 pl-4">
             <span class="text-xs uppercase font-bold tracking-widest text-slate-500">{siteInfo.aboutTag || '// Sobre Nosotros'}</span>
@@ -579,7 +583,7 @@ const schemaHowTo = {
         </div>
         
         <!-- Right Column: Biography & Narrative -->
-        <div class="md:col-span-1 lg:col-span-7 space-y-6 pt-6 md:pt-0">
+        <div class="reveal md:col-span-1 lg:col-span-7 space-y-6 pt-6 md:pt-0" style="transition-delay: 120ms">
           <div>
             <h2 class="text-fluid-h2 font-extrabold font-display text-slate-900 leading-tight">
               {siteInfo.aboutHeading} <br/>
@@ -618,7 +622,7 @@ const schemaHowTo = {
     <section class="py-20 lg:py-28 bg-brand-lightBg border-t border-brand-borderLight" id="servicios">
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <!-- Section Header -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div class="reveal flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
             <span class="text-brand-pink font-bold text-xs uppercase tracking-widest">// Servicios Especializados</span>
             <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2">
@@ -635,8 +639,8 @@ const schemaHowTo = {
         
         <!-- Grid Services -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service: any) => (
-            <article class="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-xl hover:border-brand-pink/40 transition-all duration-300 group flex flex-col justify-between">
+          {services.map((service: any, idx: number) => (
+            <article class="reveal bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-xl hover:border-brand-pink/40 transition-all duration-300 group flex flex-col justify-between" style={`transition-delay: ${Math.min(idx * 60, 300)}ms`}>
               <div>
                 <div class="flex items-center justify-between mb-6">
                   <div class="w-12 h-12 flex items-center justify-center text-brand-pink text-2xl bg-pink-50 rounded-lg group-hover:bg-brand-pink group-hover:text-white transition-all duration-300">
@@ -685,7 +689,7 @@ const schemaHowTo = {
   {featuredProduct && (
     <section class="py-14 bg-white">
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
-        <div class="bg-gradient-to-br from-brand-darkNavy via-purple-950 to-brand-darkNavy rounded-3xl text-white p-8 lg:p-12 shadow-2xl relative overflow-hidden border border-pink-900/30">
+        <div class="reveal bg-gradient-to-br from-brand-darkNavy via-purple-950 to-brand-darkNavy rounded-3xl text-white p-8 lg:p-12 shadow-2xl relative overflow-hidden border border-pink-900/30">
           <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-pink/15 rounded-full blur-3xl pointer-events-none"></div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
             <div class="md:col-span-1 lg:col-span-7 space-y-5">
@@ -759,7 +763,7 @@ const schemaHowTo = {
   <!-- BEGIN: Proceso / Cómo Trabajamos Section -->
   <section class="py-20 lg:py-24 bg-brand-lightBg border-t border-pink-100/70" id="proceso">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="text-center max-w-3xl mx-auto mb-16 flex flex-col items-center justify-center">
+      <div class="reveal text-center max-w-3xl mx-auto mb-16 flex flex-col items-center justify-center">
         <span class="text-pink-700 font-bold text-xs uppercase tracking-widest text-center">// Tranquilidad en cada detalle</span>
         <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2 text-center">
           ¿Cómo Creamos y Enviamos tu Accesorio?
@@ -772,7 +776,7 @@ const schemaHowTo = {
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {workflowPhases && workflowPhases.map((phase: any, idx: number) => (
-          <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
+          <div class="reveal bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group" style={`transition-delay: ${Math.min(idx * 60, 300)}ms`}>
             <div>
               <div class="flex items-center justify-between mb-4">
                 <span class="w-8 h-8 rounded-full bg-pink-50 text-pink-700 font-extrabold text-xs flex items-center justify-center border border-pink-200/60 group-hover:bg-brand-pink group-hover:text-white transition-colors">
@@ -819,7 +823,7 @@ const schemaHowTo = {
   <section class="py-20 lg:py-28 bg-white border-t border-pink-100/60" id="galeria">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <!-- Section Header -->
-      <div class="mb-12">
+      <div class="reveal mb-12">
         <div class="decor-line-diagonal mb-3 pl-4">
           <span class="text-xs uppercase font-bold tracking-widest text-pink-700">// Catálogo de Accesorios</span>
         </div>
@@ -833,7 +837,7 @@ const schemaHowTo = {
       </div>
       
       <!-- Quick Metrics Strip -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-pink-50/50 rounded-2xl mb-12">
+      <div class="reveal grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-pink-50/50 rounded-2xl mb-12">
         <div class="text-center p-2">
           <p class="text-2xl sm:text-3xl font-black font-display text-slate-900">{metrics.projectsCompleted || '500'}<span class="text-brand-pink">+</span></p>
           <p class="text-[11px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Pedidos Entregados</p>
@@ -886,9 +890,10 @@ const schemaHowTo = {
       
       <!-- Products Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
-        {publishedProjects.map((project: any) => (
-          <article 
-            class="project-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
+        {publishedProjects.map((project: any, idx: number) => (
+          <article
+            class="project-card reveal bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
+            style={`transition-delay: ${Math.min(idx * 60, 300)}ms`}
             data-category={project.category}
             data-title={project.title.toLowerCase()}
             data-desc={project.description.toLowerCase()}
@@ -896,10 +901,16 @@ const schemaHowTo = {
             data-downloads={100}
           >
             <div>
-              <div class="relative h-64 bg-pink-50 overflow-hidden">
-                <img 
-                  alt={`${project.title} - Accesorio artesanal hecho a mano en Colombia por Bunu Shop`} 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+              <button
+                type="button"
+                class="lightbox-trigger relative block w-full h-64 bg-pink-50 overflow-hidden p-0 border-0 appearance-none bg-pink-50 text-left cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink focus-visible:ring-offset-2"
+                data-full={project.image}
+                data-alt={`${project.title} - Accesorio artesanal hecho a mano en Colombia por Bunu Shop`}
+                aria-label={`Ver imagen ampliada de ${project.title}`}
+              >
+                <img
+                  alt={`${project.title} - Accesorio artesanal hecho a mano en Colombia por Bunu Shop`}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   src={project.image}
                   width="400"
                   height="300"
@@ -914,7 +925,7 @@ const schemaHowTo = {
                     {project.price}
                   </div>
                 )}
-              </div>
+              </button>
               <div class="p-6">
                 <div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
                   <span class="text-amber-500 flex items-center gap-1 font-semibold"><Star class="w-3 h-3 fill-amber-400 text-amber-400" /> {project.rating || '5.0'}</span>
@@ -983,24 +994,24 @@ const schemaHowTo = {
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 items-center text-center">
         <!-- Metric 1: Calidad & Delicadeza -->
-        <div class="p-6 bg-white rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+        <div class="reveal p-6 bg-white rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
           <Heart class="w-8 h-8 text-brand-pink mb-2" />
           <span class="text-xs font-black tracking-widest text-slate-800 uppercase">{metrics.badge1Title || 'CLIENTAS FELICES'}</span>
           <span class="text-[10px] text-pink-700 font-semibold tracking-wider mt-0.5">{metrics.badge1Subtitle || 'CALIDAD & DELICADEZA'}</span>
         </div>
         <!-- Metric 2: Envíos Seguros -->
-        <div class="p-6 bg-white rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+        <div class="reveal p-6 bg-white rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow" style="transition-delay: 60ms">
           <Plane class="w-8 h-8 text-brand-pink mb-2" />
           <span class="text-xs font-black tracking-widest text-slate-800 uppercase">{metrics.badge2Title || 'ENVÍOS SEGUROS'}</span>
           <span class="text-[10px] text-pink-700 font-semibold tracking-wider mt-0.5">{metrics.badge2Subtitle || 'COLOMBIA E INTERNACIONAL'}</span>
         </div>
         <!-- Metric 3: Pedidos -->
-        <div class="p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+        <div class="reveal p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow" style="transition-delay: 120ms">
           <p class="text-4xl sm:text-5xl font-black font-display text-slate-900 tracking-tight">{metrics.projectsCompleted || '500'}<span class="text-brand-pink">+</span></p>
           <p class="text-xs uppercase font-bold tracking-widest text-slate-500 mt-1">PEDIDOS ENTREGADOS</p>
         </div>
         <!-- Metric 4: Clientas Satisfechas -->
-        <div class="p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+        <div class="reveal p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow" style="transition-delay: 180ms">
           <p class="text-4xl sm:text-5xl font-black font-display text-slate-900 tracking-tight">{metrics.satisfiedClients || '530'}<span class="text-brand-pink">+</span></p>
           <p class="text-xs uppercase font-bold tracking-widest text-slate-500 mt-1">CLIENTAS SATISFECHAS</p>
         </div>
@@ -1012,7 +1023,7 @@ const schemaHowTo = {
   <!-- BEGIN: Testimonios de Clientas Section -->
   <section class="py-20 lg:py-24 bg-white border-b border-pink-100/60" id="testimonios">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="text-center max-w-3xl mx-auto mb-14">
+      <div class="reveal text-center max-w-3xl mx-auto mb-14">
         <span class="text-pink-700 font-bold text-xs uppercase tracking-widest">// Experiencias Reales</span>
         <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2">
           Lo que Dicen Quienes Ya Recibieron sus Piezas
@@ -1024,8 +1035,8 @@ const schemaHowTo = {
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {testimonials && testimonials.map((test: any) => (
-          <div class="bg-pink-50/40 p-8 rounded-2xl shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+        {testimonials && testimonials.map((test: any, idx: number) => (
+          <div class="reveal bg-pink-50/40 p-8 rounded-2xl shadow-sm flex flex-col justify-between hover:shadow-md transition-all" style={`transition-delay: ${Math.min(idx * 60, 300)}ms`}>
             <div class="space-y-4">
               <div class="flex items-center justify-between">
                 <div class="flex text-amber-400 gap-1 text-xs">
@@ -1066,7 +1077,7 @@ const schemaHowTo = {
   <!-- BEGIN: FAQ Section (Objeciones & Garantías) -->
   <section class="py-20 lg:py-24 bg-pink-50/30 border-b border-pink-100" id="faq">
     <div class="max-w-4xl mx-auto px-6 lg:px-8">
-      <div class="text-center mb-14">
+      <div class="reveal text-center mb-14">
         <span class="text-pink-700 font-bold text-xs uppercase tracking-widest">// Cero Dudas antes de Comprar</span>
         <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2">
           Preguntas Frecuentes &amp; Garantías
@@ -1078,8 +1089,8 @@ const schemaHowTo = {
       </div>
 
       <div class="space-y-4" id="faq-accordion">
-        {faqs && faqs.map((faq: any) => (
-          <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-xs transition-all">
+        {faqs && faqs.map((faq: any, idx: number) => (
+          <div class="faq-item reveal bg-white rounded-2xl overflow-hidden shadow-xs transition-all" style={`transition-delay: ${Math.min(idx * 60, 300)}ms`}>
             <button 
               type="button" 
               class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-display font-bold text-slate-900 hover:text-brand-pink transition-colors focus:outline-none cursor-pointer"
@@ -1120,7 +1131,7 @@ const schemaHowTo = {
   <!-- BEGIN: CTA / Banner de Pedido Personalizado -->
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="bg-gradient-to-r from-brand-darkNavy to-purple-950 text-white rounded-3xl p-8 sm:p-12 border-l-8 border-brand-pink shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div class="reveal bg-gradient-to-r from-brand-darkNavy to-purple-950 text-white rounded-3xl p-8 sm:p-12 border-l-8 border-brand-pink shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
         <div class="space-y-2 text-left">
           <span class="text-xs font-black tracking-widest uppercase text-pink-300">// Pedidos Personalizados &amp; Ocasiones Especiales</span>
           <h3 class="text-fluid-h3 font-extrabold font-display">¿Tienes una idea en mente para un accesorio especial?</h3>
@@ -1155,7 +1166,7 @@ const schemaHowTo = {
   <section class="py-20 lg:py-28 bg-white border-t border-pink-100/60" id="blog">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <!-- Section Header -->
-      <div class="mb-14">
+      <div class="reveal mb-14">
         <span class="text-pink-700 font-bold text-xs uppercase tracking-widest">// Cuidado, Significado &amp; Tendencias</span>
         <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2">
           Blog &amp; Consejos de Joyería
@@ -1166,7 +1177,7 @@ const schemaHowTo = {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
         <!-- Main Featured Blog Article (Left 8 Cols) -->
         {featuredPost && (
-          <article class="md:col-span-2 lg:col-span-8 group">
+          <article class="reveal md:col-span-2 lg:col-span-8 group">
             <div class="overflow-hidden rounded-2xl mb-6 shadow-sm bg-pink-50">
               <img 
                 alt={featuredPost.title} 
@@ -1202,12 +1213,12 @@ const schemaHowTo = {
         
         <!-- Sidebar: Recent Posts (Right 4 Cols) -->
         <aside class="md:col-span-2 lg:col-span-4 space-y-6">
-          <div class="border-b border-pink-100 pb-3">
+          <div class="reveal border-b border-pink-100 pb-3">
             <h4 class="text-base font-bold font-display text-slate-900 tracking-wide uppercase">Otras Publicaciones</h4>
           </div>
           <div class="space-y-5">
-            {recentPosts.map((post: any) => (
-              <article class="flex items-center space-x-4 group cursor-pointer">
+            {recentPosts.map((post: any, idx: number) => (
+              <article class="reveal flex items-center space-x-4 group cursor-pointer" style={`transition-delay: ${Math.min(idx * 60, 300)}ms`}>
                 <img 
                   alt={post.title} 
                   class="w-16 h-16 object-cover rounded-xl flex-shrink-0" 
@@ -1338,6 +1349,30 @@ const schemaHowTo = {
   </footer>
   <!-- END: Footer -->
 
+  <!-- BEGIN: Product Image Lightbox (Galería únicamente) -->
+  <div
+    id="lightbox"
+    class="lightbox-overlay hidden fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-labelledby="lightbox-caption"
+  >
+    <button
+      type="button"
+      id="lightbox-close"
+      aria-label="Cerrar imagen ampliada"
+      class="absolute top-4 right-4 sm:top-6 sm:right-6 min-h-11 min-w-11 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white z-10"
+    >
+      <X class="w-6 h-6" />
+    </button>
+    <div class="lightbox-img-wrap max-w-4xl max-h-[85vh] w-full flex flex-col items-center gap-3">
+      <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[75vh] w-auto h-auto object-contain rounded-xl shadow-2xl" />
+      <p id="lightbox-caption" class="text-white/90 text-sm font-medium text-center px-4"></p>
+    </div>
+  </div>
+  <!-- END: Product Image Lightbox -->
+
   <!-- BEGIN: Interactive Client-Side Scripts -->
   <script is:inline>
     document.addEventListener('DOMContentLoaded', function () {
@@ -1355,6 +1390,30 @@ const schemaHowTo = {
             mobileMenu.classList.add('hidden');
           });
         });
+      }
+
+      // Scroll-reveal animations (fade + slide-up al entrar en viewport)
+      const revealEls = document.querySelectorAll('.reveal');
+      if (revealEls.length > 0) {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+          revealEls.forEach(el => el.classList.add('reveal-visible'));
+        } else {
+          const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('reveal-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+          });
+
+          revealEls.forEach(el => revealObserver.observe(el));
+        }
       }
 
       // Filter and Search logic
@@ -1536,6 +1595,88 @@ const schemaHowTo = {
         } catch (e) {
           console.error('Error inicializando carrusel móvil:', e);
         }
+      }
+
+      // Product Image Lightbox (Galería de productos)
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      const lightboxClose = document.getElementById('lightbox-close');
+      const lightboxProjectsGrid = document.getElementById('projects-grid');
+      let lightboxTriggerEl = null;
+
+      function handleLightboxKeydown(e) {
+        if (e.key === 'Escape') {
+          closeLightbox();
+          return;
+        }
+        if (e.key === 'Tab') {
+          // Único elemento focuseable dentro del overlay: el botón de cierre.
+          e.preventDefault();
+          lightboxClose?.focus();
+        }
+      }
+
+      function openLightbox(trigger) {
+        if (!lightbox || !lightboxImg) return;
+        const fullSrc = trigger.getAttribute('data-full');
+        const altText = trigger.getAttribute('data-alt') || '';
+        if (!fullSrc) return;
+
+        lightboxTriggerEl = trigger;
+        lightboxImg.src = fullSrc;
+        lightboxImg.alt = altText;
+        if (lightboxCaption) lightboxCaption.textContent = altText;
+
+        lightbox.classList.remove('hidden');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('overflow-hidden');
+
+        // Forzar reflow para que la transición de entrada se dispare (mantener en sync con los 250ms de global.css)
+        void lightbox.offsetWidth;
+        lightbox.classList.add('is-open');
+
+        if (lightboxClose) lightboxClose.focus();
+        document.addEventListener('keydown', handleLightboxKeydown);
+      }
+
+      function closeLightbox() {
+        if (!lightbox) return;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('overflow-hidden');
+        document.removeEventListener('keydown', handleLightboxKeydown);
+
+        // Mantener sincronizado con la duración de transición de .lightbox-overlay en global.css (250ms)
+        if (prefersReducedMotion) {
+          lightbox.classList.add('hidden');
+        } else {
+          setTimeout(() => lightbox.classList.add('hidden'), 250);
+        }
+
+        if (lightboxTriggerEl) {
+          lightboxTriggerEl.focus();
+          lightboxTriggerEl = null;
+        }
+      }
+
+      if (lightboxProjectsGrid && lightbox) {
+        lightboxProjectsGrid.addEventListener('click', function (e) {
+          const trigger = e.target.closest('.lightbox-trigger');
+          if (trigger) openLightbox(trigger);
+        });
+      }
+
+      if (lightboxClose) {
+        lightboxClose.addEventListener('click', closeLightbox);
+      }
+
+      if (lightbox) {
+        lightbox.addEventListener('click', function (e) {
+          if (e.target === lightbox) closeLightbox();
+        });
       }
     });
   </script>

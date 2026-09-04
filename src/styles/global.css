@@ -20,4 +20,41 @@
   .faq-answer-inner {
     overflow: hidden;
   }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+  }
+  .reveal-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .lightbox-overlay {
+    opacity: 0;
+    transition: opacity 250ms ease-out;
+  }
+  .lightbox-overlay.is-open {
+    opacity: 1;
+  }
+  .lightbox-overlay .lightbox-img-wrap {
+    transform: scale(0.96);
+    transition: transform 250ms ease-out;
+  }
+  .lightbox-overlay.is-open .lightbox-img-wrap {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .lightbox-overlay,
+  .lightbox-overlay .lightbox-img-wrap {
+    transition: none;
+  }
 }
