@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-error":"#ffffff","on-primary-fixed-variant":"#8e1312","error":"#ba1a1a","on-secondary-container":"#5b6572","background":"#f8f9ff","surface-container-lowest":"#ffffff","inverse-surface":"#213145","outline":"#8d706d","on-secondary-fixed-variant":"#3e4854","outline-variant":"#e1bfba","on-secondary":"#ffffff","primary-fixed-dim":"#ffb4ab","surface-container-highest":"#d3e4fe","secondary":"#555f6c","surface-tint":"#af2e27","secondary-fixed":"#d9e3f3","on-tertiary-fixed":"#001e2f","primary-container":"#ce443a","tertiary":"#00628d","on-primary-container":"#fffbff","primary":"#ac2b25","surface-variant":"#d3e4fe","surface-dim":"#cbdbf5","on-error-container":"#93000a","tertiary-fixed-dim":"#89ceff","on-tertiary-fixed-variant":"#004c6e","secondary-container":"#d9e3f3","surface-container-low":"#eff4ff","inverse-primary":"#ffb4ab","on-secondary-fixed":"#121c27","on-tertiary":"#ffffff","on-background":"#0b1c30","secondary-fixed-dim":"#bdc7d6","surface-container-high":"#dce9ff","on-tertiary-container":"#fcfcff","surface-bright":"#f8f9ff","on-primary":"#ffffff","tertiary-fixed":"#c9e6ff","surface":"#f8f9ff","error-container":"#ffdad6","surface-container":"#e5eeff","primary-fixed":"#ffdad5","on-primary-fixed":"#410002","on-surface-variant":"#59413e","tertiary-container":"#007cb1","inverse-on-surface":"#eaf1ff","on-surface":"#0b1c30"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"modal-max-width":"680px","space-3xl":"3rem","sidebar-width":"260px","header-height":"64px","space-md":"1rem","space-2xl":"2.5rem","space-lg":"1.5rem","space-2xs":"0.25rem","space-sm":"0.75rem","space-xl":"2rem","canvas-max-width":"1280px","sidebar-collapsed":"64px","space-xs":"0.5rem"},"fontFamily":{"headline-sm":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"label-lg":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"]},"fontSize":{"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"700"}],"code-sm":["12px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"display-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-[260px] bg-inverse-surface text-inverse-on-surface z-50 flex flex-col justify-between py-space-md"><div class="flex flex-col gap-space-lg"><div class="px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary-container text-[26px]">palette</span><div class="flex flex-col"><span class="font-headline-sm text-headline-sm tracking-tight text-white leading-none">MASHURA</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-outline-variant">CMS Studio</span></div></div></div><nav class="flex flex-col gap-space-2xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-label-lg rounded-lg"><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs transition-all bg-primary-container text-on-primary-container font-label-lg rounded-lg" data-path="panel-general" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span>Panel General</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-secondary-fixed-dim hover:bg-surface-container-highest/10 hover:text-white transition-all font-label-lg text-label-lg" data-path="proyectos-y-galeria" href="#"><span class="material-symbols-outlined text-[20px]">photo_library</span><span>Proyectos &amp; Galería</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-secondary-fixed-dim hover:bg-surface-container-highest/10 hover:text-white transition-all font-label-lg text-label-lg" data-path="servicios" href="#"><span class="material-symbols-outlined text-[20px]">design_services</span><span>Servicios</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-secondary-fixed-dim hover:bg-surface-container-highest/10 hover:text-white transition-all font-label-lg text-label-lg" data-path="articulos-de-blog" href="#"><span class="material-symbols-outlined text-[20px]">edit_document</span><span>Artículos de Blog</span></a></nav></div><div class="px-space-sm flex flex-col gap-space-xs"><div class="mx-space-xs p-space-sm rounded-lg bg-surface-container-highest/10 flex flex-col gap-space-2xs"><span class="font-label-sm text-label-sm text-secondary-fixed-dim uppercase tracking-wider">Acceso Directo</span><a class="flex items-center justify-between text-white font-label-md text-label-md hover:text-primary-fixed-dim transition-colors" href="#" target="_blank"><span>Ver Sitio Web en Vivo</span><span class="material-symbols-outlined text-[16px]">open_in_new</span></a></div><div class="px-space-xs pt-space-xs flex items-center justify-between text-secondary-fixed-dim"><span class="font-label-sm text-label-sm">v2.4 Editorial</span><span class="material-symbols-outlined text-[18px] cursor-pointer hover:text-white">help_outline</span></div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-md w-full max-w-md"><div class="relative w-full flex items-center"><span class="material-symbols-outlined absolute left-space-xs text-secondary text-[20px]">search</span><input class="w-full pl-9 pr-space-sm py-space-2xs h-10 bg-surface-container-low border-0 rounded-lg text-on-surface placeholder:text-secondary font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container/20" placeholder="Buscar contenidos, páginas o activos..." type="text"/></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-emerald-50 border border-emerald-200"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-label-sm text-label-sm text-emerald-800">Sitio Activo</span></div><button class="relative p-space-xs rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full"></span></button><div class="flex items-center gap-space-sm pl-space-xs"><div class="flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface leading-tight">Nicola Mashura</span><div class="flex items-center justify-end gap-space-2xs"><span class="font-label-sm text-label-sm text-primary-container font-semibold">Administrador</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 bg-background min-h-screen"><div class="w-full max-w-[1280px] mx-auto px-space-xl py-space-xl"><div class="flex flex-col w-full gap-space-xl">
+<!-- Header & Primary Actions -->
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary-container font-semibold">Portafolio Nicola Mashura</span>
+<span class="text-secondary">•</span>
+<span class="font-label-sm text-label-sm text-secondary">Edición en Tiempo Real</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface">Panel de Control de Contenidos</h1>
+<p class="font-body-md text-body-md text-secondary max-w-2xl">
+        Administra tus creaciones visuales, servicios profesionales y publicaciones sin tocar una sola línea de código.
+      </p>
+</div>
+<div class="flex items-center gap-space-sm self-start md:self-auto relative">
+<a class="flex items-center gap-space-xs px-space-md h-10 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-lg text-label-lg shadow-sm transition-all" href="#" target="_blank">
+<span>Ver Sitio en Vivo</span>
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<div class="relative inline-block text-left" id="create-menu-container">
+<button class="flex items-center gap-space-xs px-space-md h-10 rounded-lg bg-primary-container hover:bg-primary text-on-primary-container font-label-lg text-label-lg shadow-md hover:shadow-lg transition-all" id="create-btn">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>+ Crear Nuevo Contenido</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<!-- Dropdown Menu -->
+<div class="hidden absolute right-0 mt-2 w-56 rounded-xl bg-surface-container-lowest shadow-xl p-space-xs z-30 flex flex-col gap-1" id="create-dropdown">
+<button class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-left text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md w-full" onclick="openDrawer('proyecto')">
+<span class="material-symbols-outlined text-primary-container text-[20px]">web</span>
+<div>
+<div class="font-semibold">Nuevo Proyecto</div>
+<div class="text-secondary text-[11px]">Kit UI, caso de estudio, 3D</div>
+</div>
+</button>
+<button class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-left text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md w-full" onclick="openDrawer('servicio')">
+<span class="material-symbols-outlined text-tertiary text-[20px]">design_services</span>
+<div>
+<div class="font-semibold">Nuevo Servicio</div>
+<div class="text-secondary text-[11px]">Paquete o consultoría</div>
+</div>
+</button>
+<button class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-left text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md w-full" onclick="openDrawer('articulo')">
+<span class="material-symbols-outlined text-secondary text-[20px]">article</span>
+<div>
+<div class="font-semibold">Nuevo Post de Blog</div>
+<div class="text-secondary text-[11px]">Artículo editorial y tips</div>
+</div>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Metric Overview Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary">Proyectos en Galería</span>
+<div class="w-9 h-9 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">photo_library</span>
+</div>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">32</span>
+<span class="font-label-sm text-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Activos</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-1 block">2 borradores guardados</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary">Servicios Ofrecidos</span>
+<div class="w-9 h-9 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[20px]">handshake</span>
+</div>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">6</span>
+<span class="font-label-sm text-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Publicados</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-1 block">Recibiendo cotizaciones</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary">Artículos de Blog</span>
+<div class="w-9 h-9 rounded-lg bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">auto_stories</span>
+</div>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">14</span>
+<span class="font-label-sm text-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">Publicados</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-1 block">1 programado para mañana</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary">Sincronización Web</span>
+<div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">sync</span>
+</div>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Automática</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-1 block">Última actualización: hace 5 min</span>
+</div>
+</div>
+</section>
+<!-- Content Management Center with Tabs -->
+<section class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<!-- Tab Bar -->
+<div class="flex items-center justify-between px-space-md pt-space-sm bg-surface-container-low">
+<div class="flex items-center gap-space-xs overflow-x-auto">
+<button class="px-space-md py-space-sm rounded-t-lg bg-surface-container-lowest text-primary-container font-label-lg text-label-lg flex items-center gap-2 shadow-[0_-2px_4px_rgba(0,0,0,0.02)]">
+<span class="material-symbols-outlined text-[18px]">photo_library</span>
+<span>Proyectos &amp; Recursos UI/UX</span>
+<span class="px-2 py-0.5 text-[11px] rounded-full bg-primary-container/10 font-bold">34</span>
+</button>
+<button class="px-space-md py-space-sm rounded-t-lg text-secondary hover:text-on-surface hover:bg-surface-container-lowest/50 font-label-lg text-label-lg flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-[18px]">design_services</span>
+<span>Servicios Especializados</span>
+<span class="px-2 py-0.5 text-[11px] rounded-full bg-surface-container font-medium">6</span>
+</button>
+<button class="px-space-md py-space-sm rounded-t-lg text-secondary hover:text-on-surface hover:bg-surface-container-lowest/50 font-label-lg text-label-lg flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-[18px]">edit_document</span>
+<span>Blog &amp; Publicaciones</span>
+<span class="px-2 py-0.5 text-[11px] rounded-full bg-surface-container font-medium">15</span>
+</button>
+</div>
+<div class="hidden lg:flex items-center gap-2 text-secondary text-body-sm pb-2">
+<span class="material-symbols-outlined text-[18px]">touch_app</span>
+<span>Arrastra o haz clic para editar</span>
+</div>
+</div>
+<!-- Filter & Search Toolbar -->
+<div class="p-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm bg-surface-container-lowest">
+<div class="flex flex-wrap items-center gap-space-sm w-full md:w-auto">
+<!-- Search Input -->
+<div class="relative w-full sm:w-72">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-secondary text-[18px]">search</span>
+<input class="w-full pl-9 pr-3 py-2 bg-surface-container-low rounded-lg text-on-surface placeholder:text-secondary font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container/30" placeholder="Buscar por título o etiqueta..." type="text"/>
+</div>
+<!-- Filter Category -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-3 py-2 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-container/30 cursor-pointer">
+<option value="all">Todas las Categorías</option>
+<option value="kits">UI/UX Kits</option>
+<option value="elementor">Elementor Templates</option>
+<option value="branding">Branding &amp; Logo</option>
+<option value="3d">3D Icons &amp; Assets</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-secondary text-[18px] pointer-events-none">expand_more</span>
+</div>
+<!-- Filter Status -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-3 py-2 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-container/30 cursor-pointer">
+<option value="all">Todos los Estados</option>
+<option value="pub">Publicado</option>
+<option value="draft">Borrador</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-secondary text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-primary-container hover:bg-primary text-on-primary-container font-label-lg text-label-lg shadow-sm transition-all w-full md:w-auto justify-center" onclick="openDrawer('proyecto')">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Añadir Proyecto</span>
+</button>
+</div>
+<!-- Visual Interactive Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left text-on-surface border-collapse">
+<thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<tr>
+<th class="py-3 px-space-md font-semibold">Proyecto</th>
+<th class="py-3 px-space-md font-semibold">Categoría</th>
+<th class="py-3 px-space-md font-semibold">Precio / Acceso</th>
+<th class="py-3 px-space-md font-semibold">Última Actualización</th>
+<th class="py-3 px-space-md font-semibold">Estado</th>
+<th class="py-3 px-space-md font-semibold text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low font-body-md text-body-md">
+<!-- Row 1: NovaPay -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A clean fintech mobile app dashboard mockup showing financial graphs and credit cards on a soft background, sleek modern editorial UI presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzdLIBg0IH92WBAKGYzymliIRFQ6OL1IrskMrP2whGWtRUFHwxy_W-IdLafHqSoat4W3_pLNiNVmnJmIuId3IbSx4dxI1RjYUP-tG515Fsoz4EhTNmFp4cVfPpWg_Gj_uP2YRgOmsxR2pZzevmQIUdo_m2PHqMKAlqTtqPDgB_osC_1rkYAz12Wt3zFlM04j5RwjbJJmVlti4IzbtV7C4bZrPsPb5AFtfo41TjBsPCZnBN9tSBmhsb6w"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary-container transition-colors">NovaPay - Fintech Mobile Kit</span>
+<span class="font-code-sm text-code-sm text-secondary">portfolio.com/proyectos/novapay-kit</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">UI/UX Kits</span>
+</td>
+<td class="py-3 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">$29 USD</span>
+</td>
+<td class="py-3 px-space-md text-secondary font-body-sm text-body-sm">
+              Hoy, 10:42 AM
+            </td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Publicado
+              </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-primary-container transition-colors" onclick="openDrawer('edit-novapay')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Ver en vivo">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded hover:bg-error-container text-secondary hover:text-error transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Mashura Studio -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Branding identity design showcase for Mashura creative studio with elegant minimalist stationary, earthy tones, typography guidelines, and mockups." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDunRfHO95x3DpeLKgIM803FXCboSSMBgJJXIAtyQ29ag7BGAIZWinlt40q5hbg2jkvvoLK-i2Js3g3Sm6VoCUtIzYGQ_-N8fYM-IBeb7lViYTGs_720FuPkNX_Hrvp1L8fcFVEkokqtrCGch7Cso-jiPRJ2lKLXCvo1VrnYZWAB7hMSfgskR_h1B68lPDgg7aq2hcs0qQcFupbRkUg9vKbzbFwY-jbtxHDt8GH37fEUyZFFOAsTjz5sg"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary-container transition-colors">Mashura Studio Redesign</span>
+<span class="font-code-sm text-code-sm text-secondary">portfolio.com/proyectos/mashura-redesign</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">Branding</span>
+</td>
+<td class="py-3 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Gratis</span>
+</td>
+<td class="py-3 px-space-md text-secondary font-body-sm text-body-sm">
+              Ayer, 04:15 PM
+            </td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Publicado
+              </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-primary-container transition-colors" onclick="openDrawer('proyecto')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Ver en vivo">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded hover:bg-error-container text-secondary hover:text-error transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: MetricsPro -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A sleek dark mode SaaS metrics web dashboard interface with bar charts, live activity tables, and clean typography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1aSXctVtJejemlZkLMVGBXRIbj4mYDLLEUwHADWQfrwIlsOBekJ2O99Qcmseoj90GqtIrkzQDVaIsXqb7z1NbJmXSa5lCWx85FoeUwQHZyt__iGA_jQn1TTlaxyGD0hy7oEXn4KiMxBFLJsaRMGw-bGSsmXAj3x_-gqlMH7ZCCWgQkEPTA6oBv8CSWkeFkTaRfX_rz6tRMDzvzo3lurm1O7YKarYhPyusAhVJdkk4aYKOOEUMEF6mXg"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary-container transition-colors">MetricsPro - SaaS UI Template</span>
+<span class="font-code-sm text-code-sm text-secondary">portfolio.com/proyectos/metricspro-saas</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">Elementor</span>
+</td>
+<td class="py-3 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">$39 USD</span>
+</td>
+<td class="py-3 px-space-md text-secondary font-body-sm text-body-sm">
+              12 Oct, 2024
+            </td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest text-secondary font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Borrador
+              </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-primary-container transition-colors" onclick="openDrawer('proyecto')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Ver en vivo">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded hover:bg-error-container text-secondary hover:text-error transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Vitreous 3D Icons -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Isometric futuristic glass 3D rendered icons pack with glowing reflections, crystal textures, and warm highlights on light backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAocf0pZlD_Xh1J5WS2b60p5nR3qt3Bbr8-ywHdJ1OzhuxQzYCxwtqAi7egfw8pynyl6Cqcymr7EfiypV3gsRKGilwkmx3CN-e3iieJwQUAIujzRn3xJPpni9QNBaz2DS5qgMXEWjkpep3U-YICJIDjefAkDGMQuLFwJ6e14iKPD5VNfsCTnG3YAblSnzAROZ4udsLVnqinEdkyFVxvs_AMa6_HI1nhTPd3r7fEDjxlxg8J1Ksd0oquTQ"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary-container transition-colors">Vitreous - Glass 3D Pack</span>
+<span class="font-code-sm text-code-sm text-secondary">portfolio.com/proyectos/vitreous-3d-icons</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">3D Icons</span>
+</td>
+<td class="py-3 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">$19 USD</span>
+</td>
+<td class="py-3 px-space-md text-secondary font-body-sm text-body-sm">
+              08 Oct, 2024
+            </td>
+<td class="py-3 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Publicado
+              </span>
+</td>
+<td class="py-3 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-primary-container transition-colors" onclick="openDrawer('proyecto')" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Ver en vivo">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded hover:bg-error-container text-secondary hover:text-error transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination & Counter -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-secondary">Mostrando 4 de 34 proyectos totales</span>
+<div class="flex items-center gap-space-2xs">
+<button class="px-3 py-1.5 rounded bg-surface-container-lowest text-secondary font-label-sm text-label-sm hover:text-on-surface shadow-sm disabled:opacity-50" disabled="">Anterior</button>
+<button class="px-3 py-1.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-semibold">1</button>
+<button class="px-3 py-1.5 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm hover:bg-surface-container shadow-sm">2</button>
+<button class="px-3 py-1.5 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm hover:bg-surface-container shadow-sm">3</button>
+<button class="px-3 py-1.5 rounded bg-surface-container-lowest text-secondary font-label-sm text-label-sm hover:text-on-surface shadow-sm">Siguiente</button>
+</div>
+</div>
+</section>
+<!-- Quick Access Cards: Servicios & Blog -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg">
+<!-- Quick Access: Servicios -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-space-xs text-tertiary">
+<span class="material-symbols-outlined text-[22px]">design_services</span>
+<span class="font-headline-sm text-headline-sm font-semibold">Servicios Ofrecidos</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">Configura tus propuestas comerciales y tarifas activas en la web.</p>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-label-sm font-semibold flex items-center gap-1 transition-all" onclick="openDrawer('servicio')">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Nuevo Servicio</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-xs mt-space-md">
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container/60 transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center font-bold text-label-sm">UI</div>
+<div>
+<h2 class="font-label-lg text-label-lg font-semibold text-on-surface">Diseño de Aplicaciones Móviles &amp; Web</h2>
+<span class="text-secondary text-[12px]">Desde $1,200 USD • 2 semanas entrega</span>
+</div>
+</div>
+<span class="text-emerald-700 font-label-sm font-medium bg-emerald-50 px-2 py-0.5 rounded-full">Activo</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container/60 transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center font-bold text-label-sm">3D</div>
+<div>
+<h2 class="font-label-lg text-label-lg font-semibold text-on-surface">Modelado &amp; Assets Visuales 3D</h2>
+<span class="text-secondary text-[12px]">Desde $800 USD • Paquetes de 10 iconos</span>
+</div>
+</div>
+<span class="text-emerald-700 font-label-sm font-medium bg-emerald-50 px-2 py-0.5 rounded-full">Activo</span>
+</div>
+</div>
+<div class="pt-space-md mt-space-sm flex items-center justify-between border-t border-surface-container">
+<span class="text-secondary font-body-sm text-body-sm">6 servicios visibles en portada</span>
+<a class="text-primary-container font-label-md text-label-md font-semibold hover:underline flex items-center gap-1" href="#">
+<span>Gestionar todos los servicios</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Quick Access: Blog -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-space-xs text-primary-container">
+<span class="material-symbols-outlined text-[22px]">auto_stories</span>
+<span class="font-headline-sm text-headline-sm font-semibold">Artículos Recientes del Blog</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">Comparte tus aprendizajes para atraer clientes y posicionamiento SEO.</p>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-label-sm font-semibold flex items-center gap-1 transition-all" onclick="openDrawer('articulo')">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Escribir Post</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-xs mt-space-md">
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container/60 transition-colors">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary-container/10 text-primary-container flex items-center justify-center font-bold text-label-sm">#1</div>
+<div class="min-w-0 truncate">
+<h2 class="font-label-lg text-label-lg font-semibold text-on-surface truncate">Guía definitiva para construir un Design System con Figma Tokens</h2>
+<span class="text-secondary text-[12px]">Publicado • 1,420 lecturas este mes</span>
+</div>
+</div>
+<span class="text-secondary font-label-sm font-medium bg-surface-container px-2 py-0.5 rounded-full flex-shrink-0 ml-2">15 Oct</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container/60 transition-colors">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary-container/10 text-primary-container flex items-center justify-center font-bold text-label-sm">#2</div>
+<div class="min-w-0 truncate">
+<h2 class="font-label-lg text-label-lg font-semibold text-on-surface truncate">Por qué el 3D en la web duplicó mis conversiones de proyectos</h2>
+<span class="text-secondary text-[12px]">Programado para Mañana 9:00 AM</span>
+</div>
+</div>
+<span class="text-amber-700 font-label-sm font-medium bg-amber-50 px-2 py-0.5 rounded-full flex-shrink-0 ml-2">Mañana</span>
+</div>
+</div>
+<div class="pt-space-md mt-space-sm flex items-center justify-between border-t border-surface-container">
+<span class="text-secondary font-body-sm text-body-sm">14 artículos en línea</span>
+<a class="text-primary-container font-label-md text-label-md font-semibold hover:underline flex items-center gap-1" href="#">
+<span>Ver todos los artículos</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- EDIT / CREATE SLIDE-OVER DRAWER -->
+<div class="hidden fixed inset-0 bg-inverse-surface/50 backdrop-blur-sm z-50 transition-opacity" id="drawer-overlay">
+<div class="fixed inset-y-0 right-0 max-w-xl w-full bg-surface-container-lowest shadow-2xl flex flex-col justify-between transform translate-x-0 transition-transform duration-300 ease-in-out">
+<!-- Drawer Header -->
+<div class="p-space-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary-container text-[24px]" id="drawer-icon">add_circle</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold" id="drawer-title">Añadir Nuevo Proyecto</h2>
+<p class="font-body-sm text-body-sm text-secondary">Completa la ficha visual para sincronizarla en el portafolio</p>
+</div>
+</div>
+<button class="p-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="closeDrawer()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Drawer Body: Form Inputs -->
+<div class="p-space-lg overflow-y-auto flex flex-col gap-space-md flex-1">
+<!-- Step 1: Titulo -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface flex items-center justify-between">
+<span>Título del Proyecto / Servicio</span>
+<span class="text-secondary text-[11px] font-normal">Obligatorio</span>
+</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container" id="project-title" placeholder="ej. NovaPay - Fintech Mobile Kit" type="text" value="NovaPay - Fintech Mobile Kit"/>
+</div>
+<!-- Slug preview -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary">URL Amigable generada automáticamente:</span>
+<div class="flex items-center bg-surface-container-low rounded-lg px-3 py-1.5 text-secondary font-code-sm text-code-sm">
+<span>portfolio.com/proyectos/</span>
+<span class="text-on-surface font-semibold" id="slug-preview">novapay-fintech-mobile-kit</span>
+</div>
+</div>
+<!-- Step 2: Categoria & Precio -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Categoría</label>
+<div class="relative">
+<select class="w-full h-10 px-3 pr-8 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md appearance-none focus:outline-none focus:ring-2 focus:ring-primary-container">
+<option selected="" value="ui-ux">UI/UX Kits</option>
+<option value="elementor">Elementor Templates</option>
+<option value="branding">Branding &amp; Identidad</option>
+<option value="3d">Assets Visuales 3D</option>
+<option value="app">Desarrollo Web / App</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-secondary text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Precio o Modalidad</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container" placeholder="ej. $29 USD o 'Cotización previa'" type="text" value="$29 USD"/>
+</div>
+</div>
+<!-- Step 3: Imagen de Portada Drag & Drop -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface flex items-center justify-between">
+<span>Subir Imagen de Portada / Screenshot</span>
+<span class="text-secondary text-[11px] font-normal">Recomendado: 1200x800px JPG o PNG</span>
+</label>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-all group">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 text-primary-container flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Haz clic para subir o arrastra la imagen aquí</span>
+<span class="font-body-sm text-body-sm text-secondary mt-0.5">Soporta PNG, WEBP o JPG hasta 10MB</span>
+<!-- Mini preview of selected image -->
+<div class="mt-3 flex items-center gap-2 bg-surface-container-lowest px-3 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">cover-mockup-novapay.png (1.2 MB)</span>
+<span class="material-symbols-outlined text-[16px] text-secondary hover:text-error ml-2 cursor-pointer">close</span>
+</div>
+</div>
+</div>
+<!-- Step 4: Descripcion Corta (Rich Text Simulado) -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Descripción Corta del Contenido</label>
+<div class="bg-surface-container-low rounded-lg overflow-hidden flex flex-col">
+<!-- Simple WYSIWYG Toolbar -->
+<div class="flex items-center gap-1 p-1 bg-surface-container border-b border-surface-container-high text-secondary">
+<button class="p-1 rounded hover:bg-surface-container-lowest hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">format_bold</span></button>
+<button class="p-1 rounded hover:bg-surface-container-lowest hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">format_italic</span></button>
+<button class="p-1 rounded hover:bg-surface-container-lowest hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">format_list_bulleted</span></button>
+<button class="p-1 rounded hover:bg-surface-container-lowest hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">link</span></button>
+</div>
+<textarea class="w-full p-3 bg-transparent text-on-surface font-body-md text-body-md focus:outline-none resize-none" placeholder="Describe brevemente el alcance de este trabajo para tus visitantes..." rows="3">Un completo kit de diseño móvil para productos financieros, criptomonedas y pasarelas de pago, creado 100% en Figma con más de 120 componentes editables.</textarea>
+</div>
+</div>
+<!-- Step 5: Enlace de Demo / Descarga -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Enlace de Demo / Descarga Externa</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-secondary text-[18px]">link</span>
+<input class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container" placeholder="https://gumroad.com/l/..." type="text" value="https://gumroad.com/l/novapay-kit"/>
+</div>
+</div>
+<!-- Step 6: Selector de Estado -->
+<div class="flex flex-col gap-2 p-space-sm rounded-lg bg-surface-container-low">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Visibilidad en la Web:</span>
+<div class="grid grid-cols-2 gap-space-xs">
+<label class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-lowest shadow-sm cursor-pointer">
+<input checked="" class="text-primary-container focus:ring-primary-container" name="status-radio" type="radio"/>
+<div>
+<span class="font-label-md text-label-md font-semibold text-on-surface block leading-tight">Publicar ahora</span>
+<span class="text-[11px] text-secondary">Visible de inmediato en el sitio</span>
+</div>
+</label>
+<label class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-lowest shadow-sm cursor-pointer">
+<input class="text-primary-container focus:ring-primary-container" name="status-radio" type="radio"/>
+<div>
+<span class="font-label-md text-label-md font-semibold text-on-surface block leading-tight">Guardar Borrador</span>
+<span class="text-[11px] text-secondary">Oculto del público general</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Drawer Footer Action Bar -->
+<div class="p-space-lg bg-surface-container-low flex items-center justify-between gap-space-sm">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-lg text-label-lg transition-colors" onclick="closeDrawer()">
+          Cancelar
+        </button>
+<button class="flex items-center gap-space-xs px-space-lg py-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary-container font-label-lg text-label-lg shadow-md hover:shadow-lg transition-all" onclick="saveAndPublish()">
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+<span>Guardar y Publicar en la Web</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Toast Notification -->
+<div class="hidden fixed bottom-6 right-6 z-50 bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-xl shadow-2xl flex items-center gap-space-sm transition-all transform translate-y-4" id="toast">
+<div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-white" id="toast-title">¡Contenido Guardado!</span>
+<span class="font-body-sm text-body-sm text-secondary-fixed-dim" id="toast-msg">El sitio web de Nicola Mashura ha sido actualizado en vivo.</span>
+</div>
+</div>
+<script>
+    // Create menu dropdown toggle
+    const createBtn = document.getElementById('create-btn');
+    const createDropdown = document.getElementById('create-dropdown');
+
+    if (createBtn && createDropdown) {
+      createBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        createDropdown.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', () => {
+        createDropdown.classList.add('hidden');
+      });
+    }
+
+    // Drawer Open/Close logic
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const drawerTitle = document.getElementById('drawer-title');
+    const drawerIcon = document.getElementById('drawer-icon');
+
+    function openDrawer(type) {
+      if (createDropdown) createDropdown.classList.add('hidden');
+      if (drawerOverlay) {
+        drawerOverlay.classList.remove('hidden');
+        if (type === 'servicio') {
+          drawerTitle.textContent = 'Añadir Nuevo Servicio';
+          drawerIcon.textContent = 'design_services';
+        } else if (type === 'articulo') {
+          drawerTitle.textContent = 'Escribir Artículo de Blog';
+          drawerIcon.textContent = 'edit_document';
+        } else {
+          drawerTitle.textContent = 'Añadir Nuevo Proyecto';
+          drawerIcon.textContent = 'photo_library';
+        }
+      }
+    }
+
+    function closeDrawer() {
+      if (drawerOverlay) {
+        drawerOverlay.classList.add('hidden');
+      }
+    }
+
+    function saveAndPublish() {
+      closeDrawer();
+      showToast('¡Guardado exitoso!', 'El portafolio se ha sincronizado correctamente.');
+    }
+
+    function showToast(title, msg) {
+      const toast = document.getElementById('toast');
+      const toastTitle = document.getElementById('toast-title');
+      const toastMsg = document.getElementById('toast-msg');
+
+      if (toast && toastTitle && toastMsg) {
+        toastTitle.textContent = title;
+        toastMsg.textContent = msg;
+        toast.classList.remove('hidden');
+        toast.classList.remove('translate-y-4');
+        setTimeout(() => {
+          toast.classList.add('translate-y-4');
+          toast.classList.add('hidden');
+        }, 4000);
+      }
+    }
+  </script>
+</div></div></main></div></body></html>

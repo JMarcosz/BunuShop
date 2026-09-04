@@ -1,11 +1,1274 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getPortfolioData } from '../lib/storage';
+import '../styles/global.css';
+import { 
+  Sparkles, 
+  Heart, 
+  Plane, 
+  ShieldCheck, 
+  Camera, 
+  Crown, 
+  Image as LucideImage, 
+  Star, 
+  MapPin, 
+  Search, 
+  Plus, 
+  Settings, 
+  Mail, 
+  Instagram, 
+  Facebook, 
+  ArrowRight, 
+  Check, 
+  CheckCircle2, 
+  ChevronRight,
+  Gem
+} from 'lucide-astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+export const prerender = false;
+
+const data = await getPortfolioData();
+const { siteInfo, metrics, featuredProduct, services, workflowPhases, projects, blogPosts } = data;
+
+// Solo mostramos en el frontend público los proyectos y posts que no estén marcados como borrador
+const publishedProjects = projects.filter((p: any) => p.status !== 'draft');
+const publishedPosts = blogPosts.filter((p: any) => p.status !== 'draft');
+const featuredPost = publishedPosts.find((p: any) => p.isFeatured) || publishedPosts[0];
+const recentPosts = publishedPosts.filter((p: any) => p.id !== featuredPost?.id);
+
+// Categorías dinámicas para los filtros
+const projectCategories = ['Todos', ...Array.from(new Set(publishedProjects.map((p: any) => p.category).filter(Boolean)))];
+
+const faqs = (data as any).faqs || [];
+const testimonials = (data as any).testimonials || [];
+
+// Structured Data (JSON-LD) para SEO, GEO y AEO
+const siteUrl = "https://bunushop.com";
+
+const schemaJewelryStore = {
+  "@context": "https://schema.org",
+  "@type": "JewelryStore",
+  "@id": `${siteUrl}/#store`,
+  "name": "Accesorios Bunu Shop",
+  "alternateName": "Bunu Shop",
+  "url": siteUrl,
+  "logo": `${siteUrl}/images/bunu/logo.jpg`,
+  "image": `${siteUrl}/images/bunu/IMG_1451.JPEG`,
+  "description": "Tienda de joyería artesanal y accesorios personalizados hechos a mano en Colombia: pulseras en macramé, dijes en mostacilla checa calibrada, cadenas con baño de oro y piezas exclusivas con envíos a todo el país.",
+  "telephone": siteInfo.contactPhone || "+57 316 077 1180",
+  "email": siteInfo.contactEmail || "accesoriosbunushop@gmail.com",
+  "priceRange": "$$",
+  "currenciesAccepted": "COP",
+  "paymentAccepted": "Nequi, Daviplata, Bancolombia, Transferencia bancaria",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Gamarra",
+    "addressRegion": "Cesar",
+    "addressCountry": "CO"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 8.3228,
+    "longitude": -73.7431
+  },
+  "areaServed": [
+    { "@type": "Country", "name": "Colombia" },
+    { "@type": "City", "name": "Bogotá" },
+    { "@type": "City", "name": "Medellín" },
+    { "@type": "City", "name": "Bucaramanga" },
+    { "@type": "City", "name": "Valledupar" },
+    { "@type": "City", "name": "Santa Marta" }
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": siteInfo.owner || "Mary Sorely",
+    "jobTitle": "Artesana y Diseñadora de Joyería"
+  },
+  "sameAs": [
+    siteInfo.socialLinks?.instagram || "https://www.instagram.com/bunu_shop15/",
+    siteInfo.socialLinks?.facebook || "https://www.facebook.com/profile.php?id=100028253305796",
+    siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"
+  ]
+};
+
+const schemaFaq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((f: any) => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.answer
+    }
+  }))
+};
+
+const schemaHowTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cómo pedir tu accesorio personalizado en Bunu Shop",
+  "description": "Proceso paso a paso para ordenar accesorios hechos a mano y personalizados con visto bueno previo y envío garantizado en Colombia.",
+  "totalTime": "P3D",
+  "step": workflowPhases.map((w: any, idx: number) => ({
+    "@type": "HowToStep",
+    "position": idx + 1,
+    "name": w.title,
+    "text": w.description
+  }))
+};
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada en Colombia</title>
+  <meta name="title" content="Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada en Colombia"/>
+  <meta name="description" content="Tienda de accesorios hechos a mano en Colombia: pulseras en macramé, dijes en mostacilla checa calibrada y piezas personalizadas con envío seguro. ¡Pide por WhatsApp!"/>
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+  <link rel="canonical" href="https://bunushop.com/"/>
+  
+  <!-- Favicon & Icons for Browser Tabs & Google Search Snippets -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="shortcut icon" href="/favicon.ico"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"/>
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png"/>
+  <link rel="icon" type="image/png" sizes="144x144" href="/favicon-144x144.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <meta name="theme-color" content="#ec4899"/>
+
+  <!-- Geo Tags (Local SEO & GEO) -->
+  <meta name="geo.region" content="CO-CES"/>
+  <meta name="geo.placename" content="Gamarra, Cesar, Colombia"/>
+  
+  <!-- Open Graph / Facebook / WhatsApp Link Previews -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="es_CO"/>
+  <meta property="og:url" content="https://bunushop.com/"/>
+  <meta property="og:site_name" content="Accesorios Bunu Shop"/>
+  <meta property="og:title" content="Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada"/>
+  <meta property="og:description" content="Piezas únicas tejidas a mano en Colombia con mostacilla calibrada y baño de oro. Personaliza tu diseño con visto bueno previo y envío seguro."/>
+  <meta property="og:image" content="https://bunushop.com/images/bunu/IMG_1451.JPEG"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Accesorios artesanales hechos a mano - Bunu Shop"/>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:url" content="https://bunushop.com/"/>
+  <meta name="twitter:title" content="Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada"/>
+  <meta name="twitter:description" content="Piezas únicas tejidas a mano en Colombia con mostacilla calibrada y baño de oro. Personaliza tu diseño con visto bueno previo."/>
+  <meta name="twitter:image" content="https://bunushop.com/images/bunu/IMG_1451.JPEG"/>
+
+  <!-- Structured Data JSON-LD (SEO, GEO & AEO) -->
+  <script type="application/ld+json" set:html={JSON.stringify(schemaJewelryStore)}/>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaFaq)}/>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaHowTo)}/>
+  
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  
+  
+  <style>
+    /* Sutiles líneas diagonales de acento en tono rosa/fucsia de la marca */
+    .decor-line-diagonal {
+      position: relative;
+    }
+    .decor-line-diagonal::before {
+      content: '';
+      position: absolute;
+      width: 45px;
+      height: 2px;
+      background-color: #ec4899;
+      transform: rotate(-35deg);
+      top: -14px;
+      left: 0;
+    }
+    .decor-line-diagonal-right {
+      position: relative;
+    }
+    .decor-line-diagonal-right::after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 2px;
+      background-color: #ec4899;
+      transform: rotate(-30deg);
+      top: -12px;
+      right: 0;
+    }
+    .custom-shadow {
+      box-shadow: 0 20px 40px -15px rgba(236, 72, 153, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-white text-slate-800 font-sans antialiased selection:bg-brand-pink selection:text-white">
+
+  <!-- BEGIN: Navigation -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-pink-100/60 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a class="flex items-center space-x-3 group" href="#hero">
+        <img 
+          src={siteInfo.logoImage || "/images/bunu/logo.jpg"} 
+          alt="Bunu Shop Logo" 
+          class="h-12 w-12 rounded-full object-cover shadow-sm border border-brand-pink/30 group-hover:scale-105 transition-transform"
+        />
+        <div class="flex flex-col">
+          <span class="text-xl font-black font-display tracking-tight text-slate-900 group-hover:text-brand-pink transition-colors leading-none">Bunu Shop</span>
+          <span class="text-[10px] tracking-widest uppercase font-semibold text-brand-pink mt-1">Accesorios &amp; Joyería</span>
+        </div>
+      </a>
+      
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold tracking-wider uppercase">
+        <a class="text-brand-pink transition-colors" href="#hero">Inicio</a>
+        <a class="text-slate-600 hover:text-brand-pink transition-colors" href="#galeria">Catálogo</a>
+        <a class="text-slate-600 hover:text-brand-pink transition-colors" href="#proceso">Cómo Comprar</a>
+        <a class="text-slate-600 hover:text-brand-pink transition-colors" href="#faq">Preguntas</a>
+        <a class="text-slate-600 hover:text-brand-pink transition-colors" href="#about">Sobre Mí</a>
+        {services && services.length > 0 && (
+          <a class="text-slate-600 hover:text-brand-pink transition-colors" href="#servicios">Servicios</a>
+        )}
+        <a class="text-slate-600 hover:text-brand-pink transition-colors" href="#blog">Blog &amp; Tips</a>
+      </nav>
+      
+      <!-- Action & Mobile Toggle -->
+      <div class="flex items-center space-x-3">
+        <a 
+          class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-xs uppercase font-bold tracking-wider text-white bg-brand-pink hover:bg-brand-pinkHover rounded-md transition-all shadow-md shadow-brand-pink/25 gap-2" 
+          href={siteInfo.socialLinks?.whatsapp ? `${siteInfo.socialLinks.whatsapp}?text=Hola%20Bunu%20Shop,%20deseo%20hacer%20un%20pedido` : "https://wa.me/573160771180?text=Hola%20Bunu%20Shop,%20deseo%20hacer%20un%20pedido"} 
+          target="_blank"
+        >
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span>Pedir Ahora</span>
+        </a>
+        <button aria-label="Toggle Menu" class="lg:hidden p-2.5 rounded-md bg-brand-pink text-white hover:bg-brand-pinkHover transition-colors focus:outline-none" id="menu-toggle">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Collapsible Mobile Menu -->
+    <div class="hidden lg:hidden bg-white border-b border-pink-100 px-6 py-4 space-y-3" id="mobile-menu">
+      <a class="block text-brand-pink font-bold py-1 text-sm uppercase" href="#hero">Inicio</a>
+      <a class="block text-slate-700 hover:text-brand-pink font-semibold py-1 text-sm uppercase" href="#galeria">Catálogo</a>
+      <a class="block text-slate-700 hover:text-brand-pink font-semibold py-1 text-sm uppercase" href="#proceso">Cómo Comprar</a>
+      <a class="block text-slate-700 hover:text-brand-pink font-semibold py-1 text-sm uppercase" href="#faq">Preguntas Frecuentes</a>
+      <a class="block text-slate-700 hover:text-brand-pink font-semibold py-1 text-sm uppercase" href="#about">Sobre Mí</a>
+      {services && services.length > 0 && (
+        <a class="block text-slate-700 hover:text-brand-pink font-semibold py-1 text-sm uppercase" href="#servicios">Servicios</a>
+      )}
+      <a class="block text-slate-700 hover:text-brand-pink font-semibold py-1 text-sm uppercase" href="#blog">Blog &amp; Tips</a>
+      <a class="block text-brand-pink font-bold pt-2 uppercase text-xs" href={siteInfo.socialLinks?.whatsapp ? `${siteInfo.socialLinks.whatsapp}?text=Hola%20Bunu%20Shop,%20deseo%20hacer%20un%20pedido` : "https://wa.me/573160771180"} target="_blank">Contactar por WhatsApp →</a>
+    </div>
+  </header>
+  <!-- END: Navigation -->
+
+  <!-- BEGIN: Hero Section -->
+  <section class="relative overflow-hidden bg-white" id="hero">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <div class="relative grid grid-cols-1 lg:grid-cols-12 min-h-[580px] rounded-2xl overflow-hidden shadow-2xl">
+        <!-- Left Side: Dark Plum / Imperial Purple -->
+        <div class="lg:col-span-6 bg-brand-darkNavy px-8 sm:px-14 py-12 sm:py-16 flex flex-col justify-between relative z-10">
+          <div class="space-y-5">
+            <span class="inline-block text-xs uppercase tracking-[0.2em] text-pink-200 font-bold">
+              {siteInfo.heroTag || '// Joyería & Accesorios Hechos a Mano en Colombia'}
+            </span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-white leading-tight">
+              {siteInfo.heroTitle1 || 'Accesorios'} <br/>
+              {siteInfo.heroTitle2 || 'Artesanales con'} <br/>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-pink-300 to-amber-200 font-extrabold">{siteInfo.heroTitleHighlight || 'Significado'}</span> <br/>
+              {siteInfo.heroTitle3 || '& Estilo'}
+            </h1>
+            <!-- Accent Bar -->
+            <div class="w-20 h-1 bg-brand-pink mt-3"></div>
+
+            <!-- Value Subtitle (Under 60 words, customer-centric per portafolio-conversion) -->
+            <p class="text-slate-200 text-sm sm:text-base leading-relaxed max-w-lg font-normal pt-1">
+              {siteInfo.heroSubtitle || 'Diseñamos y tejemos piezas únicas a tu medida en mostacilla checa calibrada y baño de oro. Te mostramos el resultado antes de despachar con envío seguro a toda Colombia.'}
+            </p>
+          </div>
+          
+          <!-- Subtitle / Meta / CTAs -->
+          <div class="pt-6 text-slate-300 space-y-4">
+            <!-- Micro-guarantees strip that reduces buying fear -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 py-3 border-t border-b border-pink-900/50 text-[11px] text-pink-200/90 font-medium">
+              <span class="flex items-center gap-1.5"><ShieldCheck class="w-3.5 h-3.5 text-amber-300" /> Envíos con guía</span>
+              <span class="flex items-center gap-1.5"><Camera class="w-3.5 h-3.5 text-pink-300" /> Foto previa del diseño</span>
+              <span class="flex items-center gap-1.5"><Sparkles class="w-3.5 h-3.5 text-amber-300" /> Mostacilla calibrada</span>
+            </div>
+
+            <div class="pt-1 flex flex-wrap gap-3">
+              <a 
+                href={siteInfo.socialLinks?.whatsapp ? `${siteInfo.socialLinks.whatsapp}?text=Hola%20Bunu%20Shop,%20deseo%20hacer%20un%20pedido%20personalizado` : "https://wa.me/573160771180?text=Hola%20Bunu%20Shop,%20deseo%20hacer%20un%20pedido%20personalizado"} 
+                target="_blank" 
+                class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-3.5 px-6 rounded-md transition-all shadow-lg shadow-pink-900/30"
+              >
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                <span>Pedir o Personalizar por WhatsApp</span>
+              </a>
+              <a 
+                href="#galeria" 
+                class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider py-3.5 px-6 rounded-md transition-all border border-white/20"
+              >
+                <span>Ver Catálogo</span>
+                <ArrowRight class="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Side: Imagery and Social Floating Icons -->
+        <div class="lg:col-span-6 relative min-h-[420px] lg:min-h-full bg-pink-50">
+          <img 
+            alt={`${siteInfo.name} - ${siteInfo.role}`} 
+            class="w-full h-full object-cover object-center filter brightness-[0.98]" 
+            src={siteInfo.heroImage}
+          />
+          <!-- Floating Right Side Social Bar -->
+          <div class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md shadow-xl rounded-full py-4 px-2.5 flex flex-col items-center space-y-4 text-slate-600 border border-pink-100 z-20">
+            <a class="hover:text-brand-pink text-slate-600 transition-colors p-1" href={siteInfo.socialLinks?.whatsapp || 'https://wa.me/573160771180'} rel="noopener noreferrer" target="_blank" title="WhatsApp">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </a>
+            <a class="hover:text-brand-pink text-slate-600 transition-colors p-1" href={siteInfo.socialLinks?.instagram || 'https://instagram.com/bunu_shop15/'} rel="noopener noreferrer" target="_blank" title="Instagram">
+              <Instagram class="w-4 h-4" />
+            </a>
+            <a class="hover:text-brand-pink text-slate-600 transition-colors p-1" href={siteInfo.socialLinks?.facebook || 'https://facebook.com'} rel="noopener noreferrer" target="_blank" title="Facebook">
+              <Facebook class="w-4 h-4" />
+            </a>
+            <a class="hover:text-brand-pink text-slate-600 transition-colors p-1" href={`mailto:${siteInfo.contactEmail}`} title="Correo Electrónico">
+              <Mail class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: Hero Section -->
+
+  <!-- BEGIN: About Section -->
+  <section class="py-20 lg:py-28 bg-white relative" id="about">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <!-- Left Column: Mary Sorely Portrait & Floating CTAs -->
+        <div class="lg:col-span-5 relative">
+          <!-- Decorative accent -->
+          <div class="decor-line-diagonal mb-6 pl-4">
+            <span class="text-xs uppercase font-bold tracking-widest text-slate-400">{siteInfo.aboutTag || '// Sobre Nosotros'}</span>
+          </div>
+          <!-- Portrait Container -->
+          <div class="relative mx-auto max-w-md lg:max-w-none">
+            <div class="relative overflow-hidden rounded-2xl shadow-xl bg-pink-50 border border-pink-100">
+              <img alt={`${siteInfo.name} - ${siteInfo.owner || 'Mary Sorely'}`} class="w-full h-[460px] object-cover object-top" src={siteInfo.aboutPortrait}/>
+            </div>
+            <!-- Overlapping CTAs Box -->
+            <div class="absolute -bottom-6 -right-4 sm:right-4 flex flex-col gap-2 shadow-2xl z-20">
+              <a 
+                class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-3.5 px-6 rounded-md transition-all transform hover:-translate-y-0.5 shadow-md shadow-brand-pink/20" 
+                href={siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"} 
+                target="_blank"
+              >
+                <i class="fa-brands fa-whatsapp text-sm"></i>
+                <span>Pedir por WhatsApp</span>
+              </a>
+              <a 
+                class="inline-flex items-center gap-2 bg-brand-darkNavy hover:bg-slate-900 text-white text-xs font-bold uppercase tracking-wider py-3.5 px-6 rounded-md transition-all transform hover:-translate-y-0.5 shadow-md" 
+                href={siteInfo.socialLinks?.instagram || "https://instagram.com/bunu_shop15/"} 
+                target="_blank"
+              >
+                <i class="fa-brands fa-instagram text-sm"></i>
+                <span>@bunu_shop15</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Column: Biography & Narrative -->
+        <div class="lg:col-span-7 space-y-6 pt-6 lg:pt-0">
+          <div>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-slate-900 leading-tight">
+              {siteInfo.aboutHeading} <br/>
+              <span class="text-brand-pink">{siteInfo.aboutHeadingSub}</span>
+            </h2>
+            <div class="w-16 h-1 bg-brand-pink mt-4"></div>
+          </div>
+          <p class="text-slate-600 leading-relaxed text-sm sm:text-base font-normal">
+            {siteInfo.aboutBio1}
+          </p>
+          <p class="text-slate-600 leading-relaxed text-sm sm:text-base font-normal">
+            {siteInfo.aboutBio2}
+          </p>
+          <div class="pt-4 flex flex-wrap gap-4 items-center">
+            <a 
+              class="inline-flex items-center gap-2 border-2 border-brand-pink text-brand-pink hover:bg-brand-pink hover:text-white font-bold text-xs uppercase tracking-widest px-8 py-3.5 transition-all rounded-md" 
+              href={siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"}
+              target="_blank"
+            >
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>Consultar Disponibilidad</span>
+            </a>
+            <a class="inline-flex items-center gap-2 text-slate-500 hover:text-brand-pink text-xs font-bold uppercase tracking-widest py-3.5 px-4 transition-colors" href="#galeria">
+              <span>Explorar Catálogo →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: About Section -->
+
+  <!-- BEGIN: Servicios Section (CONDICIONAL: Se oculta si services está vacío) -->
+  {services && services.length > 0 && (
+    <section class="py-20 lg:py-28 bg-brand-lightBg border-t border-brand-borderLight" id="servicios">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div>
+            <span class="text-brand-pink font-bold text-xs uppercase tracking-widest">// Servicios Especializados</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+              Nuestros Servicios
+            </h2>
+            <p class="text-slate-500 text-sm max-w-2xl mt-3 leading-relaxed">
+              Soluciones y pedidos especiales a tu medida.
+            </p>
+          </div>
+          <div class="decor-line-diagonal-right pr-4 self-start md:self-end">
+            <span class="text-xs uppercase font-bold tracking-widest text-slate-400">Atención Personalizada</span>
+          </div>
+        </div>
+        
+        <!-- Grid Services -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service: any) => (
+            <article class="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-xl hover:border-brand-pink/40 transition-all duration-300 group flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-6">
+                  <div class="w-12 h-12 flex items-center justify-center text-brand-pink text-2xl bg-pink-50 rounded-lg group-hover:bg-brand-pink group-hover:text-white transition-all duration-300">
+                    <i class={service.icon || 'fa-solid fa-gem'}></i>
+                  </div>
+                  <span class="text-[10px] font-black uppercase tracking-wider text-brand-pink bg-pink-50 px-2.5 py-1 rounded-full">
+                    {service.tag}
+                  </span>
+                </div>
+                <h3 class="text-xl font-bold font-display text-slate-900 mb-2.5 group-hover:text-brand-pink transition-colors">
+                  {service.title}
+                </h3>
+                <p class="text-sm text-slate-500 leading-relaxed font-normal mb-5">
+                  {service.description}
+                </p>
+                {service.bullets && service.bullets.length > 0 && (
+                  <ul class="space-y-1.5 text-xs text-slate-600 font-medium border-t border-slate-100 pt-4">
+                    {service.bullets.map((b: string) => (
+                      <li class="flex items-center gap-2">
+                        <i class="fa-solid fa-check text-brand-pink text-[10px]"></i> {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
+                <a class="inline-flex items-center text-xs font-bold text-slate-900 hover:text-brand-pink tracking-wider uppercase transition-colors" href={siteInfo.socialLinks?.whatsapp || "#contact"} target="_blank">
+                  <span>Cotizar</span>
+                  <i class="fa-solid fa-arrow-right text-[10px] ml-1.5 transition-transform group-hover:translate-x-1"></i>
+                </a>
+                {service.priceEstimate && (
+                  <span class="text-[11px] font-semibold text-slate-400">
+                    {service.priceEstimate}
+                  </span>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+  <!-- END: Servicios Section -->
+
+  <!-- BEGIN: Featured Product Showcase Spotlight -->
+  {featuredProduct && (
+    <section class="py-14 bg-white">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <div class="bg-gradient-to-br from-brand-darkNavy via-purple-950 to-brand-darkNavy rounded-3xl text-white p-8 lg:p-12 shadow-2xl relative overflow-hidden border border-pink-900/30">
+          <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-pink/15 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+            <div class="lg:col-span-7 space-y-5">
+              <div class="inline-flex items-center gap-2 bg-pink-500/20 border border-pink-400/30 text-pink-300 text-xs font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full">
+                <i class="fa-solid fa-crown text-amber-300 text-xs"></i>
+                <span>{featuredProduct.tag || '// Pieza Exclusiva'}</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black font-display tracking-tight text-white leading-tight">
+                {featuredProduct.title}
+              </h3>
+              <p class="text-pink-100/90 text-sm leading-relaxed max-w-xl">
+                {featuredProduct.description}
+              </p>
+              {featuredProduct.features && (
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-pink-200">
+                  {featuredProduct.features.map((feat: string) => (
+                    <div class="flex items-center gap-2">
+                      <i class="fa-solid fa-circle-check text-brand-pink"></i>
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div class="pt-4 flex flex-wrap gap-4 items-center">
+                <a 
+                  class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white font-bold text-xs uppercase tracking-wider px-7 py-3.5 rounded-md transition-all shadow-lg shadow-pink-900/40" 
+                  href={featuredProduct.buyUrl || siteInfo.socialLinks?.whatsapp || '#contact'}
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-whatsapp text-sm"></i>
+                  <span>Ordenar Pieza • {featuredProduct.price}</span>
+                </a>
+                <a 
+                  class="inline-flex items-center gap-2 text-pink-200 hover:text-white border border-pink-300/30 hover:border-pink-200 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-md transition-all" 
+                  href={featuredProduct.figmaDemoUrl || '#galeria'}
+                  target="_blank"
+                >
+                  <i class="fa-solid fa-images text-xs"></i>
+                  <span>Ver en Catálogo</span>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Real Product Showcase Box -->
+            <div class="lg:col-span-5">
+              <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 shadow-2xl relative">
+                <div class="relative h-72 sm:h-80 rounded-xl overflow-hidden bg-slate-900/40">
+                  <img 
+                    src="/images/bunu/media_1788495999167.jpg" 
+                    alt={featuredProduct.title} 
+                    class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
+                  />
+                  <div class="absolute top-3 left-3 bg-brand-pink text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
+                    100% Hecho a Mano
+                  </div>
+                  <div class="absolute bottom-3 right-3 bg-brand-darkNavy/90 backdrop-blur-sm text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-400/30 shadow">
+                    Mostacilla Checa Calibrada
+                  </div>
+                </div>
+                <div class="mt-3 grid grid-cols-3 gap-2 text-center text-[11px]">
+                  <div class="p-2 bg-white/5 rounded-lg border border-white/10">
+                    <p class="text-pink-200/70 text-[10px]">Material</p>
+                    <p class="font-bold text-white font-display">Mostacilla &amp; Oro</p>
+                  </div>
+                  <div class="p-2 bg-white/5 rounded-lg border border-white/10">
+                    <p class="text-pink-200/70 text-[10px]">Técnica</p>
+                    <p class="font-bold text-white font-display">Tejido a Mano</p>
+                  </div>
+                  <div class="p-2 bg-white/5 rounded-lg border border-white/10">
+                    <p class="text-pink-200/70 text-[10px]">Envíos</p>
+                    <p class="font-bold text-amber-300 font-display">Toda Colombia</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+  <!-- END: Featured Product Spotlight -->
+
+  <!-- BEGIN: Proceso / Cómo Trabajamos Section -->
+  <section class="py-20 lg:py-24 bg-brand-lightBg border-t border-pink-100/70" id="proceso">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-brand-pink font-bold text-xs uppercase tracking-widest">// Tranquilidad en cada detalle</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+          ¿Cómo Creamos y Enviamos tu Accesorio?
+        </h2>
+        <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4"></div>
+        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+          Comprar artesanías por internet no tiene por qué dar incertidumbre. Diseñamos un proceso transparente donde tú tienes el control de tu diseño de principio a fin.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        {workflowPhases && workflowPhases.map((phase: any, idx: number) => (
+          <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm hover:shadow-lg hover:border-brand-pink/40 transition-all duration-300 flex flex-col justify-between relative group">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="w-8 h-8 rounded-full bg-pink-50 text-brand-pink font-extrabold text-xs flex items-center justify-center border border-pink-200/60 group-hover:bg-brand-pink group-hover:text-white transition-colors">
+                  0{idx + 1}
+                </span>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  {phase.phase}
+                </span>
+              </div>
+              <h3 class="text-base font-bold font-display text-slate-900 mb-2 group-hover:text-brand-pink transition-colors">
+                {phase.title}
+              </h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                {phase.description}
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-100 text-center">
+              <span class="text-[10px] uppercase tracking-wider font-semibold text-brand-pink">
+                {idx === 0 && "100% a tu gusto"}
+                {idx === 1 && "Mostacilla calibrada"}
+                {idx === 2 && "Cero sorpresas"}
+                {idx === 3 && "Listo para regalar"}
+                {idx === 4 && "Rastreo activo"}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-12 text-center">
+        <a 
+          href={siteInfo.socialLinks?.whatsapp ? `${siteInfo.socialLinks.whatsapp}?text=Hola%20Bunu%20Shop,%20tengo%20una%20idea%20para%20un%20accesorio%20personalizado` : "https://wa.me/573160771180"} 
+          target="_blank"
+          class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-3.5 px-8 rounded-md transition-all shadow-md shadow-pink-900/20"
+        >
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span>Consultar por un diseño personalizado</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- END: Proceso Section -->
+
+  <!-- BEGIN: Full Portfolio Gallery & Store -->
+  <section class="py-20 lg:py-28 bg-white border-t border-pink-100/60" id="galeria">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <!-- Section Header -->
+      <div class="mb-12">
+        <div class="decor-line-diagonal mb-3 pl-4">
+          <span class="text-xs uppercase font-bold tracking-widest text-brand-pink">// Catálogo de Accesorios</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-slate-900 leading-tight">
+          Galería de Diseños &amp; Accesorios
+        </h2>
+        <div class="w-16 h-1 bg-brand-pink my-4"></div>
+        <p class="text-slate-600 text-sm sm:text-base max-w-3xl leading-relaxed">
+          Colección exclusiva de pulseras en macramé, dijes tejidos en mostacilla checa, símbolos de protección y sets especiales para parejas y ocasiones únicas.
+        </p>
+      </div>
+      
+      <!-- Quick Metrics Strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-pink-50/50 border border-pink-100 rounded-2xl mb-12">
+        <div class="text-center p-2">
+          <p class="text-2xl sm:text-3xl font-black font-display text-slate-900">{metrics.projectsCompleted || '500'}<span class="text-brand-pink">+</span></p>
+          <p class="text-[11px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Pedidos Entregados</p>
+        </div>
+        <div class="text-center p-2 border-l border-pink-100">
+          <p class="text-2xl sm:text-3xl font-black font-display text-slate-900">{metrics.satisfiedClients || '530'}<span class="text-brand-pink">+</span></p>
+          <p class="text-[11px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Clientas Felices</p>
+        </div>
+        <div class="text-center p-2 border-l border-pink-100">
+          <p class="text-2xl sm:text-3xl font-black font-display text-slate-900">5.0<span class="text-brand-gold">★</span></p>
+          <p class="text-[11px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Calidad Garantizada</p>
+        </div>
+        <div class="text-center p-2 border-l border-pink-100">
+          <p class="text-2xl sm:text-3xl font-black font-display text-slate-900">100<span class="text-brand-pink">%</span></p>
+          <p class="text-[11px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Hecho a Mano</p>
+        </div>
+      </div>
+      
+      <!-- Filter Pills & Search Controls -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-pink-100">
+        <!-- Category Filter Pills -->
+        <div class="flex flex-wrap gap-2 w-full md:w-auto" id="filter-container">
+          {projectCategories.map((cat, idx) => (
+            <button 
+              data-cat={cat === 'Todos' ? 'all' : cat} 
+              class={`filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all ${idx === 0 ? 'bg-brand-pink text-white shadow-sm' : 'bg-pink-50 text-slate-600 hover:bg-pink-100'}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+        
+        <!-- Search Bar + Sort Dropdown -->
+        <div class="flex items-center gap-3 w-full md:w-auto">
+          <div class="relative flex-1 md:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input aria-label="Buscar accesorios" id="gallery-search" class="w-full pl-9 pr-3 py-2 text-xs rounded-md border border-pink-200 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink" placeholder="Buscar accesorio..." type="text"/>
+          </div>
+          <div class="relative">
+            <select aria-label="Ordenar accesorios" id="gallery-sort" class="text-xs font-semibold py-2 pl-3 pr-8 rounded-md border border-pink-200 bg-white text-slate-700 focus:outline-none focus:border-brand-pink">
+              <option value="recent">Recientes</option>
+              <option value="popular">Más Populares</option>
+              <option value="price-asc">Menor Precio</option>
+              <option value="price-desc">Mayor Precio</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Products Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+        {publishedProjects.map((project: any) => (
+          <article 
+            class="project-card bg-white border border-pink-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-brand-pink/40 transition-all duration-300 group flex flex-col justify-between"
+            data-category={project.category}
+            data-title={project.title.toLowerCase()}
+            data-desc={project.description.toLowerCase()}
+            data-price={parseFloat(project.price?.replace(/[^0-9.]/g, '') || '0')}
+            data-downloads={100}
+          >
+            <div>
+              <div class="relative h-64 bg-pink-50 overflow-hidden">
+                <img 
+                  alt={`${project.title} - Accesorio artesanal hecho a mano en Colombia por Bunu Shop`} 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                  src={project.image}
+                  loading="lazy"
+                />
+                <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-[10px] font-black uppercase tracking-wider text-brand-pink px-3 py-1 rounded-full shadow-sm">
+                  {project.category}
+                </div>
+                <div class="absolute top-3 right-3 bg-brand-darkNavy text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                  {project.price}
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
+                  <span class="text-amber-500 flex items-center gap-1"><i class="fa-solid fa-star text-[10px]"></i> {project.rating || '5.0'}</span>
+                  <span>•</span>
+                  <span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-[10px] font-bold tracking-wide">100% Hecho a Mano</span>
+                </div>
+                <h3 class="text-lg font-bold font-display text-slate-900 group-hover:text-brand-pink transition-colors mb-2">
+                  {project.title}
+                </h3>
+                <p class="text-xs text-slate-500 leading-relaxed font-normal mb-4">
+                  {project.description}
+                </p>
+                {project.tags && project.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5 text-[10px] text-slate-600 font-semibold">
+                    {project.tags.map((tag: string) => (
+                      <span class="bg-pink-50 text-pink-700 px-2.5 py-0.5 rounded-full">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-pink-100/60">
+              <a 
+                class="text-xs font-bold text-slate-600 hover:text-brand-pink transition-colors uppercase tracking-wider text-[11px]" 
+                href={project.demoUrl || `https://wa.me/573160771180?text=Hola,%20me%20gustaria%20saber%20mas%20detalles%20de:%20${encodeURIComponent(project.title)}`} 
+                target="_blank"
+              >
+                Consultar
+              </a>
+              <a 
+                class="inline-flex items-center gap-1.5 text-xs font-bold bg-brand-pink text-white px-4 py-2.5 rounded-md hover:bg-brand-pinkHover transition-colors shadow-sm tracking-wider" 
+                href={project.buyUrl || `https://wa.me/573160771180?text=Hola,%20quiero%20pedir:%20${encodeURIComponent(project.title)}`}
+                target="_blank"
+              >
+                <i class="fa-brands fa-whatsapp text-sm"></i>
+                <span>Pedir</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+      
+      <!-- No Results Message -->
+      <div id="no-results" class="hidden text-center py-16">
+        <p class="text-lg font-bold text-slate-700">No se encontraron piezas con ese criterio.</p>
+        <p class="text-sm text-slate-400 mt-1">Prueba con otra palabra o categoría.</p>
+      </div>
+
+      <!-- Pagination / Results Count -->
+      <div class="mt-14 flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-pink-100">
+        <p class="text-xs text-slate-500 font-medium">
+          Mostrando <span class="font-bold text-slate-800" id="visible-count">{publishedProjects.length}</span> de <span class="font-bold text-slate-800">{publishedProjects.length}</span> piezas artesanales • Catálogo actualizado
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- END: Full Portfolio Gallery -->
+
+  <!-- BEGIN: Por Qué Elegirnos / Logros -->
+  <section class="py-16 bg-pink-50/40 border-y border-pink-100" id="logros">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 items-center text-center">
+        <!-- Metric 1: Calidad & Delicadeza -->
+        <div class="p-6 bg-white border border-pink-100 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+          <i class="fa-solid fa-heart text-brand-pink text-3xl mb-2"></i>
+          <span class="text-xs font-black tracking-widest text-slate-800 uppercase">{metrics.badge1Title || 'CLIENTAS FELICES'}</span>
+          <span class="text-[10px] text-brand-pink tracking-wider mt-0.5">{metrics.badge1Subtitle || 'CALIDAD & DELICADEZA'}</span>
+        </div>
+        <!-- Metric 2: Envíos Seguros -->
+        <div class="p-6 bg-white border border-pink-100 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+          <i class="fa-solid fa-plane-departure text-brand-pink text-3xl mb-2"></i>
+          <span class="text-xs font-black tracking-widest text-slate-800 uppercase">{metrics.badge2Title || 'ENVÍOS SEGUROS'}</span>
+          <span class="text-[10px] text-brand-pink tracking-wider mt-0.5">{metrics.badge2Subtitle || 'COLOMBIA E INTERNACIONAL'}</span>
+        </div>
+        <!-- Metric 3: Pedidos -->
+        <div class="p-6 bg-white border border-pink-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+          <p class="text-4xl sm:text-5xl font-black font-display text-slate-900 tracking-tight">{metrics.projectsCompleted || '500'}<span class="text-brand-pink">+</span></p>
+          <p class="text-xs uppercase font-bold tracking-widest text-slate-400 mt-1">PEDIDOS ENTREGADOS</p>
+        </div>
+        <!-- Metric 4: Clientas Satisfechas -->
+        <div class="p-6 bg-white border border-pink-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+          <p class="text-4xl sm:text-5xl font-black font-display text-slate-900 tracking-tight">{metrics.satisfiedClients || '530'}<span class="text-brand-pink">+</span></p>
+          <p class="text-xs uppercase font-bold tracking-widest text-slate-400 mt-1">CLIENTAS SATISFECHAS</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: Por Qué Elegirnos -->
+
+  <!-- BEGIN: Testimonios de Clientas Section -->
+  <section class="py-20 lg:py-24 bg-white border-b border-pink-100/60" id="testimonios">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="text-brand-pink font-bold text-xs uppercase tracking-widest">// Experiencias Reales</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+          Lo que Dicen Quienes Ya Recibieron sus Piezas
+        </h2>
+        <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4"></div>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Más de 500 pedidos entregados en toda Colombia. La tranquilidad de nuestras clientas se construye en cada envío con foto previa y atención personalizada.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {testimonials && testimonials.map((test: any) => (
+          <div class="bg-pink-50/40 p-8 rounded-2xl border border-pink-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="flex text-amber-400 gap-1 text-xs">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                  <i class="fa-solid fa-circle-check mr-1"></i>Compra Verificada
+                </span>
+              </div>
+              <p class="text-slate-700 text-sm leading-relaxed italic">
+                "{test.quote}"
+              </p>
+            </div>
+            <div class="pt-6 mt-6 border-t border-pink-100/80 flex items-center justify-between">
+              <div>
+                <p class="font-bold font-display text-slate-900 text-sm">{test.name}</p>
+                <p class="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+                  <i class="fa-solid fa-location-dot text-[10px] text-brand-pink"></i>
+                  <span>{test.location}, Colombia</span>
+                </p>
+              </div>
+              <span class="text-[10px] font-semibold text-brand-pink bg-white px-2.5 py-1 rounded-md border border-pink-100 shadow-2xs">
+                {test.product}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <!-- END: Testimonios Section -->
+
+  <!-- BEGIN: FAQ Section (Objeciones & Garantías) -->
+  <section class="py-20 lg:py-24 bg-pink-50/30 border-b border-pink-100" id="faq">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <span class="text-brand-pink font-bold text-xs uppercase tracking-widest">// Cero Dudas antes de Comprar</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+          Preguntas Frecuentes &amp; Garantías
+        </h2>
+        <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4"></div>
+        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+          Respondemos con total transparencia las dudas más comunes sobre materiales, envíos, tallas y pedidos personalizados.
+        </p>
+      </div>
+
+      <div class="space-y-4" id="faq-accordion">
+        {faqs && faqs.map((faq: any) => (
+          <div class="faq-item bg-white border border-pink-100 rounded-2xl overflow-hidden shadow-xs transition-all">
+            <button 
+              type="button" 
+              class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-display font-bold text-slate-900 hover:text-brand-pink transition-colors focus:outline-none cursor-pointer"
+              aria-expanded="false"
+            >
+              <span class="text-sm sm:text-base">{faq.question}</span>
+              <span class="faq-icon w-7 h-7 rounded-full bg-pink-50 text-brand-pink flex items-center justify-center shrink-0 text-xs transition-transform duration-300">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </button>
+            <div class="faq-answer hidden px-6 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-50 pt-3">
+              <p>{faq.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-10 p-6 bg-white border border-pink-100 rounded-2xl text-center shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-left">
+          <p class="font-bold text-slate-900 text-sm">¿Tienes una pregunta diferente o quieres asesoría para un regalo?</p>
+          <p class="text-xs text-slate-500 mt-0.5">Te atendemos directamente por WhatsApp con gusto.</p>
+        </div>
+        <a 
+          href={siteInfo.socialLinks?.whatsapp ? `${siteInfo.socialLinks.whatsapp}?text=Hola%20Bunu%20Shop,%20tengo%20una%20duda%20sobre%20los%20accesorios` : "https://wa.me/573160771180"} 
+          target="_blank"
+          class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-2.5 px-5 rounded-md transition-all shrink-0"
+        >
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span>Preguntar por WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- END: FAQ Section -->
+
+  <!-- BEGIN: CTA / Banner de Pedido Personalizado -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="bg-gradient-to-r from-brand-darkNavy to-purple-950 text-white rounded-3xl p-8 sm:p-12 border-l-8 border-brand-pink shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div class="space-y-2 text-left">
+          <span class="text-xs font-black tracking-widest uppercase text-pink-300">// Pedidos Personalizados &amp; Ocasiones Especiales</span>
+          <h3 class="text-2xl sm:text-3xl font-extrabold font-display">¿Tienes una idea en mente para un accesorio especial?</h3>
+          <p class="text-pink-100/80 text-xs sm:text-sm max-w-2xl">
+            Tejemos piezas únicas a tu medida con iniciales, combinaciones de colores exclusivas o recuerdos para bodas, grados y celebraciones.
+          </p>
+        </div>
+        <div class="flex flex-wrap sm:flex-nowrap gap-3 w-full lg:w-auto shrink-0">
+          <a 
+            class="w-full sm:w-auto inline-flex items-center justify-center text-center bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider px-6 py-3.5 rounded-md transition-all shadow-md shadow-pink-900/30 gap-2" 
+            href={siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"} 
+            target="_blank"
+          >
+            <i class="fa-brands fa-whatsapp text-sm"></i>
+            <span>Escribir al WhatsApp</span>
+          </a>
+          <a 
+            class="w-full sm:w-auto inline-flex items-center justify-center text-center border border-pink-300/40 hover:border-white text-white text-xs font-bold uppercase tracking-wider px-6 py-3.5 rounded-md transition-all gap-2" 
+            href={siteInfo.socialLinks?.instagram || "https://instagram.com/bunu_shop15/"} 
+            target="_blank"
+          >
+            <i class="fa-brands fa-instagram text-sm"></i>
+            <span>Ver en Instagram</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: CTA Banner -->
+
+  <!-- BEGIN: Blog & Tips Section -->
+  <section class="py-20 lg:py-28 bg-white border-t border-pink-100/60" id="blog">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <!-- Section Header -->
+      <div class="mb-14">
+        <span class="text-brand-pink font-bold text-xs uppercase tracking-widest">// Cuidado, Significado &amp; Tendencias</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+          Blog &amp; Consejos de Joyería
+        </h2>
+        <div class="w-16 h-1 bg-brand-pink mt-3"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Main Featured Blog Article (Left 8 Cols) -->
+        {featuredPost && (
+          <article class="lg:col-span-8 group">
+            <div class="overflow-hidden rounded-2xl mb-6 border border-pink-100 shadow-sm bg-pink-50">
+              <img alt={featuredPost.title} class="w-full h-80 sm:h-96 object-cover transform group-hover:scale-105 transition-transform duration-500" src={featuredPost.image}/>
+            </div>
+            <div class="space-y-3">
+              <h3 class="text-2xl sm:text-3xl font-bold font-display text-slate-900 group-hover:text-brand-pink transition-colors leading-tight">
+                <a href="#blog">{featuredPost.title}</a>
+              </h3>
+              <div class="text-xs font-semibold text-slate-400 tracking-wider uppercase space-x-2">
+                <span>{featuredPost.date}</span>
+                <span>/</span>
+                <span class="text-brand-pink">{featuredPost.comments || 'TIPS'}</span>
+              </div>
+              <p class="text-slate-600 text-sm leading-relaxed pt-1">
+                {featuredPost.excerpt}
+              </p>
+              <div class="pt-3">
+                <a class="inline-flex items-center text-xs font-bold uppercase tracking-widest text-brand-pink hover:text-brand-pinkHover group/btn" href="#blog">
+                  <span>Leer Artículo</span>
+                  <span class="ml-1 transform group-hover/btn:translate-x-1 transition-transform">→</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        )}
+        
+        <!-- Sidebar: Recent Posts (Right 4 Cols) -->
+        <aside class="lg:col-span-4 space-y-6">
+          <div class="border-b border-pink-100 pb-3">
+            <h4 class="text-base font-bold font-display text-slate-900 tracking-wide uppercase">Otras Publicaciones</h4>
+          </div>
+          <div class="space-y-5">
+            {recentPosts.map((post: any) => (
+              <article class="flex items-center space-x-4 group cursor-pointer">
+                <img alt={post.title} class="w-16 h-16 object-cover rounded-xl flex-shrink-0 border border-pink-100" src={post.image}/>
+                <div>
+                  <h5 class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-brand-pink transition-colors leading-snug">
+                    {post.title}
+                  </h5>
+                  <span class="text-[10px] text-slate-400 uppercase tracking-wider block mt-1">{post.formattedDate || post.date}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+  <!-- END: Blog Section -->
+
+  <!-- BEGIN: Unified Footer -->
+  <footer class="bg-brand-darkNavy text-white pt-16 pb-12 border-t border-pink-900/30" id="contact">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-purple-900/60">
+        <!-- Column 1: Brand & Bio -->
+        <div class="space-y-4 md:col-span-1">
+          <div class="flex items-center space-x-3">
+            <img 
+              src={siteInfo.logoImage || "/images/bunu/logo.jpg"} 
+              alt="Bunu Shop Logo" 
+              class="h-10 w-10 rounded-full object-cover border border-brand-pink/40"
+            />
+            <div class="flex flex-col">
+              <span class="text-lg font-black font-display text-white">Bunu Shop</span>
+              <span class="text-[9px] uppercase tracking-widest text-pink-300">Accesorios &amp; Joyería</span>
+            </div>
+          </div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Tienda de accesorios y joyería artesanal hecha a mano con amor en Gamarra, Cesar. Diseños personalizados con envíos a toda Colombia e internacional.
+          </p>
+          <div class="pt-2 flex space-x-4 text-pink-300">
+            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.whatsapp || '#'} rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.instagram || '#'} rel="noopener noreferrer" target="_blank" title="Instagram"><i class="fa-brands fa-instagram text-lg"></i></a>
+            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.facebook || '#'} rel="noopener noreferrer" target="_blank" title="Facebook"><i class="fa-brands fa-facebook-f text-lg"></i></a>
+            <a class="hover:text-white transition-colors" href={`mailto:${siteInfo.contactEmail}`} title="Email"><i class="fa-regular fa-envelope text-lg"></i></a>
+          </div>
+        </div>
+        
+        <!-- Column 2: Navigation Links -->
+        <div class="space-y-3">
+          <h5 class="text-xs font-bold tracking-widest uppercase text-brand-pink">Navegación</h5>
+          <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <li><a class="hover:text-white transition-colors" href="#hero">Inicio</a></li>
+            <li><a class="hover:text-white transition-colors" href="#galeria">Catálogo</a></li>
+            <li><a class="hover:text-white transition-colors" href="#proceso">Cómo Comprar</a></li>
+            <li><a class="hover:text-white transition-colors" href="#faq">Preguntas Frecuentes</a></li>
+            <li><a class="hover:text-white transition-colors" href="#about">Sobre Nosotros</a></li>
+            {services && services.length > 0 && (
+              <li><a class="hover:text-white transition-colors" href="#servicios">Servicios</a></li>
+            )}
+            <li><a class="hover:text-white transition-colors" href="#logros">Garantía &amp; Envíos</a></li>
+            <li><a class="hover:text-white transition-colors" href="#blog">Blog &amp; Consejos</a></li>
+          </ul>
+        </div>
+        
+        <!-- Column 3: Store & Categories -->
+        <div class="space-y-3">
+          <h5 class="text-xs font-bold tracking-widest uppercase text-brand-pink">Destacados</h5>
+          <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+            {publishedProjects.slice(0, 5).map((p: any) => (
+              <li><a class="hover:text-white transition-colors truncate block" href="#galeria">{p.title}</a></li>
+            ))}
+          </ul>
+        </div>
+        
+        <!-- Column 4: Contact details -->
+        <div class="space-y-3">
+          <h5 class="text-xs font-bold tracking-widest uppercase text-brand-pink">Contacto Directo</h5>
+          <p class="text-xs text-slate-300">¿Quieres hacer tu pedido o cotizar?</p>
+          <a class="inline-block text-white font-bold hover:text-brand-pink text-sm transition-colors" href={siteInfo.socialLinks?.whatsapp || 'https://wa.me/573160771180'} target="_blank">
+            <i class="fa-brands fa-whatsapp text-emerald-400 mr-1.5"></i>
+            {siteInfo.contactPhone || '+57 316 077 1180'}
+          </a>
+          <div>
+            <a class="text-xs text-slate-300 hover:text-brand-pink transition-colors" href={`mailto:${siteInfo.contactEmail}`}>
+              {siteInfo.contactEmail}
+            </a>
+          </div>
+          <p class="text-xs text-slate-400 pt-1">
+            Gamarra, Cesar, Colombia • Envíos a todo el país.
+          </p>
+          <div class="pt-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 text-[11px] font-semibold rounded-full">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              {siteInfo.contactAvailability || 'Envíos Nacionales Activos ✈️'}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Copyright Bar -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
+        <p>© 2024 {siteInfo.name} ({siteInfo.owner || 'Mary Sorely'}). Calidad y delicadeza hecho con amor.</p>
+        <p class="mt-2 sm:mt-0">Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- END: Footer -->
+
+  <!-- BEGIN: Interactive Client-Side Scripts -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Mobile menu toggle
+      const toggleBtn = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      if (toggleBtn && mobileMenu) {
+        toggleBtn.addEventListener('click', function () {
+          mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+          });
+        });
+      }
+
+      // Filter and Search logic
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const searchInput = document.getElementById('gallery-search');
+      const sortSelect = document.getElementById('gallery-sort');
+      const cards = Array.from(document.querySelectorAll('.project-card'));
+      const grid = document.getElementById('projects-grid');
+      const noResults = document.getElementById('no-results');
+      const visibleCount = document.getElementById('visible-count');
+
+      let currentCategory = 'all';
+      let currentSearch = '';
+
+      function updateGallery() {
+        let visibleItems = 0;
+
+        cards.forEach(card => {
+          const category = card.getAttribute('data-category') || '';
+          const title = card.getAttribute('data-title') || '';
+          const desc = card.getAttribute('data-desc') || '';
+
+          const matchCat = currentCategory === 'all' || category.trim().toLowerCase() === currentCategory.trim().toLowerCase();
+          const matchSearch = !currentSearch || title.includes(currentSearch) || desc.includes(currentSearch);
+
+          if (matchCat && matchSearch) {
+            card.classList.remove('hidden');
+            visibleItems++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        if (visibleCount) visibleCount.textContent = visibleItems;
+        if (noResults) {
+          if (visibleItems === 0) {
+            noResults.classList.remove('hidden');
+          } else {
+            noResults.classList.add('hidden');
+          }
+        }
+      }
+
+      // Sort cards
+      function sortCards(mode) {
+        const sorted = cards.sort((a, b) => {
+          const priceA = parseFloat(a.getAttribute('data-price') || '0');
+          const priceB = parseFloat(b.getAttribute('data-price') || '0');
+          const downA = parseInt(a.getAttribute('data-downloads') || '0');
+          const downB = parseInt(b.getAttribute('data-downloads') || '0');
+
+          if (mode === 'price-asc') return priceA - priceB;
+          if (mode === 'price-desc') return priceB - priceA;
+          if (mode === 'popular') return downB - downA;
+          return 0; // Default order
+        });
+
+        sorted.forEach(card => grid.appendChild(card));
+        updateGallery();
+      }
+
+      // Event listeners
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+          filterBtns.forEach(b => {
+            b.classList.remove('bg-brand-pink', 'text-white');
+            b.classList.add('bg-pink-50', 'text-slate-600');
+          });
+          this.classList.remove('bg-pink-50', 'text-slate-600');
+          this.classList.add('bg-brand-pink', 'text-white');
+
+          currentCategory = this.getAttribute('data-cat') || 'all';
+          updateGallery();
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', function (e) {
+          currentSearch = e.target.value.trim().toLowerCase();
+          updateGallery();
+        });
+      }
+
+      if (sortSelect) {
+        sortSelect.addEventListener('change', function (e) {
+          sortCards(e.target.value);
+        });
+      }
+
+      // FAQ Accordion Toggle
+      const faqToggles = document.querySelectorAll('.faq-toggle');
+      faqToggles.forEach(toggle => {
+        toggle.addEventListener('click', function () {
+          const item = this.closest('.faq-item');
+          if (!item) return;
+          const answer = item.querySelector('.faq-answer');
+          const icon = this.querySelector('.faq-icon i');
+          const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+          // Close other open FAQs
+          document.querySelectorAll('.faq-item').forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.querySelector('.faq-answer')?.classList.add('hidden');
+              otherItem.querySelector('.faq-toggle')?.setAttribute('aria-expanded', 'false');
+              const otherIcon = otherItem.querySelector('.faq-icon i');
+              if (otherIcon) {
+                otherIcon.classList.remove('fa-minus');
+                otherIcon.classList.add('fa-plus');
+              }
+            }
+          });
+
+          if (isExpanded) {
+            answer?.classList.add('hidden');
+            this.setAttribute('aria-expanded', 'false');
+            if (icon) {
+              icon.classList.remove('fa-minus');
+              icon.classList.add('fa-plus');
+            }
+          } else {
+            answer?.classList.remove('hidden');
+            this.setAttribute('aria-expanded', 'true');
+            if (icon) {
+              icon.classList.remove('fa-plus');
+              icon.classList.add('fa-minus');
+            }
+          }
+        });
+      });
+    });
+  </script>
+  <!-- END: Interactive Client-Side Scripts -->
+
+</body>
+</html>
