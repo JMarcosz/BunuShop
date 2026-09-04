@@ -38,8 +38,11 @@ const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
   <!-- Inject Initial Data for Client-Side Interactivity -->
   <script id="initial-data" type="application/json" set:html={JSON.stringify(initialData)}></script>
 
+  <!-- Mobile Sidebar Overlay (behind hamburger toggle on <lg) -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-[45] hidden lg:hidden"></div>
+
   <!-- Left Sidebar Navigation Rail -->
-  <aside class="fixed left-0 top-0 h-full w-[260px] bg-inverse-surface text-inverse-on-surface z-50 flex flex-col justify-between py-6">
+  <aside id="admin-sidebar" class="fixed left-0 top-0 h-full w-[260px] -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out bg-inverse-surface text-inverse-on-surface z-50 flex flex-col justify-between py-6">
     <div class="flex flex-col gap-6">
       <!-- Brand Header -->
       <div class="px-6 flex items-center justify-between">
@@ -114,11 +117,14 @@ const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
   </aside>
 
   <!-- Main Content Layout -->
-  <div class="pl-[260px]">
-    
+  <div class="pl-0 lg:pl-[260px]">
+
     <!-- Top Bar Header -->
-    <header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-surface-container z-40 flex items-center justify-between px-8">
-      <div class="flex items-center gap-4 w-full max-w-md">
+    <header class="fixed top-0 left-0 lg:left-[260px] right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-surface-container z-40 flex items-center justify-between px-4 sm:px-8">
+      <div class="flex items-center gap-2 sm:gap-4 w-full max-w-md">
+        <button id="sidebar-toggle" aria-label="Abrir menú de navegación" class="lg:hidden min-h-11 min-w-11 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-container-low transition-colors shrink-0">
+          <span class="material-symbols-outlined text-[22px]">menu</span>
+        </button>
         <div class="relative w-full flex items-center">
           <span class="material-symbols-outlined absolute left-3 text-secondary text-[20px]">search</span>
           <input id="global-search" class="w-full pl-10 pr-4 py-2 h-10 bg-surface-container-low border-0 rounded-lg text-on-surface placeholder:text-secondary text-sm focus:outline-none focus:ring-2 focus:ring-primary-container/20" placeholder="Buscar accesorios, productos o posts..." type="text"/>
@@ -662,6 +668,25 @@ const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
         document.addEventListener('click', () => createDropdown.classList.add('hidden'));
       }
 
+      // Mobile sidebar toggle
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const adminSidebar = document.getElementById('admin-sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      function closeSidebar() {
+        adminSidebar?.classList.add('-translate-x-full');
+        sidebarOverlay?.classList.add('hidden');
+      }
+      function openSidebar() {
+        adminSidebar?.classList.remove('-translate-x-full');
+        sidebarOverlay?.classList.remove('hidden');
+      }
+      if (sidebarToggle && adminSidebar && sidebarOverlay) {
+        sidebarToggle.addEventListener('click', () => {
+          adminSidebar.classList.contains('-translate-x-full') ? openSidebar() : closeSidebar();
+        });
+        sidebarOverlay.addEventListener('click', closeSidebar);
+      }
+
       // Tab switching in CMS Center
       const contentTabs = document.querySelectorAll('.content-tab');
       contentTabs.forEach(tab => {
@@ -681,6 +706,7 @@ const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
           });
           item.classList.add('bg-primary-container', 'text-on-primary-container');
           item.classList.remove('text-secondary-fixed-dim');
+          closeSidebar();
 
           const navTarget = item.getAttribute('data-nav');
           if (navTarget === 'general' || navTarget === 'proyectos') switchContentTab('projects');

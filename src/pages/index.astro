@@ -285,7 +285,7 @@ const schemaHowTo = {
           <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
           <span>Pedir Ahora</span>
         </a>
-        <button aria-label="Abrir menú de navegación" class="lg:hidden p-2.5 rounded-md bg-brand-pink text-white hover:bg-brand-pinkHover transition-colors focus:outline-none" id="menu-toggle">
+        <button aria-label="Abrir menú de navegación" class="lg:hidden min-h-11 min-w-11 flex items-center justify-center rounded-md bg-brand-pink text-white hover:bg-brand-pinkHover transition-colors focus:outline-none" id="menu-toggle">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
           </svg>
@@ -326,21 +326,22 @@ const schemaHowTo = {
           <div class="absolute -bottom-16 -left-16 w-52 h-52 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
           <div class="relative z-10 space-y-3.5">
-            <!-- Badge superior y estado de envíos -->
-            <div class="flex items-center justify-between gap-2">
-              <span class="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold tracking-wider uppercase text-pink-200 bg-pink-950/70 border border-pink-500/30 px-2.5 py-1 rounded-full">
-                <Sparkles class="w-3 h-3 text-amber-300" />
-                <span>{siteInfo.heroTag ? siteInfo.heroTag.replace('//', '').trim() : 'Hecho a Mano en Colombia'}</span>
+            <!-- Badge superior y estado de envíos (Responsive, sin salto de línea) -->
+            <div class="flex items-center justify-between gap-2 min-w-0">
+              <span class="inline-flex items-center gap-1.5 text-[9.5px] sm:text-[11px] font-bold tracking-wider uppercase text-pink-200 bg-pink-950/70 border border-pink-500/30 px-2.5 py-1 rounded-full whitespace-nowrap shrink min-w-0 overflow-hidden">
+                <Sparkles class="w-3 h-3 text-amber-300 shrink-0" />
+                <span class="truncate hidden sm:inline">{siteInfo.heroTag ? siteInfo.heroTag.replace('//', '').trim() : 'Accesorios Hechos a Mano'}</span>
+                <span class="truncate sm:hidden">Hecho a Mano en Colombia</span>
               </span>
-              <span class="text-[10px] text-pink-300 font-semibold flex items-center gap-1.5 bg-brand-deepSlate/80 px-2 py-0.5 rounded-full border border-pink-500/20">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
-                Envíos Activos
+              <span class="text-[9.5px] sm:text-[10px] text-pink-300 font-semibold flex items-center gap-1.5 bg-brand-deepSlate/80 px-2.5 py-1 rounded-full border border-pink-500/20 shrink-0 whitespace-nowrap">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse shrink-0"></span>
+                <span>Envíos Activos</span>
               </span>
             </div>
 
             <!-- Titular de impacto visual -->
             <div>
-              <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-white leading-tight">
+              <h1 class="text-fluid-h1-mobile font-extrabold font-display text-white leading-tight">
                 {siteInfo.heroTitle1 || 'Piezas'} {siteInfo.heroTitle2 || 'Únicas con'}
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-pink-300 to-amber-200 font-black block">
                   {siteInfo.heroTitleHighlight || 'Identidad Propia'}
@@ -349,9 +350,9 @@ const schemaHowTo = {
               <div class="w-12 h-1 bg-brand-pink rounded-full mt-2"></div>
             </div>
 
-            <!-- SHOWCASE DE PRODUCTO (Protagonista visual en móvil) -->
+            <!-- SHOWCASE DE PRODUCTO (Protagonista visual en móvil: Carrusel automático limpio) -->
             <div class="relative rounded-2xl overflow-hidden bg-slate-900/90 border border-white/15 shadow-xl">
-              <!-- Imagen principal con badges sobrepuestos -->
+              <!-- Imagen principal limpia sin textos sobrepuestos -->
               <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-950">
                 <img 
                   id="mobile-hero-main-img"
@@ -362,72 +363,44 @@ const schemaHowTo = {
                   fetchpriority="high"
                   loading="eager"
                   decoding="async"
-                  class="w-full h-full object-cover object-center transition-all duration-300 ease-out"
+                  class="w-full h-full object-cover object-center transition-opacity duration-500 ease-in-out"
                 />
-                
-                <!-- Degradé inferior para contraste de texto -->
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 pointer-events-none"></div>
 
-                <!-- Badge flotante superior izquierdo -->
-                <div class="absolute top-2.5 left-2.5 bg-brand-darkNavy/85 backdrop-blur-md text-white text-[10px] font-semibold px-2.5 py-1 rounded-full border border-white/20 shadow-md flex items-center gap-1">
-                  <Sparkles class="w-3 h-3 text-amber-300" />
-                  <span id="mobile-hero-badge-tag">{mobileHeroProducts[0].badge}</span>
-                </div>
-
-                <!-- Botón rápido flotante a Instagram -->
+                <!-- Botón sutil flotante a Instagram -->
                 <a 
                   href={siteInfo.socialLinks?.instagram || "https://instagram.com/bunu_shop15/"} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  class="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-md text-slate-800 p-1.5 rounded-full shadow-md hover:bg-brand-pink hover:text-white transition-colors"
+                  class="absolute top-2.5 right-2.5 bg-black/40 backdrop-blur-md text-white/90 p-1.5 rounded-full shadow-md hover:bg-brand-pink hover:text-white transition-colors"
                   title="Instagram @bunu_shop15"
                 >
                   <Instagram class="w-3.5 h-3.5" />
                 </a>
-
-                <!-- Título y valoración sobre la imagen -->
-                <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-end justify-between text-white gap-2">
-                  <div class="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 min-w-0 flex-1">
-                    <p id="mobile-hero-caption" class="text-xs font-bold truncate text-white leading-tight">
-                      {mobileHeroProducts[0].title}
-                    </p>
-                    <p id="mobile-hero-subcaption" class="text-[10px] text-pink-200 truncate mt-0.5">
-                      {mobileHeroProducts[0].subtitle}
-                    </p>
-                  </div>
-                  <div class="bg-white/95 text-slate-900 text-[10px] font-extrabold px-2 py-1.5 rounded-xl shadow-md flex items-center gap-1 shrink-0">
-                    <Star class="w-3 h-3 text-amber-500 fill-amber-500" />
-                    <span>5.0</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Mini Selector táctil de piezas destacadas -->
-              <div class="p-2 bg-brand-deepSlate/95 backdrop-blur-md border-t border-white/10 flex items-center justify-between gap-2">
-                <span class="text-[10px] uppercase font-bold tracking-wider text-pink-300/90 whitespace-nowrap pl-1">
-                  Ver piezas:
-                </span>
-                <div class="flex items-center gap-2 overflow-x-auto py-0.5" id="mobile-hero-thumbnails">
-                  {mobileHeroProducts.map((item: any, idx: number) => (
-                    <button 
-                      type="button" 
-                      class={`mobile-hero-thumb relative w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 transition-all active:scale-90 ${
-                        idx === 0 
-                          ? 'border-2 border-brand-pink ring-2 ring-brand-pink/40 opacity-100 scale-105' 
-                          : 'border border-white/30 opacity-70 hover:opacity-100'
-                      }`}
-                      data-src={item.image}
-                      data-title={item.title}
-                      data-subtitle={item.subtitle}
-                      data-badge={item.badge}
-                      aria-label={`Ver ${item.title}`}
-                    >
-                      <img src={item.image} alt={item.title} width="44" height="44" loading="lazy" decoding="async" class="w-full h-full object-cover pointer-events-none" />
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
+
+            <!-- Datos de la pieza activa (Sin contenedor de fondo, integrado al estilo de la descripción) -->
+            <div class="space-y-1 pt-0.5">
+              <div class="flex items-center justify-between gap-2">
+                <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-pink-300">
+                  <Sparkles class="w-2.5 h-2.5 text-amber-300 shrink-0" />
+                  <span id="mobile-hero-badge-tag">{mobileHeroProducts[0].badge}</span>
+                </span>
+                <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-300">
+                  <Star class="w-3 h-3 text-amber-400 fill-amber-400" />
+                  <span>5.0</span>
+                </span>
+              </div>
+              <h2 id="mobile-hero-caption" class="text-sm sm:text-base font-bold text-white leading-snug font-display transition-opacity duration-300">
+                {mobileHeroProducts[0].title}
+              </h2>
+              <p id="mobile-hero-subcaption" class="text-xs text-pink-200/90 font-medium transition-opacity duration-300">
+                {mobileHeroProducts[0].subtitle}
+              </p>
+            </div>
+
+            <!-- Datos JSON para el carrusel automático en cliente -->
+            <script id="mobile-hero-data" type="application/json" is:inline set:html={JSON.stringify(mobileHeroProducts)}></script>
 
             <!-- Propuesta de valor concisa -->
             <p class="text-slate-200 text-xs leading-relaxed font-normal pt-0.5">
@@ -493,7 +466,7 @@ const schemaHowTo = {
             <div class="w-20 h-1 bg-brand-pink mt-3"></div>
 
             <!-- Value Subtitle (Under 60 words, customer-centric per portafolio-conversion) -->
-            <p class="text-slate-200 text-sm sm:text-base leading-relaxed max-w-lg font-normal pt-1">
+            <p class="text-slate-200 text-fluid-body leading-relaxed max-w-lg font-normal pt-1">
               {siteInfo.heroSubtitle || 'Diseñamos y tejemos piezas únicas a tu medida en mostacilla checa calibrada y baño de oro. Te mostramos el resultado antes de despachar con envío seguro a toda Colombia.'}
             </p>
           </div>
@@ -563,19 +536,19 @@ const schemaHowTo = {
   <!-- BEGIN: About Section -->
   <section class="py-20 lg:py-28 bg-white relative" id="about">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-10 lg:gap-16 items-center">
         <!-- Left Column: Mary Sorely Portrait & Floating CTAs -->
-        <div class="lg:col-span-5 relative">
+        <div class="md:col-span-1 lg:col-span-5 relative">
           <!-- Decorative accent -->
           <div class="decor-line-diagonal mb-6 pl-4">
             <span class="text-xs uppercase font-bold tracking-widest text-slate-500">{siteInfo.aboutTag || '// Sobre Nosotros'}</span>
           </div>
           <!-- Portrait Container -->
           <div class="relative mx-auto max-w-md lg:max-w-none">
-            <div class="relative overflow-hidden rounded-2xl shadow-xl bg-pink-50 border border-pink-100">
+            <div class="relative overflow-hidden rounded-2xl shadow-xl bg-pink-50">
               <img 
-                alt={`${siteInfo.name} - ${siteInfo.owner || 'Mary Sorely'}`} 
-                class="w-full h-[460px] object-cover object-top" 
+                alt={`${siteInfo.name} - ${siteInfo.owner || 'Mary Sorely'}`}
+                class="w-full aspect-[3/4] sm:aspect-[4/5] object-cover object-top"
                 src={siteInfo.aboutPortrait}
                 width="460"
                 height="460"
@@ -584,7 +557,7 @@ const schemaHowTo = {
               />
             </div>
             <!-- Overlapping CTAs Box -->
-            <div class="absolute -bottom-6 -right-4 sm:right-4 flex flex-col gap-2 shadow-2xl z-20">
+            <div class="absolute -bottom-6 right-2 sm:right-4 flex flex-col gap-2 shadow-2xl z-20 max-w-[calc(100%-1rem)]">
               <a 
                 class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-3.5 px-6 rounded-md transition-all transform hover:-translate-y-0.5 shadow-md shadow-brand-pink/20" 
                 href={siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"} 
@@ -606,18 +579,18 @@ const schemaHowTo = {
         </div>
         
         <!-- Right Column: Biography & Narrative -->
-        <div class="lg:col-span-7 space-y-6 pt-6 lg:pt-0">
+        <div class="md:col-span-1 lg:col-span-7 space-y-6 pt-6 md:pt-0">
           <div>
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-slate-900 leading-tight">
+            <h2 class="text-fluid-h2 font-extrabold font-display text-slate-900 leading-tight">
               {siteInfo.aboutHeading} <br/>
               <span class="text-brand-pink">{siteInfo.aboutHeadingSub}</span>
             </h2>
             <div class="w-16 h-1 bg-brand-pink mt-4"></div>
           </div>
-          <p class="text-slate-600 leading-relaxed text-sm sm:text-base font-normal">
+          <p class="text-slate-600 leading-relaxed text-fluid-body font-normal">
             {siteInfo.aboutBio1}
           </p>
-          <p class="text-slate-600 leading-relaxed text-sm sm:text-base font-normal">
+          <p class="text-slate-600 leading-relaxed text-fluid-body font-normal">
             {siteInfo.aboutBio2}
           </p>
           <div class="pt-4 flex flex-wrap gap-4 items-center">
@@ -648,7 +621,7 @@ const schemaHowTo = {
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
             <span class="text-brand-pink font-bold text-xs uppercase tracking-widest">// Servicios Especializados</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+            <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2">
               Nuestros Servicios
             </h2>
             <p class="text-slate-500 text-sm max-w-2xl mt-3 leading-relaxed">
@@ -714,13 +687,13 @@ const schemaHowTo = {
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="bg-gradient-to-br from-brand-darkNavy via-purple-950 to-brand-darkNavy rounded-3xl text-white p-8 lg:p-12 shadow-2xl relative overflow-hidden border border-pink-900/30">
           <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-pink/15 rounded-full blur-3xl pointer-events-none"></div>
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
-            <div class="lg:col-span-7 space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
+            <div class="md:col-span-1 lg:col-span-7 space-y-5">
               <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-pink-100 text-xs font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full">
                 <Crown class="w-3.5 h-3.5 text-amber-300" />
                 <span>{featuredProduct.tag || '// Pieza Exclusiva'}</span>
               </div>
-              <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black font-display tracking-tight text-white leading-tight">
+              <h3 class="text-fluid-h3 font-black font-display tracking-tight text-white leading-tight">
                 {featuredProduct.title}
               </h3>
               <p class="text-pink-100/90 text-sm leading-relaxed max-w-xl">
@@ -757,7 +730,7 @@ const schemaHowTo = {
             </div>
             
             <!-- Real Product Showcase Box -->
-            <div class="lg:col-span-5">
+            <div class="md:col-span-1 lg:col-span-5">
               <div class="relative h-72 sm:h-80 lg:h-[380px] rounded-2xl overflow-hidden bg-slate-900/40 shadow-2xl border border-white/20">
                 <img 
                   src="/images/bunu/media_1788495999167.webp" 
@@ -788,18 +761,18 @@ const schemaHowTo = {
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="text-center max-w-3xl mx-auto mb-16 flex flex-col items-center justify-center">
         <span class="text-pink-700 font-bold text-xs uppercase tracking-widest text-center">// Tranquilidad en cada detalle</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2 text-center">
+        <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2 text-center">
           ¿Cómo Creamos y Enviamos tu Accesorio?
         </h2>
         <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4 rounded-full"></div>
-        <p class="text-slate-600 text-sm sm:text-base leading-relaxed text-center">
+        <p class="text-slate-600 text-fluid-body leading-relaxed text-center">
           Comprar artesanías por internet no tiene por qué dar incertidumbre. Diseñamos un proceso transparente donde tú tienes el control de tu diseño de principio a fin.
         </p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {workflowPhases && workflowPhases.map((phase: any, idx: number) => (
-          <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm hover:shadow-lg hover:border-brand-pink/40 transition-all duration-300 flex flex-col justify-between relative group">
+          <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group">
             <div>
               <div class="flex items-center justify-between mb-4">
                 <span class="w-8 h-8 rounded-full bg-pink-50 text-pink-700 font-extrabold text-xs flex items-center justify-center border border-pink-200/60 group-hover:bg-brand-pink group-hover:text-white transition-colors">
@@ -850,17 +823,17 @@ const schemaHowTo = {
         <div class="decor-line-diagonal mb-3 pl-4">
           <span class="text-xs uppercase font-bold tracking-widest text-pink-700">// Catálogo de Accesorios</span>
         </div>
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-slate-900 leading-tight">
+        <h2 class="text-fluid-h2 font-extrabold font-display text-slate-900 leading-tight">
           Galería de Diseños &amp; Accesorios
         </h2>
         <div class="w-16 h-1 bg-brand-pink my-4"></div>
-        <p class="text-slate-600 text-sm sm:text-base max-w-3xl leading-relaxed">
+        <p class="text-slate-600 text-fluid-body max-w-3xl leading-relaxed">
           Colección exclusiva de pulseras en macramé, dijes tejidos en mostacilla checa, símbolos de protección y sets especiales para parejas y ocasiones únicas.
         </p>
       </div>
       
       <!-- Quick Metrics Strip -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-pink-50/50 border border-pink-100 rounded-2xl mb-12">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-pink-50/50 rounded-2xl mb-12">
         <div class="text-center p-2">
           <p class="text-2xl sm:text-3xl font-black font-display text-slate-900">{metrics.projectsCompleted || '500'}<span class="text-brand-pink">+</span></p>
           <p class="text-[11px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Pedidos Entregados</p>
@@ -887,7 +860,7 @@ const schemaHowTo = {
             <button 
               data-cat={cat === 'Todos' ? 'all' : cat} 
               aria-label={`Filtrar catálogo por categoría: ${cat}`}
-              class={`filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all ${idx === 0 ? 'bg-brand-pink text-white shadow-sm border border-brand-pink' : 'bg-white text-slate-700 border border-pink-200/80 hover:bg-brand-pinkLight hover:text-brand-pink hover:border-brand-pink/50'}`}
+              class={`filter-btn min-h-11 flex items-center px-4 py-2.5 text-xs font-bold uppercase tracking-wider rounded-md transition-all ${idx === 0 ? 'bg-brand-pink text-white shadow-sm border border-brand-pink' : 'bg-white text-slate-700 border border-pink-200/80 hover:bg-brand-pinkLight hover:text-brand-pink hover:border-brand-pink/50'}`}
             >
               {cat}
             </button>
@@ -915,7 +888,7 @@ const schemaHowTo = {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
         {publishedProjects.map((project: any) => (
           <article 
-            class="project-card bg-white border border-pink-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-brand-pink/40 transition-all duration-300 group flex flex-col justify-between"
+            class="project-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
             data-category={project.category}
             data-title={project.title.toLowerCase()}
             data-desc={project.description.toLowerCase()}
@@ -1010,24 +983,24 @@ const schemaHowTo = {
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 items-center text-center">
         <!-- Metric 1: Calidad & Delicadeza -->
-        <div class="p-6 bg-white border border-pink-100 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+        <div class="p-6 bg-white rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
           <Heart class="w-8 h-8 text-brand-pink mb-2" />
           <span class="text-xs font-black tracking-widest text-slate-800 uppercase">{metrics.badge1Title || 'CLIENTAS FELICES'}</span>
           <span class="text-[10px] text-pink-700 font-semibold tracking-wider mt-0.5">{metrics.badge1Subtitle || 'CALIDAD & DELICADEZA'}</span>
         </div>
         <!-- Metric 2: Envíos Seguros -->
-        <div class="p-6 bg-white border border-pink-100 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+        <div class="p-6 bg-white rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
           <Plane class="w-8 h-8 text-brand-pink mb-2" />
           <span class="text-xs font-black tracking-widest text-slate-800 uppercase">{metrics.badge2Title || 'ENVÍOS SEGUROS'}</span>
           <span class="text-[10px] text-pink-700 font-semibold tracking-wider mt-0.5">{metrics.badge2Subtitle || 'COLOMBIA E INTERNACIONAL'}</span>
         </div>
         <!-- Metric 3: Pedidos -->
-        <div class="p-6 bg-white border border-pink-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+        <div class="p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
           <p class="text-4xl sm:text-5xl font-black font-display text-slate-900 tracking-tight">{metrics.projectsCompleted || '500'}<span class="text-brand-pink">+</span></p>
           <p class="text-xs uppercase font-bold tracking-widest text-slate-500 mt-1">PEDIDOS ENTREGADOS</p>
         </div>
         <!-- Metric 4: Clientas Satisfechas -->
-        <div class="p-6 bg-white border border-pink-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+        <div class="p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
           <p class="text-4xl sm:text-5xl font-black font-display text-slate-900 tracking-tight">{metrics.satisfiedClients || '530'}<span class="text-brand-pink">+</span></p>
           <p class="text-xs uppercase font-bold tracking-widest text-slate-500 mt-1">CLIENTAS SATISFECHAS</p>
         </div>
@@ -1041,7 +1014,7 @@ const schemaHowTo = {
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="text-center max-w-3xl mx-auto mb-14">
         <span class="text-pink-700 font-bold text-xs uppercase tracking-widest">// Experiencias Reales</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+        <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2">
           Lo que Dicen Quienes Ya Recibieron sus Piezas
         </h2>
         <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4"></div>
@@ -1052,7 +1025,7 @@ const schemaHowTo = {
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {testimonials && testimonials.map((test: any) => (
-          <div class="bg-pink-50/40 p-8 rounded-2xl border border-pink-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+          <div class="bg-pink-50/40 p-8 rounded-2xl shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
             <div class="space-y-4">
               <div class="flex items-center justify-between">
                 <div class="flex text-amber-400 gap-1 text-xs">
@@ -1095,36 +1068,38 @@ const schemaHowTo = {
     <div class="max-w-4xl mx-auto px-6 lg:px-8">
       <div class="text-center mb-14">
         <span class="text-pink-700 font-bold text-xs uppercase tracking-widest">// Cero Dudas antes de Comprar</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+        <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2">
           Preguntas Frecuentes &amp; Garantías
         </h2>
         <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4"></div>
-        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+        <p class="text-slate-600 text-fluid-body leading-relaxed">
           Respondemos con total transparencia las dudas más comunes sobre materiales, envíos, tallas y pedidos personalizados.
         </p>
       </div>
 
       <div class="space-y-4" id="faq-accordion">
         {faqs && faqs.map((faq: any) => (
-          <div class="faq-item bg-white border border-pink-100 rounded-2xl overflow-hidden shadow-xs transition-all">
+          <div class="faq-item bg-white rounded-2xl overflow-hidden shadow-xs transition-all">
             <button 
               type="button" 
               class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-display font-bold text-slate-900 hover:text-brand-pink transition-colors focus:outline-none cursor-pointer"
               aria-expanded="false"
             >
-              <span class="text-sm sm:text-base">{faq.question}</span>
+              <span class="text-fluid-body">{faq.question}</span>
               <span class="faq-icon w-7 h-7 rounded-full bg-pink-50 text-brand-pink flex items-center justify-center shrink-0 transition-transform duration-300">
                 <Plus class="w-4 h-4" />
               </span>
             </button>
-            <div class="faq-answer hidden px-6 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-50 pt-3">
-              <p>{faq.answer}</p>
+            <div class="faq-answer faq-answer-wrap">
+              <div class="faq-answer-inner px-6 pb-5 text-fluid-body-sm text-slate-600 leading-relaxed border-t border-slate-50 pt-3">
+                <p>{faq.answer}</p>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div class="mt-10 p-6 bg-white border border-pink-100 rounded-2xl text-center shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="mt-10 p-6 bg-white rounded-2xl text-center shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="text-left">
           <p class="font-bold text-slate-900 text-sm">¿Tienes una pregunta diferente o quieres asesoría para un regalo?</p>
           <p class="text-xs text-slate-500 mt-0.5">Te atendemos directamente por WhatsApp con gusto.</p>
@@ -1148,8 +1123,8 @@ const schemaHowTo = {
       <div class="bg-gradient-to-r from-brand-darkNavy to-purple-950 text-white rounded-3xl p-8 sm:p-12 border-l-8 border-brand-pink shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
         <div class="space-y-2 text-left">
           <span class="text-xs font-black tracking-widest uppercase text-pink-300">// Pedidos Personalizados &amp; Ocasiones Especiales</span>
-          <h3 class="text-2xl sm:text-3xl font-extrabold font-display">¿Tienes una idea en mente para un accesorio especial?</h3>
-          <p class="text-pink-100/80 text-xs sm:text-sm max-w-2xl">
+          <h3 class="text-fluid-h3 font-extrabold font-display">¿Tienes una idea en mente para un accesorio especial?</h3>
+          <p class="text-pink-100/80 text-fluid-body-sm max-w-2xl">
             Tejemos piezas únicas a tu medida con iniciales, combinaciones de colores exclusivas o recuerdos para bodas, grados y celebraciones.
           </p>
         </div>
@@ -1182,17 +1157,17 @@ const schemaHowTo = {
       <!-- Section Header -->
       <div class="mb-14">
         <span class="text-pink-700 font-bold text-xs uppercase tracking-widest">// Cuidado, Significado &amp; Tendencias</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+        <h2 class="text-fluid-h2-sm font-extrabold font-display text-slate-900 mt-2">
           Blog &amp; Consejos de Joyería
         </h2>
         <div class="w-16 h-1 bg-brand-pink mt-3"></div>
       </div>
       
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
         <!-- Main Featured Blog Article (Left 8 Cols) -->
         {featuredPost && (
-          <article class="lg:col-span-8 group">
-            <div class="overflow-hidden rounded-2xl mb-6 border border-pink-100 shadow-sm bg-pink-50">
+          <article class="md:col-span-2 lg:col-span-8 group">
+            <div class="overflow-hidden rounded-2xl mb-6 shadow-sm bg-pink-50">
               <img 
                 alt={featuredPost.title} 
                 class="w-full h-80 sm:h-96 object-cover transform group-hover:scale-105 transition-transform duration-500" 
@@ -1204,7 +1179,7 @@ const schemaHowTo = {
               />
             </div>
             <div class="space-y-3">
-              <h3 class="text-2xl sm:text-3xl font-bold font-display text-slate-900 group-hover:text-brand-pink transition-colors leading-tight">
+              <h3 class="text-fluid-h3 font-bold font-display text-slate-900 group-hover:text-brand-pink transition-colors leading-tight">
                 <a href="#blog">{featuredPost.title}</a>
               </h3>
               <div class="text-xs font-semibold text-slate-500 tracking-wider uppercase space-x-2">
@@ -1226,7 +1201,7 @@ const schemaHowTo = {
         )}
         
         <!-- Sidebar: Recent Posts (Right 4 Cols) -->
-        <aside class="lg:col-span-4 space-y-6">
+        <aside class="md:col-span-2 lg:col-span-4 space-y-6">
           <div class="border-b border-pink-100 pb-3">
             <h4 class="text-base font-bold font-display text-slate-900 tracking-wide uppercase">Otras Publicaciones</h4>
           </div>
@@ -1235,7 +1210,7 @@ const schemaHowTo = {
               <article class="flex items-center space-x-4 group cursor-pointer">
                 <img 
                   alt={post.title} 
-                  class="w-16 h-16 object-cover rounded-xl flex-shrink-0 border border-pink-100" 
+                  class="w-16 h-16 object-cover rounded-xl flex-shrink-0" 
                   src={post.image}
                   width="64"
                   height="64"
@@ -1243,7 +1218,7 @@ const schemaHowTo = {
                   decoding="async"
                 />
                 <div>
-                  <h5 class="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-brand-pink transition-colors leading-snug">
+                  <h5 class="text-fluid-body-sm font-semibold text-slate-800 group-hover:text-brand-pink transition-colors leading-snug">
                     {post.title}
                   </h5>
                   <span class="text-[10px] text-slate-500 uppercase tracking-wider block mt-1">{post.formattedDate || post.date}</span>
@@ -1257,7 +1232,6 @@ const schemaHowTo = {
   </section>
   <!-- END: Blog Section -->
   </main>
-  <!-- END: Main Landmark Content -->
 
   <!-- BEGIN: Unified Footer -->
   <footer class="bg-brand-darkNavy text-white pt-16 pb-12 border-t border-pink-900/30" id="contact">
@@ -1302,7 +1276,7 @@ const schemaHowTo = {
         <!-- Column 2: Navigation Links -->
         <div class="space-y-3">
           <h5 class="text-xs font-bold tracking-widest uppercase text-brand-pink">Navegación</h5>
-          <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+          <ul class="space-y-2 text-fluid-body-sm text-slate-300">
             <li><a class="hover:text-white transition-colors" href="#hero">Inicio</a></li>
             <li><a class="hover:text-white transition-colors" href="#galeria">Catálogo</a></li>
             <li><a class="hover:text-white transition-colors" href="#proceso">Cómo Comprar</a></li>
@@ -1319,7 +1293,7 @@ const schemaHowTo = {
         <!-- Column 3: Store & Categories -->
         <div class="space-y-3">
           <h5 class="text-xs font-bold tracking-widest uppercase text-brand-pink">Destacados</h5>
-          <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+          <ul class="space-y-2 text-fluid-body-sm text-slate-300">
             {publishedProjects.slice(0, 5).map((p: any) => (
               <li><a class="hover:text-white transition-colors truncate block" href="#galeria">{p.title}</a></li>
             ))}
@@ -1494,7 +1468,7 @@ const schemaHowTo = {
           // Close other open FAQs
           document.querySelectorAll('.faq-item').forEach(otherItem => {
             if (otherItem !== item) {
-              otherItem.querySelector('.faq-answer')?.classList.add('hidden');
+              otherItem.querySelector('.faq-answer')?.classList.remove('is-open');
               otherItem.querySelector('.faq-toggle')?.setAttribute('aria-expanded', 'false');
               const otherIcon = otherItem.querySelector('.faq-icon');
               if (otherIcon) {
@@ -1504,12 +1478,12 @@ const schemaHowTo = {
           });
 
           if (isExpanded) {
-            answer?.classList.add('hidden');
+            answer?.classList.remove('is-open');
             this.setAttribute('aria-expanded', 'false');
             const icon = this.querySelector('.faq-icon');
             if (icon) icon.classList.remove('rotate-45');
           } else {
-            answer?.classList.remove('hidden');
+            answer?.classList.add('is-open');
             this.setAttribute('aria-expanded', 'true');
             const icon = this.querySelector('.faq-icon');
             if (icon) icon.classList.add('rotate-45');
@@ -1517,54 +1491,51 @@ const schemaHowTo = {
         });
       });
 
-      // Showcase Móvil de Joyería: Interacción táctil y transición de miniaturas
-      const heroThumbs = document.querySelectorAll('.mobile-hero-thumb');
+      // Showcase Móvil de Joyería: Carrusel 100% automático (5s por imagen, sin controles manuales)
       const heroMainImg = document.getElementById('mobile-hero-main-img');
       const heroCaption = document.getElementById('mobile-hero-caption');
       const heroSubcaption = document.getElementById('mobile-hero-subcaption');
       const heroBadge = document.getElementById('mobile-hero-badge-tag');
+      const heroDataEl = document.getElementById('mobile-hero-data');
 
-      if (heroThumbs.length > 0 && heroMainImg) {
-        let heroAutoIndex = 0;
-        let heroInterval = null;
+      if (heroMainImg && heroDataEl) {
+        try {
+          const heroProducts = JSON.parse(heroDataEl.textContent || '[]');
+          if (Array.isArray(heroProducts) && heroProducts.length > 1) {
+            let heroIndex = 0;
+            setInterval(() => {
+              heroIndex = (heroIndex + 1) % heroProducts.length;
+              const nextItem = heroProducts[heroIndex];
 
-        const updateHeroSelection = (thumb) => {
-          heroThumbs.forEach((t) => {
-            t.classList.remove('border-2', 'border-brand-pink', 'ring-2', 'ring-brand-pink/40', 'opacity-100', 'scale-105');
-            t.classList.add('border', 'border-white/30', 'opacity-70');
-          });
-          thumb.classList.remove('border', 'border-white/30', 'opacity-70');
-          thumb.classList.add('border-2', 'border-brand-pink', 'ring-2', 'ring-brand-pink/40', 'opacity-100', 'scale-105');
+              // Transición suave de opacidad (fade) sincronizada
+              heroMainImg.style.opacity = '0.25';
+              if (heroCaption) heroCaption.style.opacity = '0.3';
+              if (heroSubcaption) heroSubcaption.style.opacity = '0.3';
 
-          const src = thumb.getAttribute('data-src');
-          const title = thumb.getAttribute('data-title');
-          const subtitle = thumb.getAttribute('data-subtitle');
-          const badgeText = thumb.getAttribute('data-badge');
+              setTimeout(() => {
+                if (nextItem.image) {
+                  heroMainImg.src = nextItem.image;
+                  heroMainImg.alt = nextItem.title || 'Pieza de joyería Bunu Shop';
+                }
+                if (heroCaption && nextItem.title) {
+                  heroCaption.textContent = nextItem.title;
+                }
+                if (heroSubcaption && nextItem.subtitle) {
+                  heroSubcaption.textContent = nextItem.subtitle;
+                }
+                if (heroBadge && nextItem.badge) {
+                  heroBadge.textContent = nextItem.badge;
+                }
 
-          heroMainImg.style.opacity = '0.3';
-          setTimeout(() => {
-            if (src) heroMainImg.src = src;
-            heroMainImg.style.opacity = '1';
-          }, 150);
-
-          if (heroCaption && title) heroCaption.textContent = title;
-          if (heroSubcaption && subtitle) heroSubcaption.textContent = subtitle;
-          if (heroBadge && badgeText) heroBadge.textContent = badgeText;
-        };
-
-        heroThumbs.forEach((thumb, idx) => {
-          thumb.addEventListener('click', () => {
-            if (heroInterval) clearInterval(heroInterval);
-            heroAutoIndex = idx;
-            updateHeroSelection(thumb);
-          });
-        });
-
-        // Rotación suave automática cada 4.5 segundos si no hay interacción directa
-        heroInterval = setInterval(() => {
-          heroAutoIndex = (heroAutoIndex + 1) % heroThumbs.length;
-          updateHeroSelection(heroThumbs[heroAutoIndex]);
-        }, 4500);
+                heroMainImg.style.opacity = '1';
+                if (heroCaption) heroCaption.style.opacity = '1';
+                if (heroSubcaption) heroSubcaption.style.opacity = '1';
+              }, 250);
+            }, 5000);
+          }
+        } catch (e) {
+          console.error('Error inicializando carrusel móvil:', e);
+        }
       }
     });
   </script>
