@@ -2,15 +2,33 @@ import { defineMiddleware } from 'astro:middleware';
 import { COOKIE_NAME, verifySessionToken } from './lib/auth';
 
 function applySecurityHeaders(res: Response, sensitive = false): Response {
-  res.headers.set('X-Frame-Options', 'SAMEORIGIN');
-  res.headers.set('X-Content-Type-Options', 'nosniff');
-  res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  try {
+    res.headers.set('X-Frame-Options', 'SAMEORIGIN');
+    res.headers.set('X-Content-Type-Options', 'nosniff');
+    res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
-  if (sensitive) {
-    res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
-    res.headers.set('Pragma', 'no-cache');
+    if (sensitive) {
+      res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+      res.headers.set('Pragma', 'no-cache');
+    }
+    return res;
+  } catch {
+    // Si la respuesta tiene cabeceras inmutables (ej. Response.redirect en Web API estándar),
+    // creamos una nueva Response clonando el body y mutando una nueva instancia de Headers.
+    const newHeaders = new Headers(res.headers);
+    newHeaders.set('X-Frame-Options', 'SAMEORIGIN');
+    newHeaders.set('X-Content-Type-Options', 'nosniff');
+    newHeaders.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    if (sensitive) {
+      newHeaders.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+      newHeaders.set('Pragma', 'no-cache');
+    }
+    return new Response(res.body, {
+      status: res.status,
+      statusText: res.statusText,
+      headers: newHeaders,
+    });
   }
-  return res;
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {

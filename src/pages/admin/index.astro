@@ -20,7 +20,7 @@ const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
 
   <style>
     body {
@@ -833,7 +833,7 @@ const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
           <div>
             <div class="flex items-center justify-between mb-3">
               <div class="w-9 h-9 rounded-lg bg-tertiary-container/15 text-tertiary flex items-center justify-center">
-                <i class="${s.icon || 'fa-solid fa-gem'} text-sm"></i>
+                <span class="material-symbols-outlined text-[20px]">${s.icon || 'diamond'}</span>
               </div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-tertiary bg-tertiary/10 px-2 py-0.5 rounded">
                 ${s.tag || 'Servicio'}
@@ -1105,7 +1105,7 @@ const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
             slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             title,
             tag: 'Servicio',
-            icon: 'fa-solid fa-gem',
+            icon: 'diamond',
             priceEstimate,
             duration: 'A medida',
             description: desc,

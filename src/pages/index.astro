@@ -27,22 +27,28 @@ import {
 export const prerender = false;
 
 const data = await getPortfolioData();
-const { siteInfo, metrics, featuredProduct, services, workflowPhases, projects, blogPosts } = data;
+const siteInfo = data?.siteInfo || {};
+const metrics = data?.metrics || {};
+const featuredProduct = data?.featuredProduct || {};
+const services = data?.services || [];
+const workflowPhases = data?.workflowPhases || [];
+const projects = data?.projects || [];
+const blogPosts = data?.blogPosts || [];
 
 // Solo mostramos en el frontend público los proyectos y posts que no estén marcados como borrador
-const publishedProjects = projects.filter((p: any) => p.status !== 'draft');
-const publishedPosts = blogPosts.filter((p: any) => p.status !== 'draft');
-const featuredPost = publishedPosts.find((p: any) => p.isFeatured) || publishedPosts[0];
-const recentPosts = publishedPosts.filter((p: any) => p.id !== featuredPost?.id);
+const publishedProjects = (projects || []).filter((p: any) => p && p.status !== 'draft');
+const publishedPosts = (blogPosts || []).filter((p: any) => p && p.status !== 'draft');
+const featuredPost = publishedPosts.find((p: any) => p && p.isFeatured) || publishedPosts[0];
+const recentPosts = publishedPosts.filter((p: any) => p && p.id !== featuredPost?.id);
 
 // Categorías dinámicas para los filtros
-const projectCategories = ['Todos', ...Array.from(new Set(publishedProjects.map((p: any) => p.category).filter(Boolean)))];
+const projectCategories = ['Todos', ...Array.from(new Set(publishedProjects.map((p: any) => p?.category).filter(Boolean)))];
 
 const faqs = (data as any).faqs || [];
 const testimonials = (data as any).testimonials || [];
 
 // Structured Data (JSON-LD) para SEO, GEO y AEO
-const siteUrl = "https://bunushop.com";
+const siteUrl = Astro.url?.origin || "https://bunushop.com";
 
 const schemaJewelryStore = {
   "@context": "https://schema.org",
@@ -52,7 +58,7 @@ const schemaJewelryStore = {
   "alternateName": "Bunu Shop",
   "url": siteUrl,
   "logo": `${siteUrl}/images/bunu/logo.jpg`,
-  "image": `${siteUrl}/images/bunu/IMG_1451.JPEG`,
+  "image": `${siteUrl}/images/bunu/logo.jpg`,
   "description": "Tienda de joyería artesanal y accesorios personalizados hechos a mano en Colombia: pulseras en macramé, dijes en mostacilla checa calibrada, cadenas con baño de oro y piezas exclusivas con envíos a todo el país.",
   "telephone": siteInfo.contactPhone || "+57 316 077 1180",
   "email": siteInfo.contactEmail || "accesoriosbunushop@gmail.com",
@@ -151,21 +157,23 @@ const schemaHowTo = {
   <!-- Open Graph / Facebook / WhatsApp Link Previews -->
   <meta property="og:type" content="website"/>
   <meta property="og:locale" content="es_CO"/>
-  <meta property="og:url" content="https://bunushop.com/"/>
+  <meta property="og:url" content={siteUrl}/>
   <meta property="og:site_name" content="Accesorios Bunu Shop"/>
   <meta property="og:title" content="Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada"/>
   <meta property="og:description" content="Piezas únicas tejidas a mano en Colombia con mostacilla calibrada y baño de oro. Personaliza tu diseño con visto bueno previo y envío seguro."/>
-  <meta property="og:image" content="https://bunushop.com/images/bunu/IMG_1451.JPEG"/>
-  <meta property="og:image:width" content="1200"/>
-  <meta property="og:image:height" content="630"/>
-  <meta property="og:image:alt" content="Accesorios artesanales hechos a mano - Bunu Shop"/>
+  <meta property="og:image" content={`${siteUrl}/images/bunu/logo.jpg`}/>
+  <meta property="og:image:secure_url" content={`${siteUrl}/images/bunu/logo.jpg`}/>
+  <meta property="og:image:type" content="image/jpeg"/>
+  <meta property="og:image:width" content="1080"/>
+  <meta property="og:image:height" content="1080"/>
+  <meta property="og:image:alt" content="Accesorios Bunu Shop - Joyería Artesanal en Colombia"/>
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:url" content="https://bunushop.com/"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:url" content={siteUrl}/>
   <meta name="twitter:title" content="Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada"/>
-  <meta name="twitter:description" content="Piezas únicas tejidas a mano en Colombia con mostacilla calibrada y baño de oro. Personaliza tu diseño con visto bueno previo."/>
-  <meta name="twitter:image" content="https://bunushop.com/images/bunu/IMG_1451.JPEG"/>
+  <meta name="twitter:description" content="Piezas únicas tejidas a mano en Colombia con mostacilla calibrada y baño de oro. Personaliza tu diseño con visto bueno previo y envío seguro."/>
+  <meta name="twitter:image" content={`${siteUrl}/images/bunu/logo.jpg`}/>
 
   <!-- Structured Data JSON-LD (SEO, GEO & AEO) -->
   <script type="application/ld+json" set:html={JSON.stringify(schemaJewelryStore)}/>
@@ -380,7 +388,7 @@ const schemaHowTo = {
                 href={siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"} 
                 target="_blank"
               >
-                <i class="fa-brands fa-whatsapp text-sm"></i>
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 <span>Pedir por WhatsApp</span>
               </a>
               <a 
@@ -388,7 +396,7 @@ const schemaHowTo = {
                 href={siteInfo.socialLinks?.instagram || "https://instagram.com/bunu_shop15/"} 
                 target="_blank"
               >
-                <i class="fa-brands fa-instagram text-sm"></i>
+                <Instagram class="w-4 h-4 text-pink-300" />
                 <span>@bunu_shop15</span>
               </a>
             </div>
@@ -416,11 +424,12 @@ const schemaHowTo = {
               href={siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"}
               target="_blank"
             >
-              <i class="fa-brands fa-whatsapp"></i>
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
               <span>Consultar Disponibilidad</span>
             </a>
             <a class="inline-flex items-center gap-2 text-slate-500 hover:text-brand-pink text-xs font-bold uppercase tracking-widest py-3.5 px-4 transition-colors" href="#galeria">
-              <span>Explorar Catálogo →</span>
+              <span>Explorar Catálogo</span>
+              <ArrowRight class="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
@@ -456,9 +465,9 @@ const schemaHowTo = {
               <div>
                 <div class="flex items-center justify-between mb-6">
                   <div class="w-12 h-12 flex items-center justify-center text-brand-pink text-2xl bg-pink-50 rounded-lg group-hover:bg-brand-pink group-hover:text-white transition-all duration-300">
-                    <i class={service.icon || 'fa-solid fa-gem'}></i>
+                    <Gem class="w-6 h-6" />
                   </div>
-                  <span class="text-[10px] font-black uppercase tracking-wider text-brand-pink bg-pink-50 px-2.5 py-1 rounded-full">
+                  <span class="text-[10px] font-black uppercase tracking-wider text-brand-pinkHover bg-brand-pinkLight border border-pink-200/80 px-2.5 py-1 rounded-full">
                     {service.tag}
                   </span>
                 </div>
@@ -472,7 +481,7 @@ const schemaHowTo = {
                   <ul class="space-y-1.5 text-xs text-slate-600 font-medium border-t border-slate-100 pt-4">
                     {service.bullets.map((b: string) => (
                       <li class="flex items-center gap-2">
-                        <i class="fa-solid fa-check text-brand-pink text-[10px]"></i> {b}
+                        <Check class="w-3.5 h-3.5 text-brand-pink shrink-0" /> {b}
                       </li>
                     ))}
                   </ul>
@@ -481,7 +490,7 @@ const schemaHowTo = {
               <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
                 <a class="inline-flex items-center text-xs font-bold text-slate-900 hover:text-brand-pink tracking-wider uppercase transition-colors" href={siteInfo.socialLinks?.whatsapp || "#contact"} target="_blank">
                   <span>Cotizar</span>
-                  <i class="fa-solid fa-arrow-right text-[10px] ml-1.5 transition-transform group-hover:translate-x-1"></i>
+                  <ArrowRight class="w-3 h-3 ml-1.5 transition-transform group-hover:translate-x-1" />
                 </a>
                 {service.priceEstimate && (
                   <span class="text-[11px] font-semibold text-slate-400">
@@ -505,8 +514,8 @@ const schemaHowTo = {
           <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-pink/15 rounded-full blur-3xl pointer-events-none"></div>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
             <div class="lg:col-span-7 space-y-5">
-              <div class="inline-flex items-center gap-2 bg-pink-500/20 border border-pink-400/30 text-pink-300 text-xs font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full">
-                <i class="fa-solid fa-crown text-amber-300 text-xs"></i>
+              <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-pink-100 text-xs font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full">
+                <Crown class="w-3.5 h-3.5 text-amber-300" />
                 <span>{featuredProduct.tag || '// Pieza Exclusiva'}</span>
               </div>
               <h3 class="text-2xl sm:text-3xl lg:text-4xl font-black font-display tracking-tight text-white leading-tight">
@@ -519,7 +528,7 @@ const schemaHowTo = {
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-pink-200">
                   {featuredProduct.features.map((feat: string) => (
                     <div class="flex items-center gap-2">
-                      <i class="fa-solid fa-circle-check text-brand-pink"></i>
+                      <CheckCircle2 class="w-4 h-4 text-brand-pink shrink-0" />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -531,15 +540,15 @@ const schemaHowTo = {
                   href={featuredProduct.buyUrl || siteInfo.socialLinks?.whatsapp || '#contact'}
                   target="_blank"
                 >
-                  <i class="fa-brands fa-whatsapp text-sm"></i>
-                  <span>Ordenar Pieza • {featuredProduct.price}</span>
+                  <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                  <span>Ordenar Pieza{featuredProduct.price && featuredProduct.price.trim() ? ` • ${featuredProduct.price}` : ''}</span>
                 </a>
                 <a 
                   class="inline-flex items-center gap-2 text-pink-200 hover:text-white border border-pink-300/30 hover:border-pink-200 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-md transition-all" 
                   href={featuredProduct.figmaDemoUrl || '#galeria'}
                   target="_blank"
                 >
-                  <i class="fa-solid fa-images text-xs"></i>
+                  <LucideImage class="w-3.5 h-3.5" />
                   <span>Ver en Catálogo</span>
                 </a>
               </div>
@@ -554,10 +563,10 @@ const schemaHowTo = {
                     alt={featuredProduct.title} 
                     class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
                   />
-                  <div class="absolute top-3 left-3 bg-brand-pink text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow">
+                  <div class="absolute top-3 left-3 bg-brand-pink text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow border border-white/20">
                     100% Hecho a Mano
                   </div>
-                  <div class="absolute bottom-3 right-3 bg-brand-darkNavy/90 backdrop-blur-sm text-amber-300 text-xs font-bold px-3 py-1 rounded-full border border-amber-400/30 shadow">
+                  <div class="absolute bottom-3 right-3 bg-brand-darkNavy/95 backdrop-blur-sm text-amber-200 text-xs font-bold px-3 py-1 rounded-full border border-amber-300/40 shadow">
                     Mostacilla Checa Calibrada
                   </div>
                 </div>
@@ -636,7 +645,7 @@ const schemaHowTo = {
           target="_blank"
           class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-3.5 px-8 rounded-md transition-all shadow-md shadow-pink-900/20"
         >
-          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
           <span>Consultar por un diseño personalizado</span>
         </a>
       </div>
@@ -672,7 +681,7 @@ const schemaHowTo = {
           <p class="text-[11px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Clientas Felices</p>
         </div>
         <div class="text-center p-2 border-l border-pink-100">
-          <p class="text-2xl sm:text-3xl font-black font-display text-slate-900">5.0<span class="text-brand-gold">★</span></p>
+          <p class="text-2xl sm:text-3xl font-black font-display text-slate-900 inline-flex items-center justify-center gap-0.5">5.0<Star class="w-5 h-5 sm:w-6 sm:h-6 text-brand-gold fill-brand-gold" /></p>
           <p class="text-[11px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Calidad Garantizada</p>
         </div>
         <div class="text-center p-2 border-l border-pink-100">
@@ -688,7 +697,7 @@ const schemaHowTo = {
           {projectCategories.map((cat, idx) => (
             <button 
               data-cat={cat === 'Todos' ? 'all' : cat} 
-              class={`filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all ${idx === 0 ? 'bg-brand-pink text-white shadow-sm' : 'bg-pink-50 text-slate-600 hover:bg-pink-100'}`}
+              class={`filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all ${idx === 0 ? 'bg-brand-pink text-white shadow-sm border border-brand-pink' : 'bg-white text-slate-700 border border-pink-200/80 hover:bg-brand-pinkLight hover:text-brand-pink hover:border-brand-pink/50'}`}
             >
               {cat}
             </button>
@@ -698,7 +707,7 @@ const schemaHowTo = {
         <!-- Search Bar + Sort Dropdown -->
         <div class="flex items-center gap-3 w-full md:w-auto">
           <div class="relative flex-1 md:w-64">
-            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <Search class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input aria-label="Buscar accesorios" id="gallery-search" class="w-full pl-9 pr-3 py-2 text-xs rounded-md border border-pink-200 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink" placeholder="Buscar accesorio..." type="text"/>
           </div>
           <div class="relative">
@@ -720,7 +729,7 @@ const schemaHowTo = {
             data-category={project.category}
             data-title={project.title.toLowerCase()}
             data-desc={project.description.toLowerCase()}
-            data-price={parseFloat(project.price?.replace(/[^0-9.]/g, '') || '0')}
+            data-price={project.price && project.price.trim() !== '' ? parseFloat(project.price.replace(/[^0-9.]/g, '') || '0') : ''}
             data-downloads={100}
           >
             <div>
@@ -731,18 +740,23 @@ const schemaHowTo = {
                   src={project.image}
                   loading="lazy"
                 />
-                <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-[10px] font-black uppercase tracking-wider text-brand-pink px-3 py-1 rounded-full shadow-sm">
+                <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-[10px] font-black uppercase tracking-wider text-brand-darkNavy px-3 py-1 rounded-full shadow-sm border border-pink-100/80">
                   {project.category}
                 </div>
-                <div class="absolute top-3 right-3 bg-brand-darkNavy text-white text-xs font-bold px-3 py-1 rounded-full shadow">
-                  {project.price}
-                </div>
+                {project.price && project.price.trim() !== '' && (
+                  <div class="absolute top-3 right-3 bg-brand-darkNavy/95 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full shadow-md border border-white/20">
+                    {project.price}
+                  </div>
+                )}
               </div>
               <div class="p-6">
                 <div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
-                  <span class="text-amber-500 flex items-center gap-1"><i class="fa-solid fa-star text-[10px]"></i> {project.rating || '5.0'}</span>
+                  <span class="text-amber-500 flex items-center gap-1 font-semibold"><Star class="w-3 h-3 fill-amber-400 text-amber-400" /> {project.rating || '5.0'}</span>
                   <span>•</span>
-                  <span class="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-[10px] font-bold tracking-wide">100% Hecho a Mano</span>
+                  <span class="bg-purple-50 text-brand-lavenderDark border border-purple-200/80 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide flex items-center gap-1">
+                    <Sparkles class="w-2.5 h-2.5 text-brand-lavenderDark" />
+                    <span>100% Hecho a Mano</span>
+                  </span>
                 </div>
                 <h3 class="text-lg font-bold font-display text-slate-900 group-hover:text-brand-pink transition-colors mb-2">
                   {project.title}
@@ -751,9 +765,9 @@ const schemaHowTo = {
                   {project.description}
                 </p>
                 {project.tags && project.tags.length > 0 && (
-                  <div class="flex flex-wrap gap-1.5 text-[10px] text-slate-600 font-semibold">
+                  <div class="flex flex-wrap gap-1.5 text-[10px] font-semibold">
                     {project.tags.map((tag: string) => (
-                      <span class="bg-pink-50 text-pink-700 px-2.5 py-0.5 rounded-full">{tag}</span>
+                      <span class="bg-brand-pinkLight text-brand-pinkHover border border-pink-200/80 px-2.5 py-0.5 rounded-full">{tag}</span>
                     ))}
                   </div>
                 )}
@@ -772,7 +786,7 @@ const schemaHowTo = {
                 href={project.buyUrl || `https://wa.me/573160771180?text=Hola,%20quiero%20pedir:%20${encodeURIComponent(project.title)}`}
                 target="_blank"
               >
-                <i class="fa-brands fa-whatsapp text-sm"></i>
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 <span>Pedir</span>
               </a>
             </div>
@@ -802,13 +816,13 @@ const schemaHowTo = {
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 items-center text-center">
         <!-- Metric 1: Calidad & Delicadeza -->
         <div class="p-6 bg-white border border-pink-100 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
-          <i class="fa-solid fa-heart text-brand-pink text-3xl mb-2"></i>
+          <Heart class="w-8 h-8 text-brand-pink mb-2" />
           <span class="text-xs font-black tracking-widest text-slate-800 uppercase">{metrics.badge1Title || 'CLIENTAS FELICES'}</span>
           <span class="text-[10px] text-brand-pink tracking-wider mt-0.5">{metrics.badge1Subtitle || 'CALIDAD & DELICADEZA'}</span>
         </div>
         <!-- Metric 2: Envíos Seguros -->
         <div class="p-6 bg-white border border-pink-100 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
-          <i class="fa-solid fa-plane-departure text-brand-pink text-3xl mb-2"></i>
+          <Plane class="w-8 h-8 text-brand-pink mb-2" />
           <span class="text-xs font-black tracking-widest text-slate-800 uppercase">{metrics.badge2Title || 'ENVÍOS SEGUROS'}</span>
           <span class="text-[10px] text-brand-pink tracking-wider mt-0.5">{metrics.badge2Subtitle || 'COLOMBIA E INTERNACIONAL'}</span>
         </div>
@@ -847,14 +861,15 @@ const schemaHowTo = {
             <div class="space-y-4">
               <div class="flex items-center justify-between">
                 <div class="flex text-amber-400 gap-1 text-xs">
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
-                  <i class="fa-solid fa-star"></i>
+                  <Star class="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  <Star class="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  <Star class="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  <Star class="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  <Star class="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                 </div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                  <i class="fa-solid fa-circle-check mr-1"></i>Compra Verificada
+                <span class="text-[10px] font-bold uppercase tracking-wider text-brand-lavenderDark bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200/80 flex items-center gap-1">
+                  <CheckCircle2 class="w-3 h-3 text-brand-lavenderDark" />
+                  <span>Compra Verificada</span>
                 </span>
               </div>
               <p class="text-slate-700 text-sm leading-relaxed italic">
@@ -865,7 +880,7 @@ const schemaHowTo = {
               <div>
                 <p class="font-bold font-display text-slate-900 text-sm">{test.name}</p>
                 <p class="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
-                  <i class="fa-solid fa-location-dot text-[10px] text-brand-pink"></i>
+                  <MapPin class="w-3 h-3 text-brand-pink shrink-0" />
                   <span>{test.location}, Colombia</span>
                 </p>
               </div>
@@ -903,8 +918,8 @@ const schemaHowTo = {
               aria-expanded="false"
             >
               <span class="text-sm sm:text-base">{faq.question}</span>
-              <span class="faq-icon w-7 h-7 rounded-full bg-pink-50 text-brand-pink flex items-center justify-center shrink-0 text-xs transition-transform duration-300">
-                <i class="fa-solid fa-plus"></i>
+              <span class="faq-icon w-7 h-7 rounded-full bg-pink-50 text-brand-pink flex items-center justify-center shrink-0 transition-transform duration-300">
+                <Plus class="w-4 h-4" />
               </span>
             </button>
             <div class="faq-answer hidden px-6 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-50 pt-3">
@@ -924,7 +939,7 @@ const schemaHowTo = {
           target="_blank"
           class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-2.5 px-5 rounded-md transition-all shrink-0"
         >
-          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
           <span>Preguntar por WhatsApp</span>
         </a>
       </div>
@@ -949,7 +964,7 @@ const schemaHowTo = {
             href={siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"} 
             target="_blank"
           >
-            <i class="fa-brands fa-whatsapp text-sm"></i>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
             <span>Escribir al WhatsApp</span>
           </a>
           <a 
@@ -957,7 +972,7 @@ const schemaHowTo = {
             href={siteInfo.socialLinks?.instagram || "https://instagram.com/bunu_shop15/"} 
             target="_blank"
           >
-            <i class="fa-brands fa-instagram text-sm"></i>
+            <Instagram class="w-4 h-4" />
             <span>Ver en Instagram</span>
           </a>
         </div>
@@ -1052,10 +1067,18 @@ const schemaHowTo = {
             Tienda de accesorios y joyería artesanal hecha a mano con amor en Gamarra, Cesar. Diseños personalizados con envíos a toda Colombia e internacional.
           </p>
           <div class="pt-2 flex space-x-4 text-pink-300">
-            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.whatsapp || '#'} rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp text-lg"></i></a>
-            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.instagram || '#'} rel="noopener noreferrer" target="_blank" title="Instagram"><i class="fa-brands fa-instagram text-lg"></i></a>
-            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.facebook || '#'} rel="noopener noreferrer" target="_blank" title="Facebook"><i class="fa-brands fa-facebook-f text-lg"></i></a>
-            <a class="hover:text-white transition-colors" href={`mailto:${siteInfo.contactEmail}`} title="Email"><i class="fa-regular fa-envelope text-lg"></i></a>
+            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.whatsapp || '#'} rel="noopener noreferrer" target="_blank" title="WhatsApp">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </a>
+            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.instagram || '#'} rel="noopener noreferrer" target="_blank" title="Instagram">
+              <Instagram class="w-5 h-5" />
+            </a>
+            <a class="hover:text-white transition-colors" href={siteInfo.socialLinks?.facebook || '#'} rel="noopener noreferrer" target="_blank" title="Facebook">
+              <Facebook class="w-5 h-5" />
+            </a>
+            <a class="hover:text-white transition-colors" href={`mailto:${siteInfo.contactEmail}`} title="Email">
+              <Mail class="w-5 h-5" />
+            </a>
           </div>
         </div>
         
@@ -1090,9 +1113,9 @@ const schemaHowTo = {
         <div class="space-y-3">
           <h5 class="text-xs font-bold tracking-widest uppercase text-brand-pink">Contacto Directo</h5>
           <p class="text-xs text-slate-300">¿Quieres hacer tu pedido o cotizar?</p>
-          <a class="inline-block text-white font-bold hover:text-brand-pink text-sm transition-colors" href={siteInfo.socialLinks?.whatsapp || 'https://wa.me/573160771180'} target="_blank">
-            <i class="fa-brands fa-whatsapp text-emerald-400 mr-1.5"></i>
-            {siteInfo.contactPhone || '+57 316 077 1180'}
+          <a class="inline-flex items-center text-white font-bold hover:text-brand-pink text-sm transition-colors gap-1.5" href={siteInfo.socialLinks?.whatsapp || 'https://wa.me/573160771180'} target="_blank">
+            <svg class="w-4 h-4 fill-emerald-400" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>{siteInfo.contactPhone || '+57 316 077 1180'}</span>
           </a>
           <div>
             <a class="text-xs text-slate-300 hover:text-brand-pink transition-colors" href={`mailto:${siteInfo.contactEmail}`}>
@@ -1103,9 +1126,9 @@ const schemaHowTo = {
             Gamarra, Cesar, Colombia • Envíos a todo el país.
           </p>
           <div class="pt-2">
-            <span class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 text-[11px] font-semibold rounded-full">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              {siteInfo.contactAvailability || 'Envíos Nacionales Activos ✈️'}
+            <span class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm border border-pink-400/30 text-pink-100 text-[11px] font-semibold rounded-full">
+              <Plane class="w-3.5 h-3.5 text-pink-300" />
+              {siteInfo.contactAvailability || 'Envíos Nacionales e Internacionales Activos'}
             </span>
           </div>
         </div>
@@ -1183,13 +1206,25 @@ const schemaHowTo = {
       // Sort cards
       function sortCards(mode) {
         const sorted = cards.sort((a, b) => {
-          const priceA = parseFloat(a.getAttribute('data-price') || '0');
-          const priceB = parseFloat(b.getAttribute('data-price') || '0');
+          const rawA = a.getAttribute('data-price');
+          const rawB = b.getAttribute('data-price');
+          const priceA = rawA !== null && rawA !== '' ? parseFloat(rawA) : NaN;
+          const priceB = rawB !== null && rawB !== '' ? parseFloat(rawB) : NaN;
           const downA = parseInt(a.getAttribute('data-downloads') || '0');
           const downB = parseInt(b.getAttribute('data-downloads') || '0');
 
-          if (mode === 'price-asc') return priceA - priceB;
-          if (mode === 'price-desc') return priceB - priceA;
+          if (mode === 'price-asc') {
+            if (isNaN(priceA) && isNaN(priceB)) return 0;
+            if (isNaN(priceA)) return 1;
+            if (isNaN(priceB)) return -1;
+            return priceA - priceB;
+          }
+          if (mode === 'price-desc') {
+            if (isNaN(priceA) && isNaN(priceB)) return 0;
+            if (isNaN(priceA)) return 1;
+            if (isNaN(priceB)) return -1;
+            return priceB - priceA;
+          }
           if (mode === 'popular') return downB - downA;
           return 0; // Default order
         });
@@ -1202,11 +1237,11 @@ const schemaHowTo = {
       filterBtns.forEach(btn => {
         btn.addEventListener('click', function () {
           filterBtns.forEach(b => {
-            b.classList.remove('bg-brand-pink', 'text-white');
-            b.classList.add('bg-pink-50', 'text-slate-600');
+            b.classList.remove('bg-brand-pink', 'text-white', 'border-brand-pink');
+            b.classList.add('bg-white', 'text-slate-700', 'border-pink-200/80');
           });
-          this.classList.remove('bg-pink-50', 'text-slate-600');
-          this.classList.add('bg-brand-pink', 'text-white');
+          this.classList.remove('bg-white', 'text-slate-700', 'border-pink-200/80');
+          this.classList.add('bg-brand-pink', 'text-white', 'border-brand-pink');
 
           currentCategory = this.getAttribute('data-cat') || 'all';
           updateGallery();
@@ -1233,7 +1268,6 @@ const schemaHowTo = {
           const item = this.closest('.faq-item');
           if (!item) return;
           const answer = item.querySelector('.faq-answer');
-          const icon = this.querySelector('.faq-icon i');
           const isExpanded = this.getAttribute('aria-expanded') === 'true';
 
           // Close other open FAQs
@@ -1241,10 +1275,9 @@ const schemaHowTo = {
             if (otherItem !== item) {
               otherItem.querySelector('.faq-answer')?.classList.add('hidden');
               otherItem.querySelector('.faq-toggle')?.setAttribute('aria-expanded', 'false');
-              const otherIcon = otherItem.querySelector('.faq-icon i');
+              const otherIcon = otherItem.querySelector('.faq-icon');
               if (otherIcon) {
-                otherIcon.classList.remove('fa-minus');
-                otherIcon.classList.add('fa-plus');
+                otherIcon.classList.remove('rotate-45');
               }
             }
           });
@@ -1252,17 +1285,13 @@ const schemaHowTo = {
           if (isExpanded) {
             answer?.classList.add('hidden');
             this.setAttribute('aria-expanded', 'false');
-            if (icon) {
-              icon.classList.remove('fa-minus');
-              icon.classList.add('fa-plus');
-            }
+            const icon = this.querySelector('.faq-icon');
+            if (icon) icon.classList.remove('rotate-45');
           } else {
             answer?.classList.remove('hidden');
             this.setAttribute('aria-expanded', 'true');
-            if (icon) {
-              icon.classList.remove('fa-plus');
-              icon.classList.add('fa-minus');
-            }
+            const icon = this.querySelector('.faq-icon');
+            if (icon) icon.classList.add('rotate-45');
           }
         });
       });
