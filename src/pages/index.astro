@@ -596,18 +596,18 @@ const schemaHowTo = {
   <!-- BEGIN: Proceso / Cómo Trabajamos Section -->
   <section class="py-20 lg:py-24 bg-brand-lightBg border-t border-pink-100/70" id="proceso">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-brand-pink font-bold text-xs uppercase tracking-widest">// Tranquilidad en cada detalle</span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2">
+      <div class="text-center max-w-3xl mx-auto mb-16 flex flex-col items-center justify-center">
+        <span class="text-brand-pink font-bold text-xs uppercase tracking-widest text-center">// Tranquilidad en cada detalle</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-2 text-center">
           ¿Cómo Creamos y Enviamos tu Accesorio?
         </h2>
-        <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4"></div>
-        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+        <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4 rounded-full"></div>
+        <p class="text-slate-600 text-sm sm:text-base leading-relaxed text-center">
           Comprar artesanías por internet no tiene por qué dar incertidumbre. Diseñamos un proceso transparente donde tú tienes el control de tu diseño de principio a fin.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {workflowPhases && workflowPhases.map((phase: any, idx: number) => (
           <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm hover:shadow-lg hover:border-brand-pink/40 transition-all duration-300 flex flex-col justify-between relative group">
             <div>
@@ -632,7 +632,6 @@ const schemaHowTo = {
                 {idx === 1 && "Mostacilla calibrada"}
                 {idx === 2 && "Cero sorpresas"}
                 {idx === 3 && "Listo para regalar"}
-                {idx === 4 && "Rastreo activo"}
               </span>
             </div>
           </div>
