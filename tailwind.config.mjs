@@ -9,8 +9,8 @@ export default {
       colors: {
         // Paleta Oficial Accesorios Bunu Shop (Femenina, Artesanal, Elegante)
         brand: {
-          pink: '#ec4899',
-          pinkHover: '#db2777',
+          pink: '#db2777',
+          pinkHover: '#be185d',
           pinkLight: '#fdf2f8',
           lavender: '#c084fc',
           lavenderLight: '#faf5ff',

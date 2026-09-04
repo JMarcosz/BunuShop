@@ -9,14 +9,14 @@
     "heroTitle2": "Únicas con",
     "heroTitleHighlight": "Identidad",
     "heroTitle3": "Propia",
-    "heroImage": "/images/bunu/IMG_1451.JPEG",
-    "logoImage": "/images/bunu/logo.jpg",
+    "heroImage": "/images/bunu/IMG_1451.webp",
+    "logoImage": "/images/bunu/logo-nav.webp",
     "aboutTag": "// Sobre Nosotros",
     "aboutHeading": "Calidad y delicadeza hecho con amor.",
     "aboutHeadingSub": "Accesorios que cuentan tu historia.",
     "aboutBio1": "Creamos accesorios personalizados y hechos a mano que permiten a cada persona expresar su estilo, llevar algo único y darle un significado especial a cada pieza.",
     "aboutBio2": "Desde Gamarra, Cesar, combinamos diseño, elaboración artesanal y materiales de alta calidad para piezas que se sienten realmente tuyas. Realizamos envíos a toda Colombia (Bogotá, Bucaramanga, Santa Marta, Valledupar, Aguachica) e internacionales.",
-    "aboutPortrait": "/images/bunu/Perfil.jpeg",
+    "aboutPortrait": "/images/bunu/Perfil.webp",
     "cvUrl": "https://wa.me/573160771180?text=Hola%20Bunu%20Shop,%20deseo%20hacer%20un%20pedido%20personalizado",
     "contactEmail": "accesoriosbunushop@gmail.com",
     "contactPhone": "+57 316 077 1180",
@@ -91,7 +91,7 @@
       "price": "",
       "rating": "5.0",
       "downloads": "Exclusivo",
-      "image": "/images/bunu/media_1788495999167.jpg",
+      "image": "/images/bunu/media_1788495999167.webp",
       "description": "Dije de colibrí tejido a mano en mostacilla con degradé de colores cálidos y turquesas, acompañado de cadena dorada y aretes tipo topos a juego.",
       "tags": [
         "Mostacilla Calibrada",
@@ -112,7 +112,7 @@
       "price": "",
       "rating": "5.0",
       "downloads": "Top Ventas",
-      "image": "/images/bunu/media_1788495999181.jpg",
+      "image": "/images/bunu/media_1788495999181.webp",
       "description": "Pulsera tejida con tres corazones en mostacilla en tonos lila, blanco y rosa con detalle de ojo turco protector y balines dorados ajustables.",
       "tags": [
         "Protección",
@@ -133,7 +133,7 @@
       "price": "",
       "rating": "5.0",
       "downloads": "Devoción",
-      "image": "/images/bunu/media_1788495999188.jpg",
+      "image": "/images/bunu/media_1788495999188.webp",
       "description": "Medalla dorada de la Virgen del Carmen engastada en tejido macramé artesanal con florecitas blancas y aguamarina, y balines dorados.",
       "tags": [
         "Virgen del Carmen",
@@ -154,7 +154,7 @@
       "price": "",
       "rating": "5.0",
       "downloads": "Romántico",
-      "image": "/images/bunu/media_1788495999223.jpg",
+      "image": "/images/bunu/media_1788495999223.webp",
       "description": "Dos pulseras en hilo rojo protector con hilo dorado y balines centrales con brillo facetado. Presentadas en elegante cajita de regalo con lazo celeste.",
       "tags": [
         "Hilo Rojo",
@@ -175,7 +175,7 @@
       "price": "",
       "rating": "5.0",
       "downloads": "Protección",
-      "image": "/images/bunu/IMG_0064.JPEG",
+      "image": "/images/bunu/IMG_0064.webp",
       "description": "Pulsera protectora tejida con técnica de nudos corredizos y balines de oro laminado para uso diario.",
       "tags": [
         "San Benito",
@@ -196,7 +196,7 @@
       "price": "",
       "rating": "5.0",
       "downloads": "A medida",
-      "image": "/images/bunu/IMG_2730.JPEG",
+      "image": "/images/bunu/IMG_2730.webp",
       "description": "Creamos tu accesorio ideal con los colores, iniciales, nombres o figuras que desees. Dinos tu idea y la tejemos para ti.",
       "tags": [
         "Personalizado",
@@ -218,7 +218,7 @@
       "date": "MARZO 2024",
       "formattedDate": "Marzo 2024",
       "comments": "TIPS BUNU",
-      "image": "/images/bunu/IMG_1203.JPEG",
+      "image": "/images/bunu/IMG_1203.webp",
       "isFeatured": true,
       "status": "published"
     },
@@ -230,7 +230,7 @@
       "date": "FEBRERO 2024",
       "formattedDate": "Febrero 2024",
       "comments": "SIGNIFICADO",
-      "image": "/images/bunu/IMG_0064.JPEG",
+      "image": "/images/bunu/IMG_0064.webp",
       "isFeatured": false,
       "status": "published"
     },
@@ -242,7 +242,7 @@
       "date": "ENERO 2024",
       "formattedDate": "Enero 2024",
       "comments": "IDEAS DE REGALO",
-      "image": "/images/bunu/media_1788495999223.jpg",
+      "image": "/images/bunu/media_1788495999223.webp",
       "isFeatured": false,
       "status": "published"
     }
