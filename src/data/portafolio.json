@@ -207,6 +207,174 @@
       "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20cotizar%20un%20diseno%20personalizado",
       "status": "published",
       "updatedAt": "Siempre activo"
+    },
+    {
+      "id": "prj-7",
+      "slug": "camandula-artesanal-virgen-maria-cristales",
+      "title": "Camándula Virgen María en Cristales & Délicas",
+      "category": "Protección & Religioso",
+      "categorySlug": "religioso",
+      "price": "",
+      "rating": "5.0",
+      "downloads": "Devoción",
+      "image": "/images/bunu/Camandula virgen maria.webp",
+      "description": "Rosario artesanal tejido con dije de la Virgen María en mostacilla calibrada, cristales facetados níveos, corazones rojos y cruz dorada.",
+      "tags": [
+        "Virgen María",
+        "Camándula",
+        "Cristal & Délicas"
+      ],
+      "demoUrl": "https://wa.me/573160771180?text=Hola,%20me%20interesa%20la%20Camandula%20Virgen%20Maria",
+      "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20comprar%20la%20Camandula%20Virgen%20Maria",
+      "status": "published",
+      "updatedAt": "Reciente"
+    },
+    {
+      "id": "prj-8",
+      "slug": "pulsera-sagrado-corazon-jesus-delicas",
+      "title": "Pulsera Sagrado Corazón de Jesús en Délicas",
+      "category": "Protección & Religioso",
+      "categorySlug": "religioso",
+      "price": "",
+      "rating": "5.0",
+      "downloads": "Bendición",
+      "image": "/images/bunu/Pulsera sagrado corazon de jesus hecha en delicas.webp",
+      "description": "Pulsera de protección con dije ovalado del Sagrado Corazón tejido en perlas miyuki y tejido macramé ajustable en hilo rojo de alta resistencia.",
+      "tags": [
+        "Sagrado Corazón",
+        "Délicas Miyuki",
+        "Hilo Rojo"
+      ],
+      "demoUrl": "https://wa.me/573160771180?text=Hola,%20me%20interesa%20la%20Pulsera%20Sagrado%20Corazon",
+      "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20comprar%20la%20Pulsera%20Sagrado%20Corazon",
+      "status": "published",
+      "updatedAt": "Reciente"
+    },
+    {
+      "id": "prj-9",
+      "slug": "camandula-sagrado-corazon-madera-miyuki",
+      "title": "Camándula Sagrado Corazón en Madera & Miyuki",
+      "category": "Protección & Religioso",
+      "categorySlug": "religioso",
+      "price": "",
+      "rating": "5.0",
+      "downloads": "Exclusivo",
+      "image": "/images/bunu/camandula sagrado corazon de jesus.webp",
+      "description": "Exclusiva camándula con cuentas de madera natural pulida, cruz tejida a mano y silueta del Sagrado Corazón en mostacilla calibrada con corazones rojos.",
+      "tags": [
+        "Sagrado Corazón",
+        "Madera Natural",
+        "Rosario Artesanal"
+      ],
+      "demoUrl": "https://wa.me/573160771180?text=Hola,%20me%20interesa%20la%20Camandula%20Sagrado%20Corazon%20en%20Madera",
+      "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20comprar%20la%20Camandula%20Sagrado%20Corazon%20en%20Madera",
+      "status": "published",
+      "updatedAt": "Reciente"
+    },
+    {
+      "id": "prj-10",
+      "slug": "llavero-sagrado-corazon-jesus-miyuki",
+      "title": "Llavero Sagrado Corazón de Jesús en Miyuki",
+      "category": "Accesorios & Llaveros",
+      "categorySlug": "accesorios",
+      "price": "",
+      "rating": "5.0",
+      "downloads": "Favorito",
+      "image": "/images/bunu/llavero sagrado corazon de jesus.webp",
+      "description": "Llavero artesanal con mosquetón resistente y figura tejida a mano del Sagrado Corazón de Jesús en técnica miyuki peyote con aureola dorada.",
+      "tags": [
+        "Llaveros",
+        "Sagrado Corazón",
+        "Miyuki Art"
+      ],
+      "demoUrl": "https://wa.me/573160771180?text=Hola,%20me%20interesa%20el%20Llavero%20Sagrado%20Corazon",
+      "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20comprar%20el%20Llavero%20Sagrado%20Corazon",
+      "status": "published",
+      "updatedAt": "Reciente"
+    },
+    {
+      "id": "prj-11",
+      "slug": "llavero-san-jose-nino-jesus-miyuki",
+      "title": "Llavero San José con el Niño Jesús en Miyuki",
+      "category": "Accesorios & Llaveros",
+      "categorySlug": "accesorios",
+      "price": "",
+      "rating": "5.0",
+      "downloads": "Especial",
+      "image": "/images/bunu/llavero san jose.webp",
+      "description": "Llavero de devoción a San José sosteniendo al Niño Jesús, tejido a mano en délicas miyuki en tonos verde, marrón y blanco con mosquetón plateado.",
+      "tags": [
+        "San José",
+        "Llaveros",
+        "Miyuki Art"
+      ],
+      "demoUrl": "https://wa.me/573160771180?text=Hola,%20me%20interesa%20el%20Llavero%20San%20Jose",
+      "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20comprar%20el%20Llavero%20San%20Jose",
+      "status": "published",
+      "updatedAt": "Reciente"
+    },
+    {
+      "id": "prj-12",
+      "slug": "pulsera-flor-primaveral-miyuki",
+      "title": "Pulsera Flor Primaveral en Miyuki",
+      "category": "Pulseras Personalizadas",
+      "categorySlug": "pulseras",
+      "price": "",
+      "rating": "5.0",
+      "downloads": "Tendencia",
+      "image": "/images/bunu/pulsera flor.webp",
+      "description": "Delicada pulsera con dije floral multicolor tejido a mano en tonos rosa, amarillo y verde con borde dorado y cordón ajustable satinado.",
+      "tags": [
+        "Flor Miyuki",
+        "Pastel",
+        "Ajustable"
+      ],
+      "demoUrl": "https://wa.me/573160771180?text=Hola,%20me%20interesa%20la%20Pulsera%20Flor%20Primaveral",
+      "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20comprar%20la%20Pulsera%20Flor%20Primaveral",
+      "status": "published",
+      "updatedAt": "Reciente"
+    },
+    {
+      "id": "prj-13",
+      "slug": "pulsera-telar-cruz-dorada",
+      "title": "Pulsera Telar Cruz Dorada Bicolor",
+      "category": "Pulseras Personalizadas",
+      "categorySlug": "pulseras",
+      "price": "",
+      "rating": "5.0",
+      "downloads": "Unisex",
+      "image": "/images/bunu/pulsera personalizada.webp",
+      "description": "Brazalete tejido en telar artesanal en contraste blanco y negro con cruz central dorada en relieve y cordones corredizos ajustables.",
+      "tags": [
+        "Telar Mostacilla",
+        "Cruz Dorada",
+        "Unisex"
+      ],
+      "demoUrl": "https://wa.me/573160771180?text=Hola,%20me%20interesa%20la%20Pulsera%20Telar%20Cruz%20Dorada",
+      "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20comprar%20la%20Pulsera%20Telar%20Cruz%20Dorada",
+      "status": "published",
+      "updatedAt": "Reciente"
+    },
+    {
+      "id": "prj-14",
+      "slug": "duo-pulseras-san-benito-perlas",
+      "title": "Dúo Pulseras San Benito en Perlas",
+      "category": "Protección & Religioso",
+      "categorySlug": "religioso",
+      "price": "",
+      "rating": "5.0",
+      "downloads": "Protección",
+      "image": "/images/bunu/pulseras de san benito.webp",
+      "description": "Elegante juego de dos pulseras elaboradas en perlas níveas con doble hilera y medalla protectora dorada de San Benito con inscripción clásica.",
+      "tags": [
+        "San Benito",
+        "Perlas",
+        "Protección"
+      ],
+      "demoUrl": "https://wa.me/573160771180?text=Hola,%20me%20interesa%20el%20Duo%20de%20Pulseras%20San%20Benito",
+      "buyUrl": "https://wa.me/573160771180?text=Hola,%20quiero%20comprar%20el%20Duo%20de%20Pulseras%20San%20Benito",
+      "status": "published",
+      "updatedAt": "Reciente"
     }
   ],
   "blogPosts": [
