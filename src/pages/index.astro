@@ -66,18 +66,70 @@ const faqs = (data as any).faqs || [];
 const testimonials = (data as any).testimonials || [];
 
 // Structured Data (JSON-LD) para SEO, GEO y AEO
-const siteUrl = Astro.url?.origin || "https://bunushop.store";
+const siteUrl = Astro.url?.origin && !Astro.url.origin.includes('localhost') ? Astro.url.origin : "https://bunushop.store";
+
+const schemaPerson = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${siteUrl}/#founder`,
+  "name": "Mary Sorelly",
+  "alternateName": [
+    "Mary Sorely",
+    "Mary Soreli",
+    "Mary Sorelly BunuShop",
+    "BunuShop Mary Sorelly",
+    "Mary Sorelly Accesorios"
+  ],
+  "jobTitle": "Fundadora, Diseñadora y Artesana",
+  "worksFor": {
+    "@id": `${siteUrl}/#store`
+  },
+  "image": `${siteUrl}/images/bunu/Perfil.webp`,
+  "url": `${siteUrl}/#about`,
+  "description": "Creadora y artesana colombiana fundadora de Bunu Shop (BunuShop), especializada en diseño y elaboración artesanal de accesorios hechos a mano, tejido en mostacilla checa calibrada, pulseras en macramé y piezas personalizadas en Colombia.",
+  "nationality": {
+    "@type": "Country",
+    "name": "Colombia"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Gamarra",
+    "addressRegion": "Cesar",
+    "addressCountry": "CO"
+  },
+  "knowsAbout": [
+    "Joyería artesanal",
+    "Accesorios hechos a mano",
+    "Mostacilla checa calibrada",
+    "Tejido Miyuki",
+    "Pulseras personalizadas",
+    "Macramé",
+    "Artesanías de Colombia"
+  ],
+  "sameAs": [
+    siteInfo.socialLinks?.instagram || "https://www.instagram.com/bunu_shop15/",
+    siteInfo.socialLinks?.facebook || "https://www.facebook.com/profile.php?id=100028253305796",
+    siteInfo.socialLinks?.whatsapp || "https://wa.me/573160771180"
+  ]
+};
 
 const schemaJewelryStore = {
   "@context": "https://schema.org",
   "@type": "JewelryStore",
   "@id": `${siteUrl}/#store`,
   "name": "Accesorios Bunu Shop",
-  "alternateName": "Bunu Shop",
+  "alternateName": [
+    "Bunu Shop",
+    "BunuShop",
+    "BunuShop Mary Sorelly",
+    "Mary Sorelly BunuShop",
+    "Accesorios Bunu Shop Colombia",
+    "Bunu Shop por Mary Sorelly"
+  ],
   "url": siteUrl,
   "logo": `${siteUrl}/images/bunu/logo.jpg`,
   "image": `${siteUrl}/images/bunu/logo.jpg`,
-  "description": "Tienda de joyería artesanal y accesorios personalizados hechos a mano en Colombia: pulseras en macramé, dijes en mostacilla checa calibrada, cadenas con baño de oro y piezas exclusivas con envíos a todo el país.",
+  "description": "Tienda de joyería artesanal y accesorios personalizados hechos a mano en Colombia por Mary Sorelly: pulseras en macramé, dijes en mostacilla checa calibrada, cadenas con baño de oro y piezas exclusivas con envíos a todo el país.",
   "telephone": siteInfo.contactPhone || "+57 316 077 1180",
   "email": siteInfo.contactEmail || "accesoriosbunushop@gmail.com",
   "priceRange": "$$",
@@ -103,9 +155,7 @@ const schemaJewelryStore = {
     { "@type": "City", "name": "Santa Marta" }
   ],
   "founder": {
-    "@type": "Person",
-    "name": siteInfo.owner || "Mary Sorelly",
-    "jobTitle": "Artesana y Diseñadora de Joyería"
+    "@id": `${siteUrl}/#founder`
   },
   "sameAs": [
     siteInfo.socialLinks?.instagram || "https://www.instagram.com/bunu_shop15/",
@@ -149,9 +199,11 @@ const schemaHowTo = {
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   
   <!-- Primary SEO Meta Tags -->
-  <title>Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada en Colombia</title>
-  <meta name="title" content="Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada en Colombia"/>
-  <meta name="description" content="Tienda de accesorios hechos a mano en Colombia: pulseras en macramé, dijes en mostacilla checa calibrada y piezas personalizadas con envío seguro. ¡Pide por WhatsApp!"/>
+  <title>Bunu Shop (BunuShop) | Joyería Hecha a Mano por Mary Sorelly en Colombia</title>
+  <meta name="title" content="Bunu Shop (BunuShop) | Joyería Hecha a Mano por Mary Sorelly en Colombia"/>
+  <meta name="description" content="Bunu Shop (BunuShop) de Mary Sorelly: joyería artesanal y accesorios hechos a mano en Colombia. Pulseras en mostacilla checa calibrada, macramé y baño de oro con envíos a toda Colombia."/>
+  <meta name="keywords" content="Mary Sorelly, Mary Sorely, Mary Soreli, BunuShop, Bunu Shop, BunuShop Mary Sorelly, Mary Sorelly Bunu Shop, joyería artesanal Colombia, accesorios hechos a mano Colombia, pulseras personalizadas Colombia, mostacilla checa calibrada Colombia, tejido miyuki Colombia, pulseras en macramé, pulseras de protección, pulseras San Benito Colombia, pulseras Virgen del Carmen, pulseras de pareja, accesorios Gamarra Cesar"/>
+  <meta name="author" content="Mary Sorelly"/>
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
   <link rel="canonical" href="https://bunushop.store/"/>
   
@@ -176,24 +228,25 @@ const schemaHowTo = {
   <meta property="og:type" content="website"/>
   <meta property="og:locale" content="es_CO"/>
   <meta property="og:url" content={siteUrl}/>
-  <meta property="og:site_name" content="Accesorios Bunu Shop"/>
-  <meta property="og:title" content="Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada"/>
-  <meta property="og:description" content="Piezas únicas tejidas a mano en Colombia con mostacilla calibrada y baño de oro. Personaliza tu diseño con visto bueno previo y envío seguro."/>
+  <meta property="og:site_name" content="Bunu Shop (BunuShop) - Mary Sorelly"/>
+  <meta property="og:title" content="Bunu Shop (BunuShop) | Joyería Hecha a Mano por Mary Sorelly"/>
+  <meta property="og:description" content="Joyería artesanal y accesorios personalizados hechos a mano en Colombia por Mary Sorelly. Pulseras en mostacilla checa y baño de oro con envíos a todo el país."/>
   <meta property="og:image" content={`${siteUrl}/images/bunu/logo.jpg`}/>
   <meta property="og:image:secure_url" content={`${siteUrl}/images/bunu/logo.jpg`}/>
   <meta property="og:image:type" content="image/jpeg"/>
   <meta property="og:image:width" content="1080"/>
   <meta property="og:image:height" content="1080"/>
-  <meta property="og:image:alt" content="Accesorios Bunu Shop - Joyería Artesanal en Colombia"/>
+  <meta property="og:image:alt" content="Bunu Shop por Mary Sorelly - Joyería Artesanal en Colombia"/>
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary"/>
   <meta name="twitter:url" content={siteUrl}/>
-  <meta name="twitter:title" content="Bunu Shop | Accesorios Hechos a Mano y Joyería Personalizada"/>
-  <meta name="twitter:description" content="Piezas únicas tejidas a mano en Colombia con mostacilla calibrada y baño de oro. Personaliza tu diseño con visto bueno previo y envío seguro."/>
+  <meta name="twitter:title" content="Bunu Shop (BunuShop) | Joyería Hecha a Mano por Mary Sorelly"/>
+  <meta name="twitter:description" content="Joyería artesanal y accesorios personalizados hechos a mano en Colombia por Mary Sorelly. Pulseras en mostacilla checa y baño de oro con envíos a todo el país."/>
   <meta name="twitter:image" content={`${siteUrl}/images/bunu/logo.jpg`}/>
 
   <!-- Structured Data JSON-LD (SEO, GEO & AEO) -->
+  <script type="application/ld+json" set:html={JSON.stringify(schemaPerson)}/>
   <script type="application/ld+json" set:html={JSON.stringify(schemaJewelryStore)}/>
   <script type="application/ld+json" set:html={JSON.stringify(schemaFaq)}/>
   <script type="application/ld+json" set:html={JSON.stringify(schemaHowTo)}/>
@@ -316,6 +369,15 @@ const schemaHowTo = {
 
   <!-- BEGIN: Main Landmark Content -->
   <main id="main-content">
+
+  <!-- BEGIN: Semantic Invisible SEO / Entity Information -->
+  <section class="sr-only" aria-label="Información de marca y creadora">
+    <h2>Bunu Shop (BunuShop) - Joyería Artesanal en Colombia por Mary Sorelly</h2>
+    <p>
+      Bunu Shop (también conocida como BunuShop) es una marca colombiana de joyería y accesorios artesanales hechos a mano fundada por la artesana Mary Sorelly (Mary Sorely, Mary Soreli). Especializada en pulseras en macramé, dijes en mostacilla checa calibrada, tejido tipo Miyuki, accesorios con baño de oro y piezas religiosas de protección con envíos a Bogotá, Bucaramanga, Valledupar, Santa Marta y todo el territorio colombiano.
+    </p>
+  </section>
+  <!-- END: Semantic Invisible SEO / Entity Information -->
 
   <!-- BEGIN: Hero Section -->
   <section class="relative overflow-hidden bg-white" id="hero">
@@ -508,7 +570,7 @@ const schemaHowTo = {
         <!-- Right Side: Imagery and Social Floating Icons -->
         <div class="lg:col-span-6 relative min-h-[420px] lg:min-h-full bg-pink-50">
           <img 
-            alt={`${siteInfo.name} - ${siteInfo.role}`} 
+            alt={`Accesorios Bunu Shop (BunuShop) por Mary Sorelly - Joyería artesanal y piezas personalizadas en Colombia`} 
             class="w-full h-full object-cover object-center filter brightness-[0.98]" 
             src={siteInfo.heroImage}
             width="600"
@@ -561,7 +623,7 @@ const schemaHowTo = {
                 </div>
               </div>
               <img 
-                alt={`${siteInfo.name} - ${siteInfo.owner || 'Mary Sorelly'}`}
+                alt={`Mary Sorelly - Diseñadora y creadora de Accesorios Bunu Shop (BunuShop) Colombia`}
                 class="w-full aspect-[3/4] sm:aspect-[4/5] object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 src={siteInfo.aboutPortrait}
                 width="460"
