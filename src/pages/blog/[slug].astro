@@ -1,0 +1,188 @@
+---
+import { getPortfolioData } from '../../lib/storage';
+import BaseHead from '../../components/BaseHead.astro';
+import { aFechaISO } from '../../lib/fechas';
+import '../../styles/global.css';
+import { ArrowRight, Calendar } from 'lucide-astro';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const data = await getPortfolioData();
+
+const siteInfo = data?.siteInfo || {};
+const posts = (data?.blogPosts || []).filter((p: any) => p && p.status !== 'draft');
+
+const post = posts.find((p: any) => p.slug === slug);
+
+if (!post) {
+  return new Response(null, { status: 404, statusText: 'Artículo no encontrado' });
+}
+
+const siteUrl = 'https://bunushop.store';
+const canonical = `${siteUrl}/blog/${post.slug}`;
+const whatsapp = siteInfo.socialLinks?.whatsapp || 'https://wa.me/573160771180';
+
+const titulo = post.metaTitle ? `${post.metaTitle} | Bunu Shop` : `${post.title} | Bunu Shop`;
+const descripcion = post.metaDescription || post.excerpt;
+const bloques = post.content || [];
+
+const otros = posts.filter((p: any) => p.slug !== post.slug).slice(0, 2);
+
+// post.date es texto de visualización ("MARZO 2024"): schema.org exige ISO.
+const fechaISO = aFechaISO(post.date);
+
+const schemaArticle: any = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${canonical}#articulo`,
+  headline: post.title,
+  description: descripcion,
+  image: post.image?.startsWith('http') ? post.image : `${siteUrl}${post.image}`,
+  inLanguage: 'es-CO',
+  author: {
+    '@type': 'Person',
+    '@id': `${siteUrl}/#founder`,
+    name: post.author || 'Mary Sorelly',
+    url: `${siteUrl}/#about`,
+  },
+  publisher: { '@id': `${siteUrl}/#store` },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+};
+
+// Preferimos omitir la fecha antes que declarar una inválida.
+if (fechaISO) {
+  schemaArticle.datePublished = fechaISO;
+  schemaArticle.dateModified = fechaISO;
+}
+
+const schemaBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/#blog` },
+    { '@type': 'ListItem', position: 3, name: post.title, item: canonical },
+  ],
+};
+---
+
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+  <BaseHead
+    title={titulo}
+    description={descripcion}
+    canonical={canonical}
+    image={post.image}
+    type="article"
+  />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaArticle)} />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaBreadcrumb)} />
+</head>
+
+<body class="bg-white text-slate-800 font-sans antialiased">
+  <header class="border-b border-pink-100 bg-white sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-display font-black text-slate-900">
+        <img src={siteInfo.logoImage || '/images/bunu/logo.jpg'} alt="Bunu Shop" width="32" height="32" class="w-8 h-8 rounded-full object-cover" />
+        <span>Bunu Shop</span>
+      </a>
+      <a href="/#galeria" class="text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-brand-pink transition-colors">
+        Ver la galería
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-10 lg:py-14">
+    <nav aria-label="Ruta de navegación" class="text-xs text-slate-500 mb-8 flex items-center gap-2 flex-wrap">
+      <a href="/" class="hover:text-brand-pink transition-colors">Inicio</a>
+      <span>/</span>
+      <a href="/#blog" class="hover:text-brand-pink transition-colors">Blog</a>
+      <span>/</span>
+      <span class="text-slate-800 font-semibold">{post.title}</span>
+    </nav>
+
+    <article>
+      <h1 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 leading-tight">
+        {post.title}
+      </h1>
+
+      <div class="flex items-center gap-4 mt-5 text-xs text-slate-500">
+        <span class="flex items-center gap-1.5 font-semibold text-slate-700">
+          Por <a href="/#about" class="text-brand-pink hover:underline">{post.author || 'Mary Sorelly'}</a>
+        </span>
+        {post.formattedDate && (
+          <span class="flex items-center gap-1.5">
+            <Calendar class="w-3.5 h-3.5" />
+            <time datetime={fechaISO || undefined}>{post.formattedDate}</time>
+          </span>
+        )}
+      </div>
+
+      <img
+        src={post.image}
+        alt={post.title}
+        width="1200"
+        height="675"
+        class="w-full h-auto rounded-2xl object-cover mt-8"
+        fetchpriority="high"
+      />
+
+      <p class="text-lg text-slate-700 leading-relaxed mt-8 font-medium">
+        {post.excerpt}
+      </p>
+
+      <div class="mt-10 space-y-9">
+        {bloques.map((bloque: any) => (
+          <section>
+            <h2 class="text-xl font-bold font-display text-slate-900">{bloque.heading}</h2>
+            <p class="text-slate-700 leading-relaxed mt-3">{bloque.body}</p>
+          </section>
+        ))}
+      </div>
+
+      <div class="mt-12 p-6 bg-pink-50/50 border border-pink-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-left">
+          <p class="font-bold text-slate-900 text-sm">¿Quieres una pieza hecha a tu medida?</p>
+          <p class="text-xs text-slate-600 mt-1">Cuéntanos tu idea y la tejemos contigo.</p>
+        </div>
+        <a
+          href={`${whatsapp}?text=Hola%20Bunu%20Shop,%20lei%20el%20articulo%20y%20quiero%20una%20pieza%20personalizada`}
+          target="_blank"
+          class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-3 px-6 rounded-md transition-colors shrink-0"
+        >
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </article>
+
+    {otros.length > 0 && (
+      <section class="mt-16 pt-12 border-t border-pink-100">
+        <h2 class="text-xl font-extrabold font-display text-slate-900">Sigue leyendo</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+          {otros.map((otro: any) => (
+            <a href={`/blog/${otro.slug}`} class="group block bg-white rounded-2xl overflow-hidden border border-pink-100 hover:shadow-lg transition-all">
+              <img src={otro.image} alt={otro.title} width="400" height="225" loading="lazy" class="w-full h-40 object-cover" />
+              <div class="p-5">
+                <h3 class="font-bold font-display text-slate-900 text-sm group-hover:text-brand-pink transition-colors">{otro.title}</h3>
+                <p class="text-xs text-slate-500 mt-2">{otro.excerpt}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <div class="mt-14 text-center">
+      <a href="/" class="inline-flex items-center gap-2 text-sm font-bold text-brand-pink hover:text-brand-pinkHover transition-colors">
+        Volver al inicio <ArrowRight class="w-4 h-4" />
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-pink-100 mt-16 py-10 text-center text-xs text-slate-500">
+    <p>Accesorios Bunu Shop · Joyería artesanal por Mary Sorelly · Gamarra, Cesar, Colombia</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+---
+/**
+ * Google Analytics 4.
+ *
+ * El identificador vive en la variable de entorno PUBLIC_GA_MEASUREMENT_ID
+ * (formato G-XXXXXXXXXX). Si no está definida no se inyecta absolutamente
+ * nada, así el desarrollo local no contamina las métricas de producción y el
+ * sitio sigue funcionando aunque la variable falte.
+ *
+ * Además del pageview estándar se registra el clic a WhatsApp, que en esta
+ * tienda es la conversión real: no hay carrito ni pago en el sitio.
+ */
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+---
+
+{gaId && (
+  <Fragment>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+    <script is:inline define:vars={{ gaId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', gaId);
+
+      // Separamos la intención (pedir / consultar) para poder distinguir en
+      // GA4 a quien quiere comprar de quien solo pregunta. La etiqueta sale
+      // del aria-label que ya tienen los enlaces, así no hay que tocar cada
+      // botón del catálogo.
+      document.addEventListener('click', function (evento) {
+        var enlace = evento.target && evento.target.closest
+          ? evento.target.closest('a[href*="wa.me"]')
+          : null;
+        if (!enlace) return;
+
+        var etiqueta = (enlace.getAttribute('aria-label') || enlace.textContent || '').trim();
+        var intencion = 'contacto';
+        var producto = '';
+
+        if (/^pedir\s+/i.test(etiqueta)) {
+          intencion = 'pedir';
+          producto = etiqueta.replace(/^pedir\s+/i, '');
+        } else if (/^consultar sobre\s+/i.test(etiqueta)) {
+          intencion = 'consultar';
+          producto = etiqueta.replace(/^consultar sobre\s+/i, '');
+        }
+
+        var seccion = enlace.closest('section');
+        gtag('event', 'whatsapp_click', {
+          intencion: intencion,
+          producto: producto || '(sin producto)',
+          seccion: (seccion && seccion.id) || '(sin seccion)',
+          pagina: window.location.pathname,
+        });
+      });
+    </script>
+  </Fragment>
+)}

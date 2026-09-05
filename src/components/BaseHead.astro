@@ -1,0 +1,70 @@
+---
+/**
+ * Cabecera compartida por las páginas internas (/producto/* y /blog/*).
+ *
+ * La home mantiene su propio <head> porque emite bloques JSON-LD específicos
+ * de la tienda; aquí concentramos lo común para no repetir 60 líneas de meta
+ * en cada ruta nueva.
+ */
+import Analytics from './Analytics.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  image?: string;
+  type?: 'website' | 'article' | 'product';
+}
+
+const { title, description, canonical, image, type = 'website' } = Astro.props;
+
+const siteUrl = 'https://bunushop.store';
+const ogImage = image
+  ? (image.startsWith('http') ? image : `${siteUrl}${image}`)
+  : `${siteUrl}/images/bunu/logo.jpg`;
+
+---
+
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="author" content="Mary Sorelly" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<link rel="canonical" href={canonical} />
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#ec4899" />
+
+<meta name="geo.region" content="CO-CES" />
+<meta name="geo.placename" content="Gamarra, Cesar, Colombia" />
+
+<meta property="og:type" content={type === 'product' ? 'website' : type} />
+<meta property="og:locale" content="es_CO" />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content="Bunu Shop (BunuShop) - Mary Sorelly" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:alt" content={title} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonical} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+  rel="stylesheet"
+/>
+
+<Analytics />

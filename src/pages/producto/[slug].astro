@@ -1,0 +1,239 @@
+---
+import { getPortfolioData } from '../../lib/storage';
+import BaseHead from '../../components/BaseHead.astro';
+import '../../styles/global.css';
+import { ArrowRight, Check, MapPin, ShieldCheck, Sparkles } from 'lucide-astro';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const data = await getPortfolioData();
+
+const siteInfo = data?.siteInfo || {};
+const workflowPhases = data?.workflowPhases || [];
+const projects = (data?.projects || []).filter((p: any) => p && p.status !== 'draft');
+
+const producto = projects.find((p: any) => p.slug === slug);
+
+if (!producto) {
+  return new Response(null, { status: 404, statusText: 'Producto no encontrado' });
+}
+
+const siteUrl = 'https://bunushop.store';
+const canonical = `${siteUrl}/producto/${producto.slug}`;
+const whatsapp = siteInfo.socialLinks?.whatsapp || 'https://wa.me/573160771180';
+
+const titulo = `${producto.title} | Bunu Shop`;
+const descripcion = producto.description;
+
+// Piezas relacionadas de la misma categoría: enlazado interno real, que hoy
+// no existe en ninguna parte del sitio.
+const relacionados = projects
+  .filter((p: any) => p.slug !== producto.slug && p.category === producto.category)
+  .slice(0, 3);
+
+// El precio se declara solo si existe. Los 14 productos lo tienen vacío, y
+// emitir un offers con precio inventado sería declarar datos comerciales
+// falsos a Google.
+const precioNumerico = producto.price
+  ? parseFloat(String(producto.price).replace(/[^0-9.]/g, ''))
+  : null;
+
+const schemaProduct: any = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  '@id': `${canonical}#producto`,
+  name: producto.title,
+  description: producto.description,
+  image: producto.image?.startsWith('http') ? producto.image : `${siteUrl}${producto.image}`,
+  category: producto.category,
+  url: canonical,
+  brand: {
+    '@type': 'Brand',
+    name: 'Bunu Shop',
+  },
+  manufacturer: {
+    '@type': 'Person',
+    name: 'Mary Sorelly',
+    url: `${siteUrl}/#about`,
+  },
+  material: 'Mostacilla checa calibrada, mostacilla Miyuki, délicas, hilo encerado',
+  isHandmadeOrHandcrafted: true,
+};
+
+if (precioNumerico && precioNumerico > 0) {
+  schemaProduct.offers = {
+    '@type': 'Offer',
+    url: canonical,
+    priceCurrency: 'COP',
+    price: precioNumerico,
+    availability: 'https://schema.org/InStock',
+    seller: { '@id': `${siteUrl}/#store` },
+  };
+}
+
+const schemaBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Galería', item: `${siteUrl}/#galeria` },
+    { '@type': 'ListItem', position: 3, name: producto.title, item: canonical },
+  ],
+};
+---
+
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+  <BaseHead
+    title={titulo}
+    description={descripcion}
+    canonical={canonical}
+    image={producto.image}
+    type="product"
+  />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaProduct)} />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaBreadcrumb)} />
+</head>
+
+<body class="bg-white text-slate-800 font-sans antialiased">
+  <header class="border-b border-pink-100 bg-white sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-display font-black text-slate-900">
+        <img src={siteInfo.logoImage || '/images/bunu/logo.jpg'} alt="Bunu Shop" width="32" height="32" class="w-8 h-8 rounded-full object-cover" />
+        <span>Bunu Shop</span>
+      </a>
+      <a href="/#galeria" class="text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-brand-pink transition-colors">
+        Ver toda la galería
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-10 lg:py-14">
+    <nav aria-label="Ruta de navegación" class="text-xs text-slate-500 mb-8 flex items-center gap-2 flex-wrap">
+      <a href="/" class="hover:text-brand-pink transition-colors">Inicio</a>
+      <span>/</span>
+      <a href="/#galeria" class="hover:text-brand-pink transition-colors">Galería</a>
+      <span>/</span>
+      <span class="text-slate-800 font-semibold">{producto.title}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+      <div class="rounded-2xl overflow-hidden bg-pink-50 border border-pink-100">
+        <img
+          src={producto.image}
+          alt={`${producto.title} - Accesorio artesanal hecho a mano en Colombia por Bunu Shop`}
+          width="800"
+          height="800"
+          class="w-full h-auto object-cover"
+          fetchpriority="high"
+        />
+      </div>
+
+      <div>
+        <span class="inline-block text-[10px] font-black uppercase tracking-wider text-brand-lavenderDark bg-purple-50 border border-purple-200/80 px-3 py-1 rounded-full">
+          {producto.category}
+        </span>
+
+        <h1 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 mt-4 leading-tight">
+          {producto.title}
+        </h1>
+
+        <p class="text-slate-600 leading-relaxed mt-4">
+          {producto.description}
+        </p>
+
+        {producto.price && producto.price.trim() !== '' && (
+          <p class="text-2xl font-black font-display text-slate-900 mt-6">{producto.price}</p>
+        )}
+
+        {producto.tags && producto.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-6 text-[11px] font-semibold">
+            {producto.tags.map((tag: string) => (
+              <span class="bg-brand-pinkLight text-pink-700 border border-pink-200/80 px-3 py-1 rounded-full">{tag}</span>
+            ))}
+          </div>
+        )}
+
+        <div class="mt-8 space-y-3 text-sm text-slate-700">
+          <p class="flex items-start gap-2"><Sparkles class="w-4 h-4 text-brand-pink shrink-0 mt-0.5" /><span>Tejido a mano, pieza por pieza, en mostacilla checa calibrada y Miyuki.</span></p>
+          <p class="flex items-start gap-2"><Check class="w-4 h-4 text-brand-pink shrink-0 mt-0.5" /><span>Se hace a tu medida: eliges colores, iniciales o medalla protectora.</span></p>
+          <p class="flex items-start gap-2"><ShieldCheck class="w-4 h-4 text-brand-pink shrink-0 mt-0.5" /><span>Recibes una foto de la pieza terminada antes de que la empaquemos.</span></p>
+          <p class="flex items-start gap-2"><MapPin class="w-4 h-4 text-brand-pink shrink-0 mt-0.5" /><span>Envíos a toda Colombia y al exterior, con número de guía.</span></p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 mt-9">
+          <a
+            href={producto.buyUrl || `${whatsapp}?text=Hola,%20quiero%20pedir:%20${encodeURIComponent(producto.title)}`}
+            target="_blank"
+            aria-label={`Pedir ${producto.title}`}
+            class="inline-flex items-center justify-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-sm font-bold uppercase tracking-wider py-3.5 px-7 rounded-md transition-colors"
+          >
+            Pedir por WhatsApp
+          </a>
+          <a
+            href={producto.demoUrl || `${whatsapp}?text=Hola,%20me%20gustaria%20saber%20mas%20detalles%20de:%20${encodeURIComponent(producto.title)}`}
+            target="_blank"
+            aria-label={`Consultar sobre ${producto.title}`}
+            class="inline-flex items-center justify-center gap-2 border border-pink-200 text-slate-700 hover:text-brand-pink hover:border-brand-pink text-sm font-bold uppercase tracking-wider py-3.5 px-7 rounded-md transition-colors"
+          >
+            Consultar detalles
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <section class="mt-16 pt-12 border-t border-pink-100" id="proceso">
+      <h2 class="text-2xl font-extrabold font-display text-slate-900">¿Cómo se hace y cómo llega tu pieza?</h2>
+      <p class="text-slate-600 text-sm mt-3 max-w-2xl leading-relaxed">
+        Cada accesorio pasa por el mismo proceso, desde que eliges el diseño hasta que la pieza sale
+        con su número de guía. La elaboración toma alrededor de tres días porque todo se teje a mano.
+      </p>
+      <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+        {workflowPhases.map((fase: any, idx: number) => (
+          <li class="bg-pink-50/40 rounded-2xl p-6 border border-pink-100">
+            <span class="text-xs font-black text-brand-pink">0{idx + 1}</span>
+            <h3 class="font-bold font-display text-slate-900 mt-2">{fase.title}</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mt-2">{fase.description}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    {relacionados.length > 0 && (
+      <section class="mt-16 pt-12 border-t border-pink-100">
+        <h2 class="text-2xl font-extrabold font-display text-slate-900">Otras piezas de {producto.category}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
+          {relacionados.map((otro: any) => (
+            <a href={`/producto/${otro.slug}`} class="group block bg-white rounded-2xl overflow-hidden border border-pink-100 hover:shadow-lg transition-all">
+              <img
+                src={otro.image}
+                alt={`${otro.title} - Accesorio artesanal hecho a mano en Colombia por Bunu Shop`}
+                width="400"
+                height="300"
+                loading="lazy"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-5">
+                <h3 class="font-bold font-display text-slate-900 text-sm group-hover:text-brand-pink transition-colors">{otro.title}</h3>
+                <p class="text-xs text-slate-500 mt-2 line-clamp-2">{otro.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <div class="mt-16 text-center">
+      <a href="/#galeria" class="inline-flex items-center gap-2 text-sm font-bold text-brand-pink hover:text-brand-pinkHover transition-colors">
+        Ver todas las piezas <ArrowRight class="w-4 h-4" />
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-pink-100 mt-16 py-10 text-center text-xs text-slate-500">
+    <p>Accesorios Bunu Shop · Joyería artesanal por Mary Sorelly · Gamarra, Cesar, Colombia</p>
+  </footer>
+</body>
+</html>

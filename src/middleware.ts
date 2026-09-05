@@ -92,5 +92,21 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const response = await next();
 
   // 4. Inyección de Cabeceras de Seguridad HTTP (Defense in Depth)
-  return applySecurityHeaders(response, isAdmin || isApi);
+  const finalResponse = applySecurityHeaders(response, isAdmin || isApi);
+
+  // 5. Canonicalización de dominio.
+  // El deployment de Vercel (bunu-shop.vercel.app) sirve una copia íntegra de
+  // la tienda y es rastreable, lo que divide las señales con el dominio real.
+  // La inspección de URL de Search Console llegó a registrar ese host como
+  // canónico declarado. Marcamos noindex en cualquier host *.vercel.app para
+  // que solo bunushop.store compita en los resultados.
+  if (url.hostname.endsWith('.vercel.app')) {
+    try {
+      finalResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    } catch {
+      // Cabeceras inmutables: no bloqueamos la respuesta por esto.
+    }
+  }
+
+  return finalResponse;
 });

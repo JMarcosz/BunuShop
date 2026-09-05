@@ -388,7 +388,32 @@
       "comments": "TIPS BUNU",
       "image": "/images/bunu/IMG_1203.webp",
       "isFeatured": true,
-      "status": "published"
+      "status": "published",
+      "author": "Mary Sorelly",
+      "metaTitle": "Cómo limpiar y cuidar accesorios en mostacilla y baño de oro",
+      "metaDescription": "Guía práctica para limpiar pulseras en mostacilla checa, Miyuki y piezas con baño de oro sin dañar el tejido ni perder el brillo.",
+      "content": [
+        {
+          "heading": "¿Cómo se limpia una pulsera en mostacilla?",
+          "body": "Una pulsera en mostacilla se limpia con un paño suave apenas humedecido en agua tibia, pasándolo sobre la superficie sin frotar el hilo. Después se seca a la sombra, extendida sobre una tela seca. Nunca se sumerge ni se lava con jabón fuerte: el agua retenida entre las cuentas debilita el hilo con el tiempo."
+        },
+        {
+          "heading": "Qué evitar si quieres que el color dure",
+          "body": "El vidrio de la mostacilla checa y de la Miyuki conserva su color muy bien, pero el enemigo real es lo que se acumula alrededor. Perfume, crema, bloqueador y cloro dejan una película que apaga el brillo y reseca el hilo encerado. La regla simple es ponerte la pieza de última, cuando ya te aplicaste todo lo demás, y quitártela de primera al llegar a casa."
+        },
+        {
+          "heading": "El cuidado del baño de oro es distinto",
+          "body": "Los herrajes y dijes con baño de oro no se limpian con agua sino en seco, con un paño de microfibra o de gamuza, pasándolo con suavidad hasta recuperar el brillo. Los limpiadores de joyería convencionales y el bicarbonato son abrasivos: desgastan la capa de oro en lugar de pulirla. Quítate la pieza antes de entrar al mar, a la piscina o a la ducha."
+        },
+        {
+          "heading": "Cómo guardarla para que no se enrede",
+          "body": "Guarda cada pieza por separado, en su bolsa de tela o en un compartimento individual. Cuando varias pulseras comparten el mismo espacio, los herrajes rayan las cuentas y los hilos terminan enredándose entre sí. Un lugar seco y sin sol directo es suficiente; la humedad constante es lo que más rápido deteriora el hilo."
+        },
+        {
+          "heading": "¿Cada cuánto conviene revisarla?",
+          "body": "Con uso diario, revisa el tejido y el cierre una vez al mes. Si notas el hilo flojo, una cuenta desalineada o el cierre con juego, escríbenos por WhatsApp con una foto antes de que ceda. Un ajuste a tiempo es sencillo; rehacer un tramo de tejido roto toma bastante más trabajo."
+        }
+      ]
     },
     {
       "id": "post-2",
@@ -400,7 +425,32 @@
       "comments": "SIGNIFICADO",
       "image": "/images/bunu/IMG_0064.webp",
       "isFeatured": false,
-      "status": "published"
+      "status": "published",
+      "author": "Mary Sorelly",
+      "metaTitle": "El hilo rojo en las pulseras de protección: origen y significado",
+      "metaDescription": "Qué simboliza el hilo rojo en las pulseras de protección, de dónde viene la tradición y cómo lo tejemos en las piezas de Bunu Shop.",
+      "content": [
+        {
+          "heading": "¿Qué significa el hilo rojo en una pulsera?",
+          "body": "El hilo rojo es un símbolo de protección y de vínculo presente en varias culturas. Se lleva en la muñeca como recordatorio de una intención: cuidar a quien lo usa, o mantener cerca a alguien querido. Es un significado simbólico y cultural, no una promesa de resultados, y así lo entendemos cuando lo tejemos."
+        },
+        {
+          "heading": "Una tradición que aparece en muchos lugares a la vez",
+          "body": "Lo interesante del hilo rojo es que no pertenece a una sola cultura. Aparece en la tradición judía atado a la muñeca izquierda, en la china como el hilo que une a las personas destinadas a encontrarse, y en distintas costumbres latinoamericanas asociado al cuidado de los recién nacidos. Que tantas culturas hayan llegado por su cuenta al mismo gesto dice mucho de lo humano que es querer llevar encima algo que nos cuide."
+        },
+        {
+          "heading": "Por qué lo combinamos con medallas",
+          "body": "En Colombia la costumbre del hilo rojo convive de forma natural con la devoción a San Benito, la Virgen del Carmen o el Sagrado Corazón. Por eso muchas de nuestras clientas piden la pulsera de hilo con una medalla tejida dentro. No son dos tradiciones en conflicto: son dos formas de lo mismo, llevar cerca aquello en lo que uno se apoya."
+        },
+        {
+          "heading": "Cómo lo tejemos nosotras",
+          "body": "Usamos hilo encerado rojo, que resiste mucho mejor el uso diario que el hilo de algodón corriente, y lo trabajamos en macramé con nudos ajustables para que la pulsera se acomode a tu muñeca sin necesidad de cierre metálico. Si quieres añadir una medalla, iniciales o combinar el rojo con otro color, se teje a tu medida desde el principio."
+        },
+        {
+          "heading": "¿En qué muñeca se usa?",
+          "body": "Depende de la tradición que sigas. Quienes la llevan como protección suelen usarla en la muñeca izquierda, entendida como el lado que recibe. Quienes la llevan como vínculo con otra persona a menudo la usan en la derecha. No hay una regla única, y ninguna versión es más válida que otra: elige la que tenga sentido para ti."
+        }
+      ]
     },
     {
       "id": "post-3",
@@ -412,7 +462,32 @@
       "comments": "IDEAS DE REGALO",
       "image": "/images/bunu/media_1788495999223.webp",
       "isFeatured": false,
-      "status": "published"
+      "status": "published",
+      "author": "Mary Sorelly",
+      "metaTitle": "Por qué regalar un accesorio hecho a mano y personalizado",
+      "metaDescription": "Qué hace distinto a un accesorio personalizado como regalo, cómo elegir el diseño y qué datos necesitas para encargarlo a tiempo.",
+      "content": [
+        {
+          "heading": "¿Por qué un accesorio personalizado funciona tan bien como regalo?",
+          "body": "Porque comunica tiempo. Un accesorio hecho a mano con los colores, las iniciales o la medalla que esa persona significa muestra que hubo una decisión detrás, no una compra rápida. Ese es el motivo por el que se guarda durante años, incluso cuando otros regalos más caros se olvidan en un cajón."
+        },
+        {
+          "heading": "Cómo elegir el diseño cuando no estás segura",
+          "body": "Empieza por lo que ya usa. Fíjate si prefiere tonos cálidos o fríos, si lleva plata o dorado, si usa piezas discretas o llamativas. Si la persona es devota, una medalla de San Benito, la Virgen del Carmen o el Sagrado Corazón casi siempre acierta. Y si no lo tienes claro, cuéntanos cómo es ella por WhatsApp y te proponemos dos o tres opciones."
+        },
+        {
+          "heading": "Las ocasiones que más nos piden",
+          "body": "Cumpleaños, Día de la Madre, grados y aniversarios concentran la mayoría de los encargos. También los dúos para parejas, madre e hija o mejores amigas, donde se tejen dos piezas que se corresponden entre sí. Para bautizos y primeras comuniones se piden mucho las camándulas y los llaveros con medalla."
+        },
+        {
+          "heading": "¿Con cuánta anticipación hay que pedirlo?",
+          "body": "Calcula al menos una semana antes de la fecha. La elaboración toma alrededor de tres días porque cada pieza se teje a mano, y a eso se suma el envío según tu ciudad o país. En temporadas altas como el Día de la Madre y diciembre conviene pedir con dos semanas, porque la agenda se llena rápido."
+        },
+        {
+          "heading": "Qué necesitamos saber para empezar",
+          "body": "Con cuatro datos basta: la medida de la muñeca, los colores que prefiere, si quiere iniciales o medalla, y la fecha en que lo necesitas. Antes de empacar te enviamos una foto de la pieza terminada para que des el visto bueno, así el regalo llega tal como lo imaginaste."
+        }
+      ]
     }
   ],
   "faqs": [
