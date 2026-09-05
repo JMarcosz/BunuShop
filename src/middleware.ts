@@ -31,9 +31,23 @@ function applySecurityHeaders(res: Response, sensitive = false): Response {
   }
 }
 
+const DOMINIO_CANONICO = 'bunushop.store';
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const { url, request, cookies, redirect } = context;
   const pathname = url.pathname;
+
+  // 0. Canonicalización de dominio.
+  //
+  // El deployment de Vercel sirve una copia íntegra y rastreable de la tienda.
+  // Se resuelve con un 308 permanente, no con noindex: Google desaconseja
+  // usar noindex para desduplicar URLs que ya agrupó como la misma página,
+  // porque puede aplicar esa directiva al grupo canónico entero y terminar
+  // desindexando también el dominio bueno. El redirect consolida las señales
+  // en bunushop.store sin ese riesgo.
+  if (url.hostname.endsWith('.vercel.app')) {
+    return Response.redirect(`https://${DOMINIO_CANONICO}${pathname}${url.search}`, 308);
+  }
   const isApi = pathname.startsWith('/api/');
   const isAdmin = pathname.startsWith('/admin');
 
@@ -92,21 +106,5 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const response = await next();
 
   // 4. Inyección de Cabeceras de Seguridad HTTP (Defense in Depth)
-  const finalResponse = applySecurityHeaders(response, isAdmin || isApi);
-
-  // 5. Canonicalización de dominio.
-  // El deployment de Vercel (bunu-shop.vercel.app) sirve una copia íntegra de
-  // la tienda y es rastreable, lo que divide las señales con el dominio real.
-  // La inspección de URL de Search Console llegó a registrar ese host como
-  // canónico declarado. Marcamos noindex en cualquier host *.vercel.app para
-  // que solo bunushop.store compita en los resultados.
-  if (url.hostname.endsWith('.vercel.app')) {
-    try {
-      finalResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
-    } catch {
-      // Cabeceras inmutables: no bloqueamos la respuesta por esto.
-    }
-  }
-
-  return finalResponse;
+  return applySecurityHeaders(response, isAdmin || isApi);
 });
