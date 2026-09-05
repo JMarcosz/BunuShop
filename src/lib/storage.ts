@@ -14,6 +14,36 @@ export interface PortfolioData {
   workflowPhases: any[];
   projects: any[];
   blogPosts: any[];
+  faqs: any[];
+  testimonials: any[];
+}
+
+/**
+ * Completa el documento recibido con los datos base embebidos.
+ *
+ * El JSON almacenado en Vercel Blob se creó antes de que existieran algunas
+ * claves (faqs, testimonials), así que llegaba sin ellas y la web publicaba
+ * secciones vacías y un FAQPage con mainEntity vacío. Rellenamos toda clave
+ * ausente, nula o con un array vacío cuando el respaldo sí tiene contenido.
+ */
+function withDefaults(data: Partial<PortfolioData> | null | undefined): PortfolioData {
+  const base = defaultData as unknown as PortfolioData;
+  if (!data) return base;
+
+  const merged: any = { ...base, ...data };
+
+  for (const key of Object.keys(base) as (keyof PortfolioData)[]) {
+    const incoming = (data as any)[key];
+    const fallback = (base as any)[key];
+    const faltante =
+      incoming === undefined ||
+      incoming === null ||
+      (Array.isArray(incoming) && incoming.length === 0 && Array.isArray(fallback) && fallback.length > 0);
+
+    if (faltante) merged[key] = fallback;
+  }
+
+  return merged as PortfolioData;
 }
 
 /**
@@ -35,7 +65,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
         // Usamos cache busting para asegurar la versión más reciente
         const res = await fetch(`${mainBlob.url}?t=${Date.now()}`);
         if (res.ok) {
-          return (await res.json()) as PortfolioData;
+          return withDefaults((await res.json()) as Partial<PortfolioData>);
         }
       } else {
         // El token existe pero aún no se ha creado el archivo en Vercel Blob.
@@ -57,7 +87,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
   // Fallback 1: Intentar leer del archivo local (funciona en desarrollo local)
   try {
     const raw = await fs.readFile(LOCAL_DATA_PATH, 'utf-8');
-    return JSON.parse(raw) as PortfolioData;
+    return withDefaults(JSON.parse(raw) as Partial<PortfolioData>);
   } catch {
     // Fallback 2: En producción serverless (donde la carpeta src/ no existe en el contenedor)
     // retornamos directamente el JSON embebido y compilado en memoria.

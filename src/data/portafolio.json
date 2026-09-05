@@ -414,5 +414,40 @@
       "isFeatured": false,
       "status": "published"
     }
-  ]
+  ],
+  "faqs": [
+    {
+      "question": "¿Hacen envíos fuera de Colombia?",
+      "answer": "Sí. Enviamos a toda Colombia y también realizamos envíos internacionales a Latinoamérica, incluida República Dominicana. Cada pedido sale con número de guía para que puedas seguirlo. El costo y el tiempo de entrega varían según el país de destino, así que los confirmamos contigo por WhatsApp antes de despachar tu pieza."
+    },
+    {
+      "question": "¿Cuánto tarda en llegar mi accesorio?",
+      "answer": "La elaboración artesanal de cada pieza toma alrededor de tres días, porque todo se teje a mano. A ese tiempo se suma el envío, que depende de tu ciudad o país. Te avisamos cuando la pieza está terminada y te entregamos el número de guía apenas la despachamos."
+    },
+    {
+      "question": "¿Puedo personalizar mi pulsera o accesorio?",
+      "answer": "Sí, la personalización es el corazón de Bunu Shop. Eliges el modelo, los colores que prefieras, tus iniciales o la medalla protectora que quieras incluir. También creamos diseños completamente nuevos por encargo para regalos, parejas y ocasiones especiales. Cuéntanos tu idea por WhatsApp y la tejemos contigo."
+    },
+    {
+      "question": "¿Puedo ver mi pieza antes de que la envíen?",
+      "answer": "Sí. Antes de empacar te enviamos una foto de tu accesorio terminado para que des el visto bueno. Si algo no quedó como lo imaginabas, lo ajustamos antes del envío. Así ninguna clienta recibe una sorpresa: ves exactamente la pieza que va a llegarte."
+    },
+    {
+      "question": "¿Con qué materiales están hechos los accesorios?",
+      "answer": "Trabajamos con mostacilla checa calibrada, mostacilla Miyuki y délicas, materiales de alta precisión que mantienen el color y la forma con el uso. También usamos hilo encerado para las piezas en macramé y accesorios con baño de oro en los herrajes y dijes."
+    },
+    {
+      "question": "¿Cómo puedo pagar mi pedido?",
+      "answer": "Aceptamos Nequi, Daviplata, Bancolombia y transferencia bancaria. Todos los precios se manejan en pesos colombianos. Coordinamos el pago directamente por WhatsApp cuando confirmamos tu diseño, tus medidas y la dirección de envío, para que sepas el total exacto antes de pagar."
+    },
+    {
+      "question": "¿Qué pasa si la pulsera no me queda de la talla?",
+      "answer": "Tomamos tu medida antes de empezar a tejer, justamente para evitarlo, y por eso cada pieza se hace a tu medida. Si al recibirla notas que necesita un ajuste, escríbenos por WhatsApp con una foto y lo revisamos contigo para buscar la mejor solución."
+    },
+    {
+      "question": "¿Qué es la mostacilla checa calibrada?",
+      "answer": "Es una cuenta de vidrio fabricada en República Checa con un calibrado uniforme, es decir, todas las cuentas del lote miden prácticamente lo mismo. Ese detalle es lo que permite que el tejido quede parejo, sin huecos ni bultos, y que la pieza conserve su forma con el uso diario."
+    }
+  ],
+  "testimonials": []
 }

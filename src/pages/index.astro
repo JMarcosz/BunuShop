@@ -164,7 +164,10 @@ const schemaJewelryStore = {
   ]
 };
 
-const schemaFaq = {
+// Un FAQPage sin preguntas es markup inválido a ojos de Google, así que solo
+// emitimos el bloque cuando hay contenido real que declarar. Mismo criterio
+// para el HowTo respecto a sus pasos.
+const schemaFaq = faqs.length > 0 ? {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": faqs.map((f: any) => ({
@@ -175,9 +178,9 @@ const schemaFaq = {
       "text": f.answer
     }
   }))
-};
+} : null;
 
-const schemaHowTo = {
+const schemaHowTo = workflowPhases.length > 0 ? {
   "@context": "https://schema.org",
   "@type": "HowTo",
   "name": "Cómo pedir tu accesorio personalizado en Bunu Shop",
@@ -189,7 +192,7 @@ const schemaHowTo = {
     "name": w.title,
     "text": w.description
   }))
-};
+} : null;
 ---
 
 <!DOCTYPE html>
@@ -248,8 +251,8 @@ const schemaHowTo = {
   <!-- Structured Data JSON-LD (SEO, GEO & AEO) -->
   <script type="application/ld+json" set:html={JSON.stringify(schemaPerson)}/>
   <script type="application/ld+json" set:html={JSON.stringify(schemaJewelryStore)}/>
-  <script type="application/ld+json" set:html={JSON.stringify(schemaFaq)}/>
-  <script type="application/ld+json" set:html={JSON.stringify(schemaHowTo)}/>
+  {schemaFaq && <script type="application/ld+json" set:html={JSON.stringify(schemaFaq)}/>}
+  {schemaHowTo && <script type="application/ld+json" set:html={JSON.stringify(schemaHowTo)}/>}
   
   <!-- Preload Hero Image for LCP Optimization -->
   <link rel="preload" as="image" href="/images/bunu/IMG_1451.webp" type="image/webp" fetchpriority="high"/>
@@ -1141,6 +1144,10 @@ const schemaHowTo = {
   <!-- END: Por Qué Elegirnos -->
 
   <!-- BEGIN: Testimonios de Clientas Section -->
+  {/* Sin testimonios reales cargados la sección no se renderiza: un titular que
+      promete experiencias de clientas sin ninguna debajo resta credibilidad en
+      lugar de sumarla, tanto para el visitante como para los motores de IA. */}
+  {testimonials.length > 0 && (
   <section class="py-20 lg:py-24 bg-white border-b border-pink-100/60" id="testimonios">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="reveal text-center max-w-3xl mx-auto mb-14">
@@ -1150,7 +1157,7 @@ const schemaHowTo = {
         </h2>
         <div class="w-16 h-1 bg-brand-pink mx-auto mt-4 mb-4"></div>
         <p class="text-slate-600 text-sm leading-relaxed">
-          Más de 500 pedidos entregados en toda Colombia. La tranquilidad de nuestras clientas se construye en cada envío con foto previa y atención personalizada.
+          Más de {metrics.projectsCompleted || '100'} pedidos entregados en Colombia y en el exterior. La tranquilidad de nuestras clientas se construye en cada envío con foto previa y atención personalizada.
         </p>
       </div>
 
@@ -1192,6 +1199,7 @@ const schemaHowTo = {
       </div>
     </div>
   </section>
+  )}
   <!-- END: Testimonios Section -->
 
   <!-- BEGIN: FAQ Section (Objeciones & Garantías) -->
