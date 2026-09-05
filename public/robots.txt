@@ -19,4 +19,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://bunu-shop.vercel.app/sitemap.xml
+Sitemap: https://bunushop.store/sitemap.xml
