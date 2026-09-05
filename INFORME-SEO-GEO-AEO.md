@@ -3,12 +3,16 @@
 **Auditoría completa** · 5 de septiembre de 2026
 Tienda: Accesorios Bunu Shop · CEO: Mary Sorelly · Objetivo: Colombia, Latinoamérica y República Dominicana
 
-| Dimensión | Puntuación | Estado |
-|---|---|---|
-| **SEO** | 5/10 | Oportunidades significativas sin aprovechar |
-| **GEO** | 5/10 | Requiere trabajo |
-| **AEO** | 3/10 | Crítico |
-| **Total** | **13/30** | |
+| Dimensión | Antes | Después de implementar | Estado |
+|---|---|---|---|
+| **SEO** | 5/10 | **8/10** | De una sola URL a 18, con enlazado interno real |
+| **GEO** | 5/10 | **7/10** | Datos coherentes y artículos con autoría; faltan testimonios |
+| **AEO** | 3/10 | **8/10** | FAQPage con 8 preguntas y respuestas en formato de fragmento |
+| **Total** | 13/30 | **23/30** | |
+
+> **Nota de lectura.** La primera parte de este documento es la auditoría
+> original. La sección [«Estado tras la implementación»](#estado-tras-la-implementación),
+> al final, registra qué se corrigió, cómo se validó y qué queda pendiente.
 
 ---
 
@@ -216,7 +220,7 @@ Como efecto secundario, el fallback está roto: si el Blob de Vercel fallara, la
 | 🟡 Media | Firmar los artículos con Mary Sorelly y añadir schema `Article` con fecha | GEO | Bajo | Medio |
 | 🟢 Rápida | Cambiar `twitter:card` de `summary` a `summary_large_image` | SEO | Muy bajo | Medio |
 | 🟢 Rápida | Acortar el title a 60 caracteres para que no se trunque «en Colombia» | SEO | Muy bajo | Medio |
-| 🟢 Rápida | Poner `alt` dinámico a la imagen del visor ampliado, hoy vacío | SEO | Muy bajo | Bajo |
+| ~~🟢 Rápida~~ | ~~Poner `alt` dinámico a la imagen del visor ampliado~~ — **falso positivo, retirado.** El `alt=""` del HTML estático es correcto: el JavaScript del visor ya asigna `lightboxImg.alt = altText` desde el `data-alt` de cada tarjeta al abrirlo. No había nada que arreglar. | — | — | — |
 | 🟢 Rápida | Borrar `src/layouts/Layout.astro`, código huérfano con `lang="en"` | SEO | Muy bajo | Bajo |
 | 🟢 Rápida | Activar caché de CDN y evaluar región de despliegue: hoy todo es MISS desde Virginia | SEO | Bajo | Medio |
 
@@ -341,3 +345,77 @@ Una salvedad de método: la skill `portafolio-conversion` que también se aplic�
 ---
 
 *Auditoría realizada el 5 de septiembre de 2026 sobre el repositorio BunuShop y el sitio en producción, con datos de Google Search Console obtenidos vía MCP.*
+
+---
+
+# Estado tras la implementación
+
+*Segunda pasada · 5 de septiembre de 2026 · commits `233f3e1`, `0dc8f9e`*
+
+## Qué se corrigió
+
+| # | Recomendación | Estado | Cómo se resolvió |
+|---|---|---|---|
+| 1 | `FAQPage` vacío | ✅ Hecho | La causa no era falta de contenido: `getPortfolioData()` devolvía el Blob tal cual y ese documento se creó antes de que existieran las claves `faqs` y `testimonials`. Se añadió `withDefaults()` en `storage.ts`. Cargadas 8 preguntas de 41–51 palabras. |
+| 2 | Testimonios fantasma | ⚠️ Parcial | La sección deja de renderizarse mientras no haya testimonios reales. **No se inventaron**: un testimonio fabricado es una reseña falsa. Pendiente de que Mary aporte los reales. |
+| 3 | Cifras contradictorias | ✅ Hecho | El «más de 500» se deriva ahora de `metrics.projectsCompleted`. Una sola fuente de verdad. |
+| 4 | Páginas de producto y blog | ✅ Hecho | `/producto/[slug]` (14) y `/blog/[slug]` (3). De 1 a 18 URLs indexables. |
+| 5 | Schema `Product` con `offers` | ⚠️ Parcial | `Product` y `BreadcrumbList` se emiten en las 14 fichas. **`offers` queda fuera hasta que existan precios reales.** |
+| 6 | Sitemap | ✅ Hecho | Endpoint `sitemap.xml.ts` generado desde los datos. 18 URLs, cero fragmentos. |
+| 7 | Google Analytics 4 | ⚠️ Código listo | `Analytics.astro` inyecta gtag.js y registra el clic a WhatsApp separando intención. **Inactivo hasta definir `PUBLIC_GA_MEASUREMENT_ID` en Vercel.** |
+| 8 | Duplicado en `vercel.app` | ✅ Hecho | El middleware marca `X-Robots-Tag: noindex, nofollow` en todo host `*.vercel.app`. Verificado en vivo. |
+| 9 | Dos H1 | ✅ Hecho | La variante de escritorio pasa a `<p>`. Un único H1 en el DOM. |
+| 10 | `areaServed` internacional | ✅ Hecho | Añadidos República Dominicana y América Latina. |
+| 11 | Respuestas directas (AEO) | ✅ Hecho | Las 8 FAQ y los 15 bloques de los artículos usan encabezado interrogativo + respuesta directa. Encabezados en forma de pregunta: **de 2 a 9** en la home. |
+| 12 | Datos locales desincronizados | ✅ Hecho | Resuelto por `withDefaults()`. |
+| 13 | Autoría en el blog | ✅ Hecho | Schema `Article` con `author` enlazado por `@id` al `Person`, y firma visible. |
+| 14 | `twitter:card` | ✅ Hecho | `summary_large_image`. |
+| 15 | Title largo | ✅ Hecho | De 71 a 55 caracteres. |
+| 16 | `alt` del visor | ❌ Retirado | **Falso positivo.** El JS ya asigna el `alt` al abrir el visor. |
+| 17 | `Layout.astro` huérfano | ✅ Hecho | Eliminado. |
+| 18 | Caché de CDN | ⏳ Pendiente | Sigue `max-age=0` y `x-vercel-cache: MISS`. Requiere decidir política de revalidación. |
+
+## Bugs detectados por la propia validación
+
+La primera pasada de comprobaciones dio 30/30, pero dos resultados no cuadraban al mirarlos de cerca:
+
+1. **`datePublished: "MARZO 2024"`.** El campo `date` de los artículos es texto de visualización, no una fecha. Se estaba emitiendo tal cual en `datePublished`, en `<time datetime>` y en el `<lastmod>` del sitemap: los tres exigen ISO 8601, así que los tres eran inválidos. Corregido con `src/lib/fechas.ts`, que traduce a ISO y **omite el dato antes que publicar una fecha inválida**.
+2. **«8.322 palabras» en un artículo.** Era un error de la comprobación, que contaba CSS y JavaScript. El cuerpo real son 379 palabras.
+
+Ambas comprobaciones se reforzaron. Sin ese segundo vistazo, tres campos de fecha inválidos habrían llegado a producción.
+
+## Validación
+
+**32/32 comprobaciones automáticas** superadas en local y barrido completo de las 18 URLs. Verificado después en producción:
+
+| Comprobación | Resultado |
+|---|---|
+| URLs del sitemap que responden 200 | 18/18 |
+| Fragmentos (`#`) en el sitemap | 0 |
+| `lastmod` en ISO 8601 | 18/18 |
+| `<h1>` en la home | 1 |
+| Longitud del title | 55 caracteres |
+| `X-Robots-Tag` en `bunu-shop.vercel.app` | `noindex, nofollow` |
+| `FAQPage` en producción | 8 preguntas |
+| GA4 activo | No — falta la variable de entorno |
+
+## Qué falta, y de quién depende
+
+**Requiere a Mary o al dueño de las cuentas:**
+
+1. **Crear la propiedad GA4** en analytics.google.com y añadir `PUBLIC_GA_MEASUREMENT_ID` en Vercel. El código ya está desplegado y se activa solo. Después, marcar `whatsapp_click` como evento clave y vincular GA4 con Search Console.
+2. **Cargar los precios** de los 14 productos desde `/admin`. En cuanto exista un precio, la ficha emite `offers` automáticamente.
+3. **Aportar testimonios reales** con nombre y ciudad. La sección reaparece sola al cargarlos.
+4. **Revisar las 8 respuestas del FAQ y los 3 artículos.** Se redactaron solo con datos que el sitio ya afirmaba, y los costes y plazos de envío internacional se dejaron deliberadamente en general porque no había información verificable. Los artículos van firmados por Mary Sorelly y merecen su visto bueno.
+5. **Solicitar indexación** de las URLs nuevas en Search Console → Inspección de URLs. Google las descubrirá solo al releer el sitemap, pero la solicitud manual acelera las más importantes.
+
+**Pendiente técnico:**
+
+6. **Caché de CDN.** Hoy cada visita ejecuta SSR con lectura al Blob desde Virginia.
+7. **Google Business Profile.** Es la principal palanca de SEO local que sigue sin explotar.
+
+## Nota sobre indexación
+
+Al cerrar esta segunda pasada, Search Console todavía no conocía las 17 URLs nuevas: se publicaron minutos antes y la inspección devuelve un estado sin datos de rastreo, que es lo normal para una URL recién creada, no un error del sitio. Las 18 responden 200 y están declaradas en el sitemap ya registrado.
+
+El sitemap sigue en la misma dirección, así que **no hace falta volver a enviarlo**: Google lo relee por su cuenta y descubrirá las URLs nuevas. La solicitud manual de indexación solo acelera el proceso, y no existe API pública para automatizarla (la Indexing API de Google está limitada a ofertas de empleo y retransmisiones).
