@@ -1,65 +1,51 @@
 ---
 /**
- * Google Analytics 4 — gtag.js directo (Measurement ID G-FTP0X5BGW4).
+ * Capa de eventos personalizados para el dataLayer.
  *
- * El ID se puede sobreescribir con la variable de entorno
- * PUBLIC_GA_MEASUREMENT_ID. En desarrollo local (`astro dev`) no se inyecta
- * nada salvo que definas esa variable, así el trabajo local no ensucia las
- * métricas de producción.
+ * GA4 se carga y configura desde Google Tag Manager (contenedor GTM-NDFHFFTN),
+ * NO aquí. Este componente ya no inyecta gtag.js; solo empuja al dataLayer el
+ * evento que en esta tienda es la conversión real: el clic a WhatsApp (no hay
+ * carrito ni pago en el sitio). En GTM se recoge con un activador de evento
+ * personalizado "whatsapp_click" y se reenvía a GA4.
  *
- * Además del page_view estándar se registra el clic a WhatsApp, que en esta
- * tienda es la conversión real: no hay carrito ni pago en el sitio.
- *
- * Nota: el contenedor de Google Tag Manager (GTM-NDFHFFTN) sigue instalado
- * para etiquetas futuras (píxel de Meta, remarketing…). NO añadas también una
- * etiqueta de configuración de GA4 dentro de GTM o los page_view se contarían
- * dos veces.
+ * El listener es barato y no depende de ninguna variable de entorno, así que
+ * se ejecuta siempre; si GTM no estuviera, los push solo se acumulan sin
+ * efecto.
  */
-const gaId =
-  import.meta.env.PUBLIC_GA_MEASUREMENT_ID ||
-  (import.meta.env.PROD ? 'G-FTP0X5BGW4' : null);
 ---
 
-{gaId && (
-  <Fragment>
-    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
-    <script is:inline define:vars={{ gaId }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { window.dataLayer.push(arguments); }
-      window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', gaId);
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
 
-      // Separamos la intención (pedir / consultar / contacto) para distinguir
-      // en GA4 a quien quiere comprar de quien solo pregunta. La etiqueta sale
-      // del aria-label que ya tienen los enlaces del catálogo, así no hay que
-      // tocar botón por botón.
-      document.addEventListener('click', function (evento) {
-        var enlace = evento.target && evento.target.closest
-          ? evento.target.closest('a[href*="wa.me"]')
-          : null;
-        if (!enlace) return;
+  // Separamos la intención (pedir / consultar / contacto) para distinguir en
+  // GA4 a quien quiere comprar de quien solo pregunta. La etiqueta sale del
+  // aria-label que ya tienen los enlaces del catálogo, así no hay que tocar
+  // botón por botón.
+  document.addEventListener('click', function (evento) {
+    var enlace = evento.target && evento.target.closest
+      ? evento.target.closest('a[href*="wa.me"]')
+      : null;
+    if (!enlace) return;
 
-        var etiqueta = (enlace.getAttribute('aria-label') || enlace.textContent || '').trim();
-        var intencion = 'contacto';
-        var producto = '';
+    var etiqueta = (enlace.getAttribute('aria-label') || enlace.textContent || '').trim();
+    var intencion = 'contacto';
+    var producto = '';
 
-        if (/^pedir\s+/i.test(etiqueta)) {
-          intencion = 'pedir';
-          producto = etiqueta.replace(/^pedir\s+/i, '');
-        } else if (/^consultar sobre\s+/i.test(etiqueta)) {
-          intencion = 'consultar';
-          producto = etiqueta.replace(/^consultar sobre\s+/i, '');
-        }
+    if (/^pedir\s+/i.test(etiqueta)) {
+      intencion = 'pedir';
+      producto = etiqueta.replace(/^pedir\s+/i, '');
+    } else if (/^consultar sobre\s+/i.test(etiqueta)) {
+      intencion = 'consultar';
+      producto = etiqueta.replace(/^consultar sobre\s+/i, '');
+    }
 
-        var seccion = enlace.closest('section');
-        gtag('event', 'whatsapp_click', {
-          intencion: intencion,
-          producto: producto || '(sin producto)',
-          seccion: (seccion && seccion.id) || '(sin seccion)',
-          pagina: window.location.pathname,
-        });
-      });
-    </script>
-  </Fragment>
-)}
+    var seccion = enlace.closest('section');
+    window.dataLayer.push({
+      event: 'whatsapp_click',
+      intencion: intencion,
+      producto: producto || '(sin producto)',
+      seccion: (seccion && seccion.id) || '(sin seccion)',
+      pagina: window.location.pathname,
+    });
+  });
+</script>

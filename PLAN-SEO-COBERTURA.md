@@ -193,7 +193,7 @@ En el despliegue `bunu-shop.vercel.app` esto mete el dominio de Vercel dentro de
 - [x] **Referenciar `favicon.svg`** en la home y en `BaseHead`
 - [x] **Fijar `siteUrl` a `https://bunushop.store`** en `index.astro` (que el dominio de Vercel no se filtre al grafo JSON-LD ni a `og:url`)
 - [x] **Google Tag Manager (`GTM-NDFHFFTN`)** — componente `GoogleTagManager.astro` con el `<script>` en el `<head>` y el `<noscript>` tras `<body>` en las 4 páginas públicas (home, producto, blog, sobre). ID sobreescribible con `PUBLIC_GTM_ID`.
-- [x] **GA4 directo con `gtag.js`** (`G-FTP0X5BGW4`) en `Analytics.astro`: `page_view` automático + evento `whatsapp_click` con `intencion`, `producto`, `seccion` y `pagina`. Solo se carga en producción (en `astro dev` no, salvo definir `PUBLIC_GA_MEASUREMENT_ID`). GTM (`GTM-NDFHFFTN`) queda instalado para etiquetas futuras — **no** añadir una config de GA4 dentro de GTM o se cuentan dobles los `page_view`. Falta: marcar `whatsapp_click` como evento clave en GA4 y vincular GA4 ↔ Search Console.
+- [x] **GA4 (`G-FTP0X5BGW4`) se monta DENTRO de GTM** (`GTM-NDFHFFTN`), no en el código. `Analytics.astro` ya no carga `gtag.js`: solo empuja el evento `whatsapp_click` al `dataLayer` (`intencion`, `producto`, `seccion`, `pagina`). Pendiente en la interfaz de GTM: (1) etiqueta de Google / config GA4 con ese ID disparando en «Inicialización - Todas las páginas»; (2) etiqueta de evento GA4 `whatsapp_click` con activador de evento personalizado; (3) **Publicar**. Después: marcar `whatsapp_click` como evento clave en GA4 y vincular GA4 ↔ Search Console.
 - [ ] Regenerar `favicon.ico` con marco 48×48 (hoy solo 16 y 32)
 - [ ] Unificar email/NAP; crear una imagen `og:image` de 1200×630 con foto de producto y marca
 
