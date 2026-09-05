@@ -1,0 +1,32 @@
+---
+/**
+ * Google Tag Manager — contenedor GTM-NDFHFFTN.
+ *
+ * Va en dos sitios de cada página:
+ *   <GoogleTagManager />                 → lo más arriba posible del <head>
+ *   <GoogleTagManager placement="body" />→ justo después de <body> (fallback sin JS)
+ *
+ * El ID se puede sobreescribir con la variable de entorno PUBLIC_GTM_ID; si no
+ * está definida se usa el contenedor oficial de Bunu Shop.
+ */
+interface Props {
+  placement?: 'head' | 'body';
+}
+
+const { placement = 'head' } = Astro.props;
+const gtmId = import.meta.env.PUBLIC_GTM_ID || 'GTM-NDFHFFTN';
+---
+
+{placement === 'head' && (
+  <script is:inline define:vars={{ gtmId }}>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',gtmId);
+  </script>
+)}
+
+{placement === 'body' && (
+  <noscript set:html={`<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`} />
+)}

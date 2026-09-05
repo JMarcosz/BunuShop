@@ -1,0 +1,282 @@
+---
+import { getPortfolioData } from '../lib/storage';
+import BaseHead from '../components/BaseHead.astro';
+import GoogleTagManager from '../components/GoogleTagManager.astro';
+import '../styles/global.css';
+import { ArrowRight, MapPin, Instagram, Facebook } from 'lucide-astro';
+
+export const prerender = false;
+
+const data = await getPortfolioData();
+const siteInfo = data?.siteInfo || {};
+const projects = (data?.projects || []).filter((p: any) => p && p.status !== 'draft' && p.slug).slice(0, 3);
+const posts = (data?.blogPosts || []).filter((p: any) => p && p.status !== 'draft' && p.slug).slice(0, 3);
+
+const siteUrl = 'https://bunushop.store';
+const canonical = `${siteUrl}/sobre-mary-sorelly-eljach`;
+const whatsapp = siteInfo.socialLinks?.whatsapp || 'https://wa.me/573160771180';
+const portrait = siteInfo.aboutPortrait || '/images/bunu/Perfil.webp';
+
+const titulo = 'Mary Sorelly Eljach | Artesana fundadora de Bunu Shop';
+const descripcion =
+  'Quién es Mary Sorelly Eljach: artesana colombiana de Gamarra, Cesar, fundadora de Accesorios Bunu Shop. También la buscan como Mary Sorelly o Mary Eljach, por su primer o su segundo apellido.';
+
+// Reutilizamos el mismo @id que el Person de la home: refuerza una sola
+// entidad en el grafo en vez de crear una persona nueva.
+const schemaPerson = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${siteUrl}/#founder`,
+  name: 'Mary Sorelly Eljach',
+  alternateName: [
+    'Mary Sorelly',
+    'Mary Eljach',
+    'Mary Selly',
+    'Mary Sorely',
+    'Mary Sorelly Eljach',
+    'Mary Eljach Sorelly',
+    'Mary de Bunu Shop',
+    'Bunu Shop Mary Eljach',
+    'Bunu Shop by Mary Eljach',
+    'Bunu Shop Mary Sorelly',
+  ],
+  jobTitle: 'Fundadora, Diseñadora y Artesana',
+  worksFor: { '@id': `${siteUrl}/#store` },
+  image: `${siteUrl}${portrait}`,
+  url: canonical,
+  description:
+    'Mary Sorelly Eljach es la artesana colombiana que fundó Accesorios Bunu Shop en Gamarra, Cesar. Teje a mano pulseras, camándulas y accesorios personalizados en mostacilla checa calibrada, Miyuki y macramé. Muchas clientas la conocen como Mary Sorelly o como Mary Eljach.',
+  nationality: { '@type': 'Country', name: 'Colombia' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Gamarra',
+    addressRegion: 'Cesar',
+    addressCountry: 'CO',
+  },
+  knowsAbout: [
+    'Joyería artesanal',
+    'Accesorios hechos a mano',
+    'Mostacilla checa calibrada',
+    'Tejido Miyuki',
+    'Pulseras personalizadas',
+    'Macramé',
+    'Artesanías de Colombia',
+  ],
+  sameAs: [
+    siteInfo.socialLinks?.instagram || 'https://www.instagram.com/bunu_shop15/',
+    siteInfo.socialLinks?.facebook || 'https://www.facebook.com/profile.php?id=100028253305796',
+    siteInfo.socialLinks?.whatsapp || 'https://wa.me/573160771180',
+  ],
+};
+
+const schemaProfile = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': `${canonical}#profilepage`,
+  url: canonical,
+  name: titulo,
+  about: { '@id': `${siteUrl}/#founder` },
+  isPartOf: { '@id': `${siteUrl}/#store` },
+  inLanguage: 'es-CO',
+};
+
+const schemaBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Mary Sorelly Eljach', item: canonical },
+  ],
+};
+
+const schemaFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '¿Es lo mismo Mary Sorelly que Mary Eljach?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Sí, es la misma persona. Su nombre completo es Mary Sorelly Eljach: Sorelly es su primer apellido y Eljach el segundo. Algunas clientas la buscan por el primero y otras por el segundo, y también aparece escrito como Mary Selly. Todas esas formas se refieren a la fundadora de Accesorios Bunu Shop.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Quién hace los accesorios de Bunu Shop?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Los teje a mano Mary Sorelly Eljach, artesana de Gamarra, Cesar, Colombia. Cada pieza se elabora por encargo en mostacilla checa calibrada, Miyuki, délicas y macramé, con visto bueno de la clienta antes del envío.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Dónde está ubicada Bunu Shop?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Bunu Shop trabaja desde Gamarra, Cesar (Colombia) y hace envíos a todo el país y al exterior, incluida República Dominicana y el resto de Latinoamérica, siempre con número de guía.',
+      },
+    },
+  ],
+};
+---
+
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+  <BaseHead title={titulo} description={descripcion} canonical={canonical} image={portrait} type="article" />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaPerson)} />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaProfile)} />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaBreadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaFaq)} />
+</head>
+
+<body class="bg-white text-slate-800 font-sans antialiased">
+  <!-- Google Tag Manager (noscript) -->
+  <GoogleTagManager placement="body" />
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header class="border-b border-pink-100 bg-white sticky top-0 z-40">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-display font-black text-slate-900">
+        <img src={siteInfo.logoImage || '/images/bunu/logo.jpg'} alt="Bunu Shop" width="32" height="32" class="w-8 h-8 rounded-full object-cover" />
+        <span>Bunu Shop</span>
+      </a>
+      <a href="/#galeria" class="text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-brand-pink transition-colors">
+        Ver la galería
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 py-10 lg:py-14">
+    <nav aria-label="Ruta de navegación" class="text-xs text-slate-500 mb-8 flex items-center gap-2 flex-wrap">
+      <a href="/" class="hover:text-brand-pink transition-colors">Inicio</a>
+      <span>/</span>
+      <span class="text-slate-800 font-semibold">Mary Sorelly Eljach</span>
+    </nav>
+
+    <article>
+      <h1 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 leading-tight">
+        Mary Sorelly Eljach, la artesana detrás de Bunu Shop
+      </h1>
+
+      <p class="text-lg text-slate-700 leading-relaxed mt-6 font-medium">
+        <strong>Mary Sorelly Eljach</strong> es la creadora y fundadora de <strong>Accesorios Bunu Shop</strong>,
+        un taller de joyería artesanal en <strong>Gamarra, Cesar (Colombia)</strong>. Muchas clientas la
+        buscan como <strong>Mary Sorelly</strong> y otras como <strong>Mary Eljach</strong> —por su primer
+        o su segundo apellido—; también aparece escrita como <strong>Mary Selly</strong>. En todos los casos
+        se trata de la misma persona.
+      </p>
+
+      <img
+        src={portrait}
+        alt="Mary Sorelly Eljach, artesana y fundadora de Accesorios Bunu Shop en Gamarra, Cesar, Colombia"
+        width="900"
+        height="1125"
+        class="w-full h-auto rounded-2xl object-cover mt-8 max-w-sm mx-auto"
+        fetchpriority="high"
+      />
+
+      <div class="mt-10 space-y-9">
+        <section>
+          <h2 class="text-xl font-bold font-display text-slate-900">¿Quién es Mary Sorelly Eljach?</h2>
+          <p class="text-slate-700 leading-relaxed mt-3">
+            Es una artesana colombiana que teje a mano cada pieza de Bunu Shop: pulseras de protección,
+            camándulas, llaveros devocionales y accesorios personalizados con iniciales, colores y medallas
+            a elección de cada clienta. Trabaja con mostacilla checa calibrada, mostacilla Miyuki, délicas
+            e hilo encerado en macramé, y herrajes con baño de oro.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold font-display text-slate-900">¿Por qué aparece con dos apellidos?</h2>
+          <p class="text-slate-700 leading-relaxed mt-3">
+            En Colombia es habitual llevar dos apellidos: el primero del padre y el segundo de la madre.
+            El nombre completo de la fundadora es <strong>Mary Sorelly Eljach</strong>. Quienes la conocieron
+            por un lado la nombran <strong>Mary Sorelly</strong>; quienes la conocieron por el otro,
+            <strong>Mary Eljach</strong>. La marca es siempre la misma: <strong>Bunu Shop</strong>,
+            con sitio oficial en <a href="/" class="text-brand-pink hover:underline">bunushop.store</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold font-display text-slate-900">¿Dónde queda y a dónde envía?</h2>
+          <p class="text-slate-700 leading-relaxed mt-3">
+            El taller está en <strong>Gamarra, Cesar</strong>. Bunu Shop hace envíos a toda Colombia
+            —Bogotá, Medellín, Bucaramanga, Santa Marta, Valledupar, Aguachica— y también internacionales
+            a Latinoamérica y República Dominicana, siempre con número de guía.
+          </p>
+        </section>
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a
+          href={`${whatsapp}?text=Hola%20Mary,%20te%20encontre%20como%20Bunu%20Shop%20y%20quiero%20hacer%20un%20pedido`}
+          target="_blank"
+          class="inline-flex items-center gap-2 bg-brand-pink hover:bg-brand-pinkHover text-white text-xs font-bold uppercase tracking-wider py-3 px-6 rounded-md transition-colors"
+        >
+          Escribir por WhatsApp
+        </a>
+        <a
+          href={siteInfo.socialLinks?.instagram || 'https://www.instagram.com/bunu_shop15/'}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 border border-pink-200 text-slate-700 hover:text-brand-pink hover:border-brand-pink text-xs font-bold uppercase tracking-wider py-3 px-6 rounded-md transition-colors"
+        >
+          <Instagram class="w-4 h-4" /> @bunu_shop15
+        </a>
+        <a
+          href={siteInfo.socialLinks?.facebook || 'https://www.facebook.com/profile.php?id=100028253305796'}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 border border-pink-200 text-slate-700 hover:text-brand-pink hover:border-brand-pink text-xs font-bold uppercase tracking-wider py-3 px-6 rounded-md transition-colors"
+        >
+          <Facebook class="w-4 h-4" /> Facebook
+        </a>
+      </div>
+    </article>
+
+    {projects.length > 0 && (
+      <section class="mt-16 pt-12 border-t border-pink-100">
+        <h2 class="text-xl font-extrabold font-display text-slate-900">Algunas piezas de Mary</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
+          {projects.map((p: any) => (
+            <a href={`/producto/${p.slug}`} class="group block bg-white rounded-2xl overflow-hidden border border-pink-100 hover:shadow-lg transition-all">
+              <img src={p.image} alt={`${p.title} - hecho a mano por Mary Sorelly Eljach`} width="400" height="300" loading="lazy" class="w-full h-40 object-cover" />
+              <div class="p-4">
+                <h3 class="font-bold font-display text-slate-900 text-sm group-hover:text-brand-pink transition-colors">{p.title}</h3>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {posts.length > 0 && (
+      <section class="mt-14 pt-12 border-t border-pink-100">
+        <h2 class="text-xl font-extrabold font-display text-slate-900">Escrito por Mary</h2>
+        <ul class="mt-5 space-y-3">
+          {posts.map((p: any) => (
+            <li>
+              <a href={`/blog/${p.slug}`} class="text-brand-pink hover:underline font-semibold text-sm">{p.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <div class="mt-14 text-center">
+      <a href="/" class="inline-flex items-center gap-2 text-sm font-bold text-brand-pink hover:text-brand-pinkHover transition-colors">
+        Volver al inicio <ArrowRight class="w-4 h-4" />
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-pink-100 mt-16 py-10 text-center text-xs text-slate-500">
+    <p class="flex items-center justify-center gap-1.5">
+      <MapPin class="w-3.5 h-3.5" />
+      Accesorios Bunu Shop · Mary Sorelly Eljach · Gamarra, Cesar, Colombia
+    </p>
+  </footer>
+</body>
+</html>

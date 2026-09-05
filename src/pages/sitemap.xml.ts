@@ -24,6 +24,7 @@ export const GET: APIRoute = async () => {
 
   const entradas = [
     { loc: `${SITE}/`, lastmod: hoy, changefreq: 'weekly', priority: '1.0' },
+    { loc: `${SITE}/sobre-mary-sorelly-eljach`, lastmod: hoy, changefreq: 'monthly', priority: '0.7' },
     // lastmod exige ISO 8601. Las fechas de los artículos son texto de
     // visualización ("MARZO 2024"), así que pasan por aFechaISO y, si no se
     // pueden interpretar, caen a la fecha de hoy en vez de invalidar el XML.

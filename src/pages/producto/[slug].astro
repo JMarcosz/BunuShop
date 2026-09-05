@@ -1,6 +1,7 @@
 ---
 import { getPortfolioData } from '../../lib/storage';
 import BaseHead from '../../components/BaseHead.astro';
+import GoogleTagManager from '../../components/GoogleTagManager.astro';
 import '../../styles/global.css';
 import { ArrowRight, Check, MapPin, ShieldCheck, Sparkles } from 'lucide-astro';
 
@@ -54,8 +55,9 @@ const schemaProduct: any = {
   },
   manufacturer: {
     '@type': 'Person',
-    name: 'Mary Sorelly',
-    url: `${siteUrl}/#about`,
+    '@id': `${siteUrl}/#founder`,
+    name: 'Mary Sorelly Eljach',
+    url: `${siteUrl}/sobre-mary-sorelly-eljach`,
   },
   material: 'Mostacilla checa calibrada, mostacilla Miyuki, délicas, hilo encerado',
   isHandmadeOrHandcrafted: true,
@@ -98,6 +100,10 @@ const schemaBreadcrumb = {
 </head>
 
 <body class="bg-white text-slate-800 font-sans antialiased">
+  <!-- Google Tag Manager (noscript) -->
+  <GoogleTagManager placement="body" />
+  <!-- End Google Tag Manager (noscript) -->
+
   <header class="border-b border-pink-100 bg-white sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
       <a href="/" class="flex items-center gap-2 font-display font-black text-slate-900">
@@ -233,7 +239,7 @@ const schemaBreadcrumb = {
   </main>
 
   <footer class="border-t border-pink-100 mt-16 py-10 text-center text-xs text-slate-500">
-    <p>Accesorios Bunu Shop · Joyería artesanal por Mary Sorelly · Gamarra, Cesar, Colombia</p>
+    <p>Accesorios Bunu Shop · Joyería artesanal por Mary Sorelly Eljach · Gamarra, Cesar, Colombia</p>
   </footer>
 </body>
 </html>
