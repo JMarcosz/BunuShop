@@ -104,7 +104,7 @@ const schemaJewelryStore = {
   ],
   "founder": {
     "@type": "Person",
-    "name": siteInfo.owner || "Mary Sorely",
+    "name": siteInfo.owner || "Mary Sorelly",
     "jobTitle": "Artesana y Diseñadora de Joyería"
   },
   "sameAs": [
@@ -542,7 +542,7 @@ const schemaHowTo = {
   <section class="py-20 lg:py-28 bg-white relative" id="about">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-10 lg:gap-16 items-center">
-        <!-- Left Column: Mary Sorely Portrait & Floating CTAs -->
+        <!-- Left Column: Mary Sorelly Portrait & Floating CTAs -->
         <div class="reveal md:col-span-1 lg:col-span-5 relative">
           <!-- Decorative accent -->
           <div class="decor-line-diagonal mb-6 pl-4">
@@ -550,10 +550,19 @@ const schemaHowTo = {
           </div>
           <!-- Portrait Container -->
           <div class="relative mx-auto max-w-md lg:max-w-none">
-            <div class="relative overflow-hidden rounded-2xl shadow-xl bg-pink-50">
+            <div class="relative overflow-hidden rounded-2xl shadow-xl bg-pink-50 group">
+              <!-- Micro título superior con el nombre de la CEO -->
+              <div class="absolute top-4 left-4 z-10">
+                <div class="inline-flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-pink-100/80">
+                  <span class="w-2 h-2 rounded-full bg-brand-pink"></span>
+                  <span class="text-xs uppercase tracking-wider text-slate-700 font-medium">
+                    CEO: <strong class="font-extrabold text-slate-900">{siteInfo.owner || 'Mary Sorelly'}</strong>
+                  </span>
+                </div>
+              </div>
               <img 
-                alt={`${siteInfo.name} - ${siteInfo.owner || 'Mary Sorely'}`}
-                class="w-full aspect-[3/4] sm:aspect-[4/5] object-cover object-top"
+                alt={`${siteInfo.name} - ${siteInfo.owner || 'Mary Sorelly'}`}
+                class="w-full aspect-[3/4] sm:aspect-[4/5] object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 src={siteInfo.aboutPortrait}
                 width="460"
                 height="460"
