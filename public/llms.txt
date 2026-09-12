@@ -1,0 +1,32 @@
+# Bunu Shop
+
+> Accesorios Bunu Shop es una tienda en línea de accesorios y joyería artesanal hecha a mano por Mary Sorelly Eljach en Gamarra, Cesar, Colombia: pulseras de protección (hilo rojo, San Benito, Sagrado Corazón, ojo turco), tejidos en mostacilla calibrada y perlas Miyuki, y sets personalizados de collares y aretes.
+
+Cada pieza se teje a mano bajo pedido, con opción de personalizar colores, iniciales o medalla protectora. Los pedidos se coordinan por WhatsApp y se despachan con número de guía.
+
+## Catálogo y contenido
+
+- [Catálogo de productos](https://bunushop.store/#galeria): pulseras de protección, sets en mostacilla y Miyuki, collares y aretes hechos a mano.
+- [Producto destacado](https://bunushop.store/#hero): Set Colibrí en Mostacilla & Miyuki.
+- [Blog](https://bunushop.store/#blog): artículos sobre el significado del hilo rojo, San Benito y otras tradiciones de protección, y guías para elegir accesorios.
+- [Sobre Nosotros](https://bunushop.store/sobre-mary-sorelly-eljach): historia de la marca y de Mary Sorelly Eljach.
+- [Proceso de elaboración](https://bunushop.store/#proceso): diseño, tejido artesanal, empaque y envío.
+- [Preguntas frecuentes](https://bunushop.store/#faq).
+- [Contacto](https://bunushop.store/#contact).
+
+## Envíos y atención
+
+- Envíos a toda Colombia (incluye Bogotá, Bucaramanga, Santa Marta, Valledupar, Aguachica) y envíos internacionales a Latinoamérica, incluida República Dominicana.
+- Cada pedido se despacha con número de guía para seguimiento; el costo y tiempo de entrega varían según el destino y se confirman por WhatsApp antes de despachar.
+- Atención y pedidos personalizados por WhatsApp: [+57 316 077 1180](https://wa.me/573160771180), [+57 301 595 5957](https://wa.me/573015955957).
+- Correo: accesoriosbunushop@gmail.com
+
+## Redes sociales
+
+- [Instagram](https://www.instagram.com/bunu_shop15/)
+- [Facebook](https://www.facebook.com/profile.php?id=100028253305796)
+
+## Notas para agentes
+
+- Este es un sitio de comercio de un solo vendedor (single-tenant); no hay API pública de productos. Los precios y la disponibilidad se confirman directamente por WhatsApp.
+- El contenido del catálogo y del blog se actualiza periódicamente; usa las páginas enlazadas arriba como fuente de verdad en vez de asumir inventario fijo.
