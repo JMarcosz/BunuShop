@@ -1,5 +1,39 @@
 import { defineMiddleware } from 'astro:middleware';
+import TurndownService from 'turndown';
 import { COOKIE_NAME, verifySessionToken } from './lib/auth';
+
+const turndownService = new TurndownService({
+  headingStyle: 'atx',
+  codeBlockStyle: 'fenced',
+  bulletListMarker: '-',
+});
+turndownService.remove(['script', 'style', 'noscript', 'template', 'svg']);
+
+// Content negotiation "Markdown for Agents": si el cliente pide
+// `Accept: text/markdown` (agentes/LLMs) devolvemos una representación en
+// Markdown limpio de la misma página en vez del HTML denso pensado para
+// navegadores. Ver docs.astro build no cambia; solo se transforma la
+// respuesta ya renderizada.
+function prefersMarkdown(acceptHeader: string | null): boolean {
+  if (!acceptHeader) return false;
+  return acceptHeader
+    .split(',')
+    .some((part) => part.trim().toLowerCase().startsWith('text/markdown'));
+}
+
+async function toMarkdownResponse(response: Response): Promise<Response> {
+  const html = await response.text();
+  const markdown = turndownService.turndown(html);
+  const headers = new Headers(response.headers);
+  headers.set('Content-Type', 'text/markdown; charset=utf-8');
+  headers.set('Vary', 'Accept');
+  headers.delete('Content-Length');
+  return new Response(markdown, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
 
 function applySecurityHeaders(res: Response, sensitive = false): Response {
   try {
@@ -103,7 +137,21 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // Ejecutar el siguiente manejador / página
-  const response = await next();
+  let response = await next();
+
+  // 3.5. Content negotiation para agentes de IA: si piden `Accept: text/markdown`
+  // en una página pública HTML, se les sirve Markdown limpio en vez del HTML
+  // completo (nav, estilos, JSON-LD) pensado para navegadores.
+  if (
+    !isAdmin &&
+    !isApi &&
+    request.method === 'GET' &&
+    response.status === 200 &&
+    (response.headers.get('Content-Type') ?? '').includes('text/html') &&
+    prefersMarkdown(request.headers.get('Accept'))
+  ) {
+    response = await toMarkdownResponse(response);
+  }
 
   // 4. Inyección de Cabeceras de Seguridad HTTP (Defense in Depth)
   return applySecurityHeaders(response, isAdmin || isApi);
